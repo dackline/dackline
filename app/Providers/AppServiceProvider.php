@@ -23,6 +23,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->registerModelObservers();
+    }
+
+    public function registerModelObservers() {
+        \App\Models\Store::observe(\App\Observers\StoreObserver::class);
     }
 }

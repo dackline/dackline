@@ -2,7 +2,20 @@
 
 namespace App\Providers;
 
+use App\Nova\Country;
+use App\Nova\Currency;
+use App\Nova\GeoZone;
+use App\Nova\Language;
+use App\Nova\Manufacturer;
+use App\Nova\Store;
+use App\Nova\Tax;
+use App\Nova\User;
+use App\Nova\Zone;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Nova\Dashboards\Main;
+use Laravel\Nova\Menu\MenuItem;
+use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
@@ -16,6 +29,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
+        $this->registerCustomNavigationMenu();
     }
 
     /**
@@ -77,5 +91,25 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function register()
     {
         //
+    }
+
+    public function registerCustomNavigationMenu() {
+        Nova::mainMenu(function(Request $request) {
+            return [
+                MenuSection::make('Catalog', [
+                    MenuItem::resource(Manufacturer::class),
+                ]),
+                MenuSection::make('Settings', [
+                    MenuItem::resource(Country::class),
+                    MenuItem::resource(Language::class),
+                    MenuItem::resource(Currency::class),
+                    MenuItem::resource(Zone::class),
+                    MenuItem::resource(GeoZone::class),
+                    MenuItem::resource(Tax::class),
+                    MenuItem::resource(Store::class),
+                    MenuItem::resource(User::class),
+                ])->icon('cog'),
+            ];
+        });
     }
 }
