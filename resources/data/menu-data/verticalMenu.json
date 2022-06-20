@@ -17,6 +17,18 @@
                     "name": "Currencies",
                     "slug": "currencies",
                     "icon": "circle"
+                },
+                {
+                    "url": "countries",
+                    "name": "Countries",
+                    "slug": "currencies",
+                    "icon": "circle"
+                },
+                {
+                    "url": "zones",
+                    "name": "Zones",
+                    "slug": "zones",
+                    "icon": "circle"
                 }
             ]
         }

@@ -17,7 +17,7 @@
                     <h4 class="card-title">{{ isset($currency->id) ? __('Update Currency') : __('Create Currency') }}</h4>
                 </div>
                 <div class="card-body">
-                    <form id="currency-form" class="form form-horizontal" method="POST" action="{{ isset($currency->id) ? route('currencies.update', $currency->id) : route('currencies.store') }}" novalidate>
+                    <form id="module-form" class="form form-horizontal" method="POST" action="{{ isset($currency->id) ? route('currencies.update', $currency->id) : route('currencies.store') }}" novalidate>
                         @csrf
                         @if(isset($currency->id))
                             @method('PUT')
@@ -124,7 +124,7 @@
 @section('page-script')
 <script>
 $(document).ready(function() {
-    $('#currency-form').validate({
+    $('#module-form').validate({
         rules: {
             'currency-title': {
                 required: true

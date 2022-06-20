@@ -4,4 +4,6 @@ return [
     "Home" => "Home",
     "Settings" => "Settings",
     "Currencies" => "Currencies",
+    "Countries" => "Countries",
+    "Zones" => "Zones",
 ];
