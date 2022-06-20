@@ -1,0 +1,24 @@
+{
+    "menu": [
+        {
+            "url": "dashboard",
+            "name": "Home",
+            "icon": "home",
+            "slug": "home"
+        },
+        {
+            "name": "Settings",
+            "icon": "settings",
+            "dropdown": "1",
+            "slug": "",
+            "submenu": [
+                {
+                    "url": "currencies",
+                    "name": "Currencies",
+                    "slug": "currencies",
+                    "icon": "circle"
+                }
+            ]
+        }
+    ]
+}
