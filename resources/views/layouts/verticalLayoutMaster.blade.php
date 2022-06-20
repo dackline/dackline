@@ -47,7 +47,9 @@ data-asset-path="{{ asset('/')}}">
 
       <div class="content-body">
         {{-- Include Page Content --}}
-        @yield('content')
+        <div id="app">
+            @yield('content')
+        </div>
       </div>
     </div>
     @endif

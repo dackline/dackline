@@ -11,7 +11,6 @@
 
 <!-- custome scripts file for user -->
 <script src="{{ asset(mix('js/core/scripts.js')) }}"></script>
-
 @if($configData['blankPage'] === false)
 <script src="{{ asset(mix('js/scripts/customizer.js')) }}"></script>
 @endif
@@ -19,3 +18,4 @@
 <!-- BEGIN: Page JS-->
 @yield('page-script')
 <!-- END: Page JS-->
+<script src="{{ asset(mix('js/app.js')) }}"></script>

@@ -29,6 +29,12 @@
                     "name": "Zones",
                     "slug": "zones",
                     "icon": "circle"
+                },
+                {
+                    "url": "geo-zones",
+                    "name": "Geo Zones",
+                    "slug": "geo-zones",
+                    "icon": "circle"
                 }
             ]
         }
