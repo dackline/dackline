@@ -58,7 +58,15 @@ class GeoZoneController extends Controller
             'description' => $data['description'],
         ]);
 
-        return redirect('geo_zones')->with('success', __('Geo Zone Created.'));
+        if(isset($data['geoZones'])) {
+            foreach($data['geoZones'] as $zone) {
+                if($zone['countryId'] && $zone['zoneId']) {
+                    $geoZone->zones()->attach($zone['zoneId'], ['country_id' => $zone['countryId']]);
+                }
+            }
+        }
+
+        return redirect('geo-zones')->with('success', __('Geo Zone Created.'));
     }
 
     /**
@@ -82,6 +90,8 @@ class GeoZoneController extends Controller
     {
         $countries = Country::all();
 
+        $geoZone->with(['zones']);
+
         $breadcrumbs = [
             ['link' => route('geo-zones.index'), 'name' => "Geo Zones"], ['name' => "Edit Geo Zone"]
         ];
@@ -100,12 +110,21 @@ class GeoZoneController extends Controller
     {
         $data = $request->validated();
 
-        $geoZone = $geoZone->update([
+        $geoZone->update([
             'name' => $data['name'],
             'description' => $data['description'],
         ]);
 
-        return redirect('geo_zones')->with('success', __('Geo Zone Updated.'));
+        $geoZone->zones()->detach();
+        if(isset($data['geoZones'])) {
+            foreach($data['geoZones'] as $zone) {
+                if($zone['countryId'] && $zone['zoneId']) {
+                    $geoZone->zones()->attach($zone['zoneId'], ['country_id' => $zone['countryId']]);
+                }
+            }
+        }
+
+        return redirect('geo-zones')->with('success', __('Geo Zone Updated.'));
     }
 
     /**

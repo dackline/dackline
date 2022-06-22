@@ -26,6 +26,7 @@ class StoreGeoZoneRequest extends FormRequest
         return [
             'name' => ['required'],
             'description' => ['required'],
+            'geoZones' => ['nullable'],
         ];
     }
 }

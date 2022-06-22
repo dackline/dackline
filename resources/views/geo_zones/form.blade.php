@@ -55,16 +55,17 @@
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Geo Zones</h4>
+                        <h4 class="card-title">{{ __('Geo Zones') }}</h4>
                     </div>
-                    <div class="card-body repeater-default">
-                        <div data-repeater-list="geozones">
-                            <div class="row" data-repeater-item>
+                    <div class="card-body" x-data="geoZoneState()">
+                        <template x-for="(geoZone, index) in $store.geoZones.items" :key="`geo-zone-${geoZone.id}`">
+                            <div class="row" x-data="geoZoneRow(geoZone, index)" x-init="geoZoneRowInit()">
                                 <div class="col-sm-5">
                                     <div class="mb-1 row">
                                         <div class="col-12">
-                                            <label class="col-form-label" for="country">Country</label>
-                                            <select class="select2 form-select" name="countryId">
+                                            <label class="col-form-label" for="country">{{ __('Country') }}</label>
+                                            <select class="select2 form-select" x-model="$store.geoZones.items[index].countryId" x-bind:name="`geoZones[${index}][countryId]`">
+                                                <option value="0" disabled selected>{{ __('Select Country') }}</option>
                                                 @foreach($countries as $option_country)
                                                     <option value="{{ $option_country->id }}">{{ $option_country->name }}</option>
                                                 @endforeach
@@ -72,11 +73,40 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="col-sm-5">
+                                    <div class="mb-1 row">
+                                        <div class="col-12">
+                                            <label class="col-form-label" for="zone">{{ __('Zone') }}</label>
+                                            <select x-ref="select-zone-id" class="select2 form-select" x-model="$store.geoZones.items[index].zoneId" x-bind:name="`geoZones[${index}][zoneId]`">
+                                                <option value="0">{{ __('All Zones') }}</option>
+                                                <template x-for="(zone, index) in $store.geoZones.items[index].zones">
+                                                    <option x-bind:value="zone.id" x-text="zone.name"></option>
+                                                </template>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <div class="mb-1 row">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label class="d-block">&nbsp;</label>
+                                            </div>
+                                            <div>
+                                                <button type="button" class="btn btn-danger" x-on:click="deleteGeoZone">
+                                                    <span>Delete</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        </template>
                         <div class="row">
                             <div class="col-12">
-                                <button class="btn btn-icon btn-primary" type="button" data-repeater-create>
+                                <button class="btn btn-icon btn-primary" type="button" data-repeater-create x-on:click="addGeoZone()">
                                     <i data-feather="plus" class="me-25"></i>
                                     <span>Add New</span>
                                 </button>
@@ -95,29 +125,10 @@
 @section('vendor-script')
 <script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
-<script src="{{ asset(mix('vendors/js/forms/repeater/jquery.repeater.min.js')) }}"></script>
 @endsection
 @section('page-script')
 <script>
 $(document).ready(function() {
-    $('.repeater-default').repeater({
-        initEmpty: true,
-        show: function (el) {
-            $(this).slideDown();
-            $('.select2-container').remove();
-            $('.select2').select2({
-                placeholder: "Select Country",
-                allowClear: true
-            });
-            $('.select2-container').css('width','100%');
-        },
-        hide: function (deleteElement) {
-            if (confirm('Are you sure you want to delete this element?')) {
-                $(this).slideUp(deleteElement);
-            }
-        }
-    });
-
     $('#module-form').validate({
         rules: {
             'name': {
@@ -129,5 +140,67 @@ $(document).ready(function() {
         }
     });
 });
+</script>
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.store('geoZones', {
+            items: JSON.parse(`{!! isset($geoZone->id) ? $geoZone->zones->map(fn($zone) => ["id" => $zone->pivot->id,"countryId" => $zone->pivot->country_id, "zoneId" => $zone->pivot->zone_id])->toJson() : collect([])->toJson() !!}`),
+            loadedZones: [],
+            addGeoZone() {
+                this.items.push({
+                    id: "id_" + Math.random().toString(16).slice(2),
+                    countryId: 0,
+                    zoneId: 0,
+                    zones: [],
+                })
+            },
+            deleteGeoZone(geoZone) {
+                let index = this.items.findIndex(_ => _.id == geoZone.id)
+                this.items.splice(index, 1)
+            }
+        })
+    })
+</script>
+<script>
+    const geoZoneState = () => ({
+        addGeoZone() {
+            this.$store.geoZones.addGeoZone();
+        },
+    })
+
+    const geoZoneRow = (geoZone, index) => ({
+        geoZone: geoZone,
+        async geoZoneRowInit() {
+            this.$watch(`geoZone.countryId`, () => {
+                if(this.geoZone.countryId) {
+                    this.getZonesByCountry(this.geoZone.countryId)
+                }
+                this.geoZone.zoneId = 0
+            })
+            if(this.geoZone.countryId)
+                await this.getZonesByCountry(this.geoZone.countryId)
+            $(this.$refs['select-zone-id']).val(this.geoZone.zoneId)
+        },
+        async getZonesByCountry() {
+            // check if zone is already loaded
+            let countryZones = this.$store.geoZones.loadedZones.find(_ => _.countryId == this.geoZone.countryId)
+            if(countryZones) {
+                this.geoZone.zones = countryZones.zones
+                return;
+            }
+
+            var url = `{{ route('zones-by-country', ":id") }}`
+            url = url.replace(':id', this.geoZone.countryId);
+            let response = await fetch(url)
+            let json = await response.json()
+            this.geoZone.zones = json.data
+            this.$store.geoZones.loadedZones.push({ countryId: this.geoZone.countryId, zones: json.data })
+        },
+        deleteGeoZone() {
+            if(!confirm("Are you sure to delete?"))
+                return
+            this.$store.geoZones.deleteGeoZone(this.geoZone)
+        }
+    })
 </script>
 @endsection

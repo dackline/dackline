@@ -15,6 +15,6 @@ class GeoZone extends Model
 
     public function zones()
     {
-        return $this->belongsToMany(Zone::class);
+        return $this->belongsToMany(Zone::class)->withPivot('id', 'country_id');
     }
 }
