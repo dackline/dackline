@@ -5,6 +5,7 @@ use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GeoZoneController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\TaxController;
 use App\Http\Controllers\ZoneController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     ]);
     Route::resources([
         'geo-zones' => GeoZoneController::class,
+    ]);
+    Route::resources([
+        'taxes' => TaxController::class,
     ]);
 
     Route::get('lang/{locale}', [LanguageController::class, 'swap']);

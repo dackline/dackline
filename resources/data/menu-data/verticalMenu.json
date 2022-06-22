@@ -35,6 +35,12 @@
                     "name": "Geo Zones",
                     "slug": "geo-zones",
                     "icon": "circle"
+                },
+                {
+                    "url": "taxes",
+                    "name": "Taxes",
+                    "slug": "taxes",
+                    "icon": "circle"
                 }
             ]
         }

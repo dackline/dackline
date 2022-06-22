@@ -29,7 +29,7 @@
                                         <label class="col-form-label" for="currency-title">{{ __('Currency Title') }}</label>
                                     </div>
                                     <div class="col-sm-9">
-                                        <input type="text" id="currency-title" class="form-control @error('currencyTitle') error @enderror" name="currencyTitle" placeholder="{{ __('Currency Title') }}" value="{{ old('currencyTitle', $currency->title) }}" required />
+                                        <input type="text" id="currency-title" class="form-control @error('currencyTitle') error @enderror" name="currencyTitle" placeholder="{{ __('Currency Title') }}" value="{{ old('currencyTitle', $currency->title) }}" />
                                         @error('currencyTitle')
                                             <span class="error">{{ $message }}</span>
                                         @enderror
@@ -126,7 +126,7 @@
 $(document).ready(function() {
     $('#module-form').validate({
         rules: {
-            'currency-title': {
+            'currencyTitle': {
                 required: true
             },
             'code': {

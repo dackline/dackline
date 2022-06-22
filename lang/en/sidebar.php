@@ -7,4 +7,5 @@ return [
     "Countries" => "Countries",
     "Zones" => "Zones",
     "Geo Zones" => "Geo Zones",
+    "Taxes" => "Taxes",
 ];
