@@ -41,6 +41,12 @@
                     "name": "Taxes",
                     "slug": "taxes",
                     "icon": "circle"
+                },
+                {
+                    "url": "stores",
+                    "name": "Stores",
+                    "slug": "stores",
+                    "icon": "circle"
                 }
             ]
         }

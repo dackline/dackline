@@ -8,4 +8,5 @@ return [
     "Zones" => "Zones",
     "Geo Zones" => "Geo Zones",
     "Taxes" => "Taxes",
+    "Stores" => "Stores",
 ];
