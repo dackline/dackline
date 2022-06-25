@@ -7,6 +7,20 @@
             "slug": "home"
         },
         {
+            "name": "Catalog",
+            "icon": "shopping-bag",
+            "dropdown": "1",
+            "slug": "",
+            "submenu": [
+                {
+                    "url": "informations",
+                    "name": "Informations",
+                    "slug": "informations",
+                    "icon": "circle"
+                }
+            ]
+        },
+        {
             "name": "Settings",
             "icon": "settings",
             "dropdown": "1",

@@ -4,6 +4,7 @@ use App\Http\Controllers\CountryController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GeoZoneController;
+use App\Http\Controllers\InformationController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\TaxController;
@@ -42,6 +43,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     ]);
     Route::resources([
         'stores' => StoreController::class,
+    ]);
+    Route::resources([
+        'informations' => InformationController::class,
     ]);
 
     Route::get('lang/{locale}', [LanguageController::class, 'swap']);

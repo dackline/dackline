@@ -9,4 +9,6 @@ return [
     "Geo Zones" => "Geo Zones",
     "Taxes" => "Taxes",
     "Stores" => "Stores",
+    "Catalog" => "Catalog",
+    "Informations" => "Informations",
 ];
