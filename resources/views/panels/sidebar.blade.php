@@ -72,8 +72,20 @@ $configData = Helper::applClasses();
                   $custom_classes = $menu->classlist;
               }
             @endphp
+            @php
+            $submenuSlugs = [];
+            $routeName = Route::currentRouteName();
+            if(isset($menu->submenu)) {
+                $submenuSlugs = array_map(function($submenu) {
+                    return $submenu->slug;
+                }, $menu->submenu);
+                if(str_contains($routeName, '.')) {
+                    $routeName = substr($routeName, 0, strpos($routeName, "."));
+                }
+            }
+            @endphp
             <li
-              class="nav-item {{ $custom_classes }} {{ Route::currentRouteName() === $menu->slug ? 'active' : '' }}">
+              class="nav-item {{ $custom_classes }} {{ in_array($routeName, $submenuSlugs) ? 'open' : '' }}">
               <a href="{{ isset($menu->url) ? url($menu->url) : 'javascript:void(0)' }}" class="d-flex align-items-center"
                 target="{{ isset($menu->newTab) ? '_blank' : '_self' }}">
                 <i data-feather="{{ $menu->icon }}"></i>
