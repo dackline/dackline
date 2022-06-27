@@ -6,12 +6,14 @@
     {{-- Page Css files --}}
     <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-validation.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/editors/quill/quill.snow.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-quill-editor.css')) }}">
 @endsection
 
 @section('content')
 <!-- Basic Horizontal form layout section start -->
 <section>
-    <form id="module-form" class="form form-horizontal" method="POST" action="{{ isset($information->id) ? route('informations.update', $information->id) : route('informations.store') }}" novalidate>
+    <form id="module-form" class="form form-horizontal" method="POST" action="{{ isset($information->id) ? route('informations.update', $information->id) : route('informations.store') }}" x-data="moduleData()" x-init="moduleInit()" x-on:submit="submit()" novalidate>
         @csrf
         @if(isset($information->id))
             @method('PUT')
@@ -52,7 +54,10 @@
                                                 <!-- Description -->
                                                 <div class="col-12 tw-mb-4"">
                                                     <label class="col-form-label" for="{{ $locale }}[description]">{{ __('Description') }} ({{ strtoupper($locale) }})</label>
-                                                    <textarea id="{{ $locale }}[description]" name="{{ $locale }}[description]" class="form-control @error($locale. '.description') error @enderror" placeholder="{{ __('Description') }}">{{ old($locale. '.description', optional($information->translate($locale))->description) }}</textarea>
+                                                    <div class="editor-wrapper">
+                                                        <div x-ref="{{ $locale }}DescriptionEditor">{!! old($locale. '.description', optional($information->translate($locale))->description) !!}</div>
+                                                        <textarea id="{{ $locale }}[description]" name="{{ $locale }}[description]" class="form-control @error($locale. '.description') error @enderror" placeholder="{{ __('Description') }}" x-ref="{{ $locale }}DescriptionEditorValue" style="display: none"></textarea>
+                                                    </div>
                                                     @error($locale. '.description')
                                                         <span class="error">{{ $message }}</span>
                                                     @enderror
@@ -142,6 +147,7 @@
 @section('vendor-script')
 <script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/editors/quill/quill.min.js')) }}"></script>
 @endsection
 @section('page-script')
 <script>
@@ -171,5 +177,22 @@ $(document).ready(function() {
         });
     });
 });
+</script>
+
+<script>
+function moduleData(){
+    return {
+        moduleInit(){
+            @foreach ($locales as $locale)
+                new Quill(this.$refs["{{ $locale }}DescriptionEditor"], { theme: 'snow' })
+            @endforeach
+        },
+        submit(){
+            @foreach ($locales as $locale)
+                this.$refs["{{ $locale }}DescriptionEditorValue"].value = this.$refs["{{ $locale }}DescriptionEditor"].__quill.root.innerHTML;
+            @endforeach
+        }
+    }
+}
 </script>
 @endsection
