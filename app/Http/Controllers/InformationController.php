@@ -150,6 +150,8 @@ class InformationController extends Controller
      */
     public function destroy(Information $information)
     {
+        $information->stores()->detach();
+
         $information->deleteTranslations();
 
         $information->delete();

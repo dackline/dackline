@@ -17,6 +17,18 @@
                     "name": "Informations",
                     "slug": "informations",
                     "icon": "circle"
+                },
+                {
+                    "url": "manufacturers",
+                    "name": "Manufacturers",
+                    "slug": "manufacturers",
+                    "icon": "circle"
+                },
+                {
+                    "url": "categories",
+                    "name": "Categories",
+                    "slug": "categories",
+                    "icon": "circle"
                 }
             ]
         },

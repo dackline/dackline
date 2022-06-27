@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GeoZoneController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\TaxController;
 use App\Http\Controllers\ZoneController;
@@ -46,6 +48,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     ]);
     Route::resources([
         'informations' => InformationController::class,
+    ]);
+    Route::resources([
+        'manufacturers' => ManufacturerController::class,
+    ]);
+    Route::resources([
+        'categories' => CategoryController::class,
     ]);
 
     Route::get('lang/{locale}', [LanguageController::class, 'swap']);
