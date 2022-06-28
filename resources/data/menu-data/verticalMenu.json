@@ -29,6 +29,12 @@
                     "name": "Categories",
                     "slug": "categories",
                     "icon": "circle"
+                },
+                {
+                    "url": "options",
+                    "name": "Options",
+                    "slug": "options",
+                    "icon": "circle"
                 }
             ]
         },

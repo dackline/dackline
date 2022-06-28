@@ -13,4 +13,5 @@ return [
     "Informations" => "Informations",
     "Manufacturers" => "Manufacturers",
     "Categories" => "Categories",
+    "Options" => "Options",
 ];

@@ -8,6 +8,7 @@ use App\Http\Controllers\GeoZoneController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ManufacturerController;
+use App\Http\Controllers\OptionController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\TaxController;
 use App\Http\Controllers\ZoneController;
@@ -54,6 +55,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     ]);
     Route::resources([
         'categories' => CategoryController::class,
+    ]);
+    Route::resources([
+        'options' => OptionController::class,
     ]);
 
     Route::get('lang/{locale}', [LanguageController::class, 'swap']);
