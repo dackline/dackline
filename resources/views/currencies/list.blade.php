@@ -6,6 +6,12 @@
 <!-- Basic Tables start -->
 <div class="row">
     <div class="col-12">
+        <div class="tw-mb-8">
+            <a href="{{ route('countries.create') }}" class="btn btn-primary waves-effect waves-float waves-light">
+                <i data-feather="plus"></i>
+                <span>{{ __('Add Currency') }}</span>
+            </a>
+        </div>
         @if (\Session::has('success'))
             <div class="alert alert-success">
                 <div class="alert-body">{!! \Session::get('success') !!}</div>
@@ -39,7 +45,7 @@
                                 <a href="{{ route('currencies.edit', ['currency' => $currency->id]) }}" class="btn btn-sm btn-icon btn-outline-secondary waves-effect">
                                     <i data-feather="edit-2"></i>
                                 </a>
-                                <form method="POST" action="/currencies/{{$currency->id}}" onsubmit="return confirm('{{ __('currency/list.confirm_delete') }}');" class="tw-inline-block">
+                                <form method="POST" action="/currencies/{{$currency->id}}" onsubmit="return confirm('{{ __('Are you sure to delete?') }}');" class="tw-inline-block">
                                     {{ csrf_field() }}
                                     {{ method_field('DELETE') }}
                                     <button class="btn btn-sm btn-icon btn-outline-danger waves-effect">

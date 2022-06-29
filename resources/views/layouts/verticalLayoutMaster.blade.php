@@ -39,7 +39,7 @@ data-asset-path="{{ asset('/')}}">
       </div>
     </div>
     @else
-    <div class="content-wrapper {{ $configData['layoutWidth'] === 'boxed' ? 'container-xxl p-0' : '' }}">
+    <div class="content-wrapper {{ $configData['layoutWidth'] === 'boxed' ? 'container-xxl tw-px-0 tw-py-0 tw-pb-8' : '' }}">
       {{-- Include Breadcrumb --}}
       @if($configData['pageHeader'] === true && isset($configData['pageHeader']))
       @include('panels.breadcrumb')
@@ -47,7 +47,9 @@ data-asset-path="{{ asset('/')}}">
 
       <div class="content-body">
         {{-- Include Page Content --}}
-        @yield('content')
+        <div id="app">
+            @yield('content')
+        </div>
       </div>
     </div>
     @endif

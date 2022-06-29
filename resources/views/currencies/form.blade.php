@@ -17,7 +17,7 @@
                     <h4 class="card-title">{{ isset($currency->id) ? __('Update Currency') : __('Create Currency') }}</h4>
                 </div>
                 <div class="card-body">
-                    <form id="currency-form" class="form form-horizontal" method="POST" action="{{ isset($currency->id) ? route('currencies.update', $currency->id) : route('currencies.store') }}" novalidate>
+                    <form id="module-form" class="form form-horizontal" method="POST" action="{{ isset($currency->id) ? route('currencies.update', $currency->id) : route('currencies.store') }}" novalidate>
                         @csrf
                         @if(isset($currency->id))
                             @method('PUT')
@@ -29,7 +29,7 @@
                                         <label class="col-form-label" for="currency-title">{{ __('Currency Title') }}</label>
                                     </div>
                                     <div class="col-sm-9">
-                                        <input type="text" id="currency-title" class="form-control @error('currencyTitle') error @enderror" name="currencyTitle" placeholder="{{ __('Currency Title') }}" value="{{ old('currencyTitle', $currency->title) }}" required />
+                                        <input type="text" id="currency-title" class="form-control @error('currencyTitle') error @enderror" name="currencyTitle" placeholder="{{ __('Currency Title') }}" value="{{ old('currencyTitle', $currency->title) }}" />
                                         @error('currencyTitle')
                                             <span class="error">{{ $message }}</span>
                                         @enderror
@@ -124,9 +124,9 @@
 @section('page-script')
 <script>
 $(document).ready(function() {
-    $('#currency-form').validate({
+    $('#module-form').validate({
         rules: {
-            'currency-title': {
+            'currencyTitle': {
                 required: true
             },
             'code': {

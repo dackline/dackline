@@ -124,6 +124,6 @@ class CurrencyController extends Controller
     {
         $currency->delete();
 
-        return redirect()->back()->with('success', __('currency/list.deleted'));
+        return redirect()->back()->with('success', __('Currency Deleted.'));
     }
 }

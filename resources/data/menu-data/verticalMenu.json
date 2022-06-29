@@ -7,6 +7,38 @@
             "slug": "home"
         },
         {
+            "name": "Catalog",
+            "icon": "shopping-bag",
+            "dropdown": "1",
+            "slug": "",
+            "submenu": [
+                {
+                    "url": "informations",
+                    "name": "Informations",
+                    "slug": "informations",
+                    "icon": "circle"
+                },
+                {
+                    "url": "manufacturers",
+                    "name": "Manufacturers",
+                    "slug": "manufacturers",
+                    "icon": "circle"
+                },
+                {
+                    "url": "categories",
+                    "name": "Categories",
+                    "slug": "categories",
+                    "icon": "circle"
+                },
+                {
+                    "url": "options",
+                    "name": "Options",
+                    "slug": "options",
+                    "icon": "circle"
+                }
+            ]
+        },
+        {
             "name": "Settings",
             "icon": "settings",
             "dropdown": "1",
@@ -16,6 +48,36 @@
                     "url": "currencies",
                     "name": "Currencies",
                     "slug": "currencies",
+                    "icon": "circle"
+                },
+                {
+                    "url": "countries",
+                    "name": "Countries",
+                    "slug": "countries",
+                    "icon": "circle"
+                },
+                {
+                    "url": "zones",
+                    "name": "Zones",
+                    "slug": "zones",
+                    "icon": "circle"
+                },
+                {
+                    "url": "geo-zones",
+                    "name": "Geo Zones",
+                    "slug": "geo-zones",
+                    "icon": "circle"
+                },
+                {
+                    "url": "taxes",
+                    "name": "Taxes",
+                    "slug": "taxes",
+                    "icon": "circle"
+                },
+                {
+                    "url": "stores",
+                    "name": "Stores",
+                    "slug": "stores",
                     "icon": "circle"
                 }
             ]
