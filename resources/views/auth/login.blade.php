@@ -14,66 +14,9 @@
     <!-- Login basic -->
     <div class="card mb-0">
       <div class="card-body">
-        <a href="#" class="brand-logo">
-          <svg
-            viewbox="0 0 139 95"
-            version="1.1"
-            xmlns="http://www.w3.org/2000/svg"
-            xmlns:xlink="http://www.w3.org/1999/xlink"
-            height="28"
-          >
-            <defs>
-              <lineargradient id="linearGradient-1" x1="100%" y1="10.5120544%" x2="50%" y2="89.4879456%">
-                <stop stop-color="#000000" offset="0%"></stop>
-                <stop stop-color="#FFFFFF" offset="100%"></stop>
-              </lineargradient>
-              <lineargradient id="linearGradient-2" x1="64.0437835%" y1="46.3276743%" x2="37.373316%" y2="100%">
-                <stop stop-color="#EEEEEE" stop-opacity="0" offset="0%"></stop>
-                <stop stop-color="#FFFFFF" offset="100%"></stop>
-              </lineargradient>
-            </defs>
-            <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-              <g id="Artboard" transform="translate(-400.000000, -178.000000)">
-                <g id="Group" transform="translate(400.000000, 178.000000)">
-                  <path
-                    class="text-primary"
-                    id="Path"
-                    d="M-5.68434189e-14,2.84217094e-14 L39.1816085,2.84217094e-14 L69.3453773,32.2519224 L101.428699,2.84217094e-14 L138.784583,2.84217094e-14 L138.784199,29.8015838 C137.958931,37.3510206 135.784352,42.5567762 132.260463,45.4188507 C128.736573,48.2809251 112.33867,64.5239941 83.0667527,94.1480575 L56.2750821,94.1480575 L6.71554594,44.4188507 C2.46876683,39.9813776 0.345377275,35.1089553 0.345377275,29.8015838 C0.345377275,24.4942122 0.230251516,14.560351 -5.68434189e-14,2.84217094e-14 Z"
-                    style="fill: currentColor"
-                  ></path>
-                  <path
-                    id="Path1"
-                    d="M69.3453773,32.2519224 L101.428699,1.42108547e-14 L138.784583,1.42108547e-14 L138.784199,29.8015838 C137.958931,37.3510206 135.784352,42.5567762 132.260463,45.4188507 C128.736573,48.2809251 112.33867,64.5239941 83.0667527,94.1480575 L56.2750821,94.1480575 L32.8435758,70.5039241 L69.3453773,32.2519224 Z"
-                    fill="url(#linearGradient-1)"
-                    opacity="0.2"
-                  ></path>
-                  <polygon
-                    id="Path-2"
-                    fill="#000000"
-                    opacity="0.049999997"
-                    points="69.3922914 32.4202615 32.8435758 70.5039241 54.0490008 16.1851325"
-                  ></polygon>
-                  <polygon
-                    id="Path-21"
-                    fill="#000000"
-                    opacity="0.099999994"
-                    points="69.3922914 32.4202615 32.8435758 70.5039241 58.3683556 20.7402338"
-                  ></polygon>
-                  <polygon
-                    id="Path-3"
-                    fill="url(#linearGradient-2)"
-                    opacity="0.099999994"
-                    points="101.428699 0 83.0667527 94.1480575 130.378721 47.0740288"
-                  ></polygon>
-                </g>
-              </g>
-            </g>
-          </svg>
-          <h2 class="brand-text text-primary ms-1">Vuexy</h2>
-        </a>
-
-        <h4 class="card-title mb-1">Welcome to Vuexy! 👋</h4>
-        <p class="card-text mb-2">Please sign-in to your account and start the adventure</p>
+        <div class="brand-logo">
+            <svg version="1.1" id="Lager_1" xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 500 80" style="enable-background:new 0 0 500 80" xml:space="preserve"><style>.st0{fill:#1a171b}.st1{fill:#cf0b1c}</style><path id="XMLID_7_" class="st0" d="M35.1 28.2v-9.7H74c13 0 19.4 5.4 19.4 16.2v16.2c0 8.6-6.5 13-19.4 13H35.1v-26h13v16.2H74c4.3 0 6.5-2.2 6.5-6.5v-13c0-4.3-2.2-6.5-6.5-6.5H35.1z"/><path id="XMLID_11_" class="st0" d="m110.4 54.1-4.9 9.7H90.9L110.4 25c2.2-4.3 5.4-6.5 9.7-6.5h3.2c4.3 0 7.6 2.2 9.7 6.5l19.4 38.9h-14.6l-4.9-9.7h-22.5zm-3.3-48.5h13v9.7h-13V5.6zm21.1 38.8-6.5-13-6.5 13h13zm-4.9-38.8h13v9.7h-13V5.6z"/><path id="XMLID_2_" class="st0" d="M205.9 54.1v9.7h-32.4c-13 0-19.4-5.4-19.4-16.2v-13c0-10.8 6.5-16.2 19.4-16.2h32.4v9.7h-32.4c-4.3 0-6.5 2.2-6.5 6.5v13c0 4.3 2.2 6.5 6.5 6.5h32.4z"/><path id="XMLID_1_" class="st0" d="M254.5 18.5h16.2l-24 18.2 33.7 40.1h-14.6L237 44l-14.9 11.3v8.5h-13V18.5h13V43z"/><path id="XMLID_13_" class="st1" d="M288.2 48c0 4.4 2.2 6.5 6.5 6.5h32.7v9.8h-32.7c-13.1 0-19.6-5.5-19.6-16.4V18.5h13.1V48z"/><path id="XMLID_12_" class="st1" d="M330.8 18.5h13.1v45.8h-13.1z"/><path id="XMLID_10_" class="st1" d="M360.2 33.2v31.1h-13.1V33.2c0-9.8 5.5-14.7 16.4-14.7 4.8 0 8.6 2.2 11.5 6.5l16.4 24.5c1.1 1.1 2.1 1.6 3.1 1.6 1.2 0 1.8-.5 1.8-1.6v-31h13.1v31.1c0 9.8-5.5 14.7-16.4 14.7-4.8 0-8.6-2.2-11.5-6.5l-16.4-24.5c-1.1-1.1-2.1-1.6-3.1-1.6-1.2-.1-1.8.4-1.8 1.5"/><path id="XMLID_9_" class="st1" d="M425.6 46.3V48c0 4.4 2.2 6.5 6.5 6.5h32.7v9.8h-32.7c-13.1 0-19.6-5.5-19.6-16.4v-13c0-10.9 6.5-16.4 19.6-16.4h32.7v9.8H432c-4.4 0-6.5 2.2-6.5 6.5v1.6h39.3v9.8h-39.2z"/></svg>
+        </div>
 
         <form class="auth-login-form mt-2" action="login" method="POST">
             {{ csrf_field() }}
