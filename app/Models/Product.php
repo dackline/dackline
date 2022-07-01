@@ -16,6 +16,16 @@ class Product extends Model implements TranslatableContract
     ];
 
     protected $fillable = [
-        'article_nr','ean','sku','location','price','tax_id','url','design_template','quantity','minimum_quantity','subtract','stock_status_id','date_available','weight','sort_order','status',
+        'article_nr','ean','sku','location','price','tax_id', 'manufacturer_id', 'url','design_template','quantity','minimum_quantity','subtract','stock_status_id','date_available','weight','sort_order','status',
     ];
+
+    public function stores()
+    {
+        return $this->belongsToMany(Store::class);
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
 }

@@ -2928,13 +2928,15 @@ html {
   .select2-container--default .select2-selection--single {
     min-height: 2.714rem;
     padding: 5px;
-    border: 1px solid #d8d6de; }
+    /* border: 1px solid #d8d6de; */
+}
 
   .select2-container--classic .select2-selection--single:focus,
   .select2-container--default .select2-selection--single:focus {
     outline: 0;
-    border-color: #7367f0 !important;
-    box-shadow: 0 3px 10px 0 rgba(34, 41, 47, 0.1) !important; }
+    /* border-color: #7367f0 !important;
+    box-shadow: 0 3px 10px 0 rgba(34, 41, 47, 0.1) !important; */
+}
 
   .select2-container--classic .select2-selection--single .select2-selection__rendered i,
   .select2-container--classic .select2-selection--single .select2-selection__rendered svg,
@@ -2959,11 +2961,12 @@ html {
 
   .select2-container--classic.select2-container--open,
   .select2-container--default.select2-container--open {
-    box-shadow: 0 5px 25px rgba(34, 41, 47, 0.1); }
+    /* box-shadow: 0 5px 25px rgba(34, 41, 47, 0.1); */
+}
 
   .select2-container--classic.select2-container--open .select2-selection--single,
   .select2-container--default.select2-container--open .select2-selection--single {
-    border-color: #7367f0 !important;
+    /* border-color: #7367f0 !important; */
     outline: 0; }
 
   .select2-container--classic.select2-container--focus,
@@ -2972,12 +2975,12 @@ html {
 
   .select2-container--classic.select2-container--focus .select2-selection--multiple,
   .select2-container--default.select2-container--focus .select2-selection--multiple {
-    border-color: #7367f0 !important;
+    /* border-color: #7367f0 !important; */
     outline: 0; }
 
   .select2-container--classic .select2-dropdown,
   .select2-container--default .select2-dropdown {
-    border-color: #d8d6de;
+    /* border-color: #d8d6de; */
     z-index: 1060; }
 
   .select2-container--classic .select2-search--dropdown,
@@ -2988,25 +2991,27 @@ html {
   .select2-container--default .select2-search--dropdown .select2-search__field {
     outline: none !important;
     border-radius: 0.357rem;
-    border-color: #d8d6de;
+    /* border-color: #d8d6de; */
     padding: 0.571rem 1rem; }
 
   .select2-container--classic .select2-selection--multiple,
   .select2-container--default .select2-selection--multiple {
     min-height: 38px !important;
-    border: 1px solid #d8d6de; }
+    /* border: 1px solid #d8d6de;  */
+}
 
   .select2-container--classic .select2-selection--multiple:focus,
   .select2-container--default .select2-selection--multiple:focus {
     outline: 0;
-    border-color: #7367f0 !important;
-    box-shadow: 0 3px 10px 0 rgba(34, 41, 47, 0.1) !important; }
+    /* border-color: #7367f0 !important;
+    box-shadow: 0 3px 10px 0 rgba(34, 41, 47, 0.1) !important; */
+}
 
   .select2-container--classic .select2-selection--multiple .select2-selection__choice,
   .select2-container--default .select2-selection--multiple .select2-selection__choice {
-    background-color: #7367f0 !important;
+    /* background-color: #7367f0 !important;
     border-color: #7367f0 !important;
-    color: #fff;
+    color: #fff; */
     padding: 2px 5px; }
 
   .select2-container--classic .select2-selection--multiple .select2-selection__rendered,
@@ -3065,8 +3070,9 @@ html {
 
   .select2-container--classic .select2-results__option[aria-selected='true'],
   .select2-container--default .select2-results__option[aria-selected='true'] {
-    background-color: #7367f0 !important;
-    color: #fff !important; }
+    /* background-color: #7367f0 !important;
+    color: #fff !important; */
+}
 
   .select2-container--classic .select2-results__option i,
   .select2-container--classic .select2-results__option svg,
@@ -3079,8 +3085,9 @@ html {
 
   .select2-container--classic .select2-results__option--highlighted,
   .select2-container--default .select2-results__option--highlighted {
-    background-color: rgba(115, 103, 240, 0.12) !important;
-    color: #7367f0 !important; }
+    /* background-color: rgba(115, 103, 240, 0.12) !important;
+    color: #7367f0 !important; */
+}
 
   .select2-container--classic .select2-result-repository__avatar img,
   .select2-container--default .select2-result-repository__avatar img {
@@ -3170,30 +3177,36 @@ html {
   .dark-layout .select2-container .select2-selection,
   .dark-layout .select2-container .select2-search__field,
   .dark-layout .select2-container .select2-selection__placeholder {
-    background: #283046;
+    /* background: #283046;
     border-color: #3b4253;
-    color: #b4b7bd; }
+    color: #b4b7bd;  */
+}
 
   .dark-layout .select2-container .select2-selection__rendered {
-    color: #b4b7bd; }
+    /* color: #b4b7bd; */
+}
 
   .dark-layout .select2-container .select2-dropdown {
-    background-color: #283046;
-    border-color: #3b4253; }
+    /* background-color: #283046;
+    border-color: #3b4253; */
+}
 
   .dark-layout .select2-container .select2-selection--multiple .select2-selection__choice {
-    background: rgba(115, 103, 240, 0.12) !important;
-    color: #7367f0 !important;
-    border: none; }
+    /* background: rgba(115, 103, 240, 0.12) !important;
+    color: #7367f0 !important; */
+    border: none;
+}
 
   .dark-layout .select2-container .select2-selection--multiple .select2-selection__choice .select2-selection__choice__remove {
-    color: #7367f0 !important; }
+    /* color: #7367f0 !important; */
+}
 
   .dark-layout .select2-container .select2-selection--multiple .select2-selection__choice__remove:before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237367f0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-x'%3E%3Cline x1='18' y1='6' x2='6' y2='18'%3E%3C/line%3E%3Cline x1='6' y1='6' x2='18' y2='18'%3E%3C/line%3E%3C/svg%3E"); }
 
   .dark-layout .select2-container .select2-results__option[aria-disabled='true'] {
-    color: #676d7d; }
+    /* color: #676d7d; */
+}
 
   .dark-layout .select2-container .select2-selection__arrow b {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b4b7bd' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-chevron-down'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); }

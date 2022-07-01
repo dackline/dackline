@@ -6,10 +6,11 @@ use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 
 class Category extends Model implements TranslatableContract
 {
-    use HasFactory, Translatable;
+    use HasFactory, Translatable, HasRecursiveRelationships;
 
     public $translationModel = CategoryDetail::class;
 
@@ -21,10 +22,6 @@ class Category extends Model implements TranslatableContract
         'parent_id', 'image', 'sort_order', 'status', 'design_template'
     ];
 
-    public function parent() {
-        return $this->belongsTo(Category::class, 'parent_id');
-    }
-
     public function stores()
     {
         return $this->belongsToMany(Store::class);
@@ -35,5 +32,19 @@ class Category extends Model implements TranslatableContract
         return $query
             ->where('status', 1)
             ->whereNotIn('id', $except);
+    }
+
+    public function scopeFullName($query)
+    {
+        $categories = $query->with(['ancestorsAndSelf', 'ancestorsAndSelf.translations','translations'])->get();
+
+        return $categories->map(function($category) {
+            return [
+                'id' => $category->id,
+                'name' => implode(' > ', $category->ancestorsAndSelf->reverse()->map(fn($item) => $item->name)->toArray())
+            ];
+        })->sortBy([
+            fn($a, $b) => $a['name'] <=> $b['name']
+        ]);
     }
 }

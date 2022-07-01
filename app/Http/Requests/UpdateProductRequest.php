@@ -36,6 +36,7 @@ class UpdateProductRequest extends FormRequest
             'location' => ['nullable'],
             'price' => ['nullable', 'numeric'],
             'taxId' => ['nullable'],
+            'manufacturerId' => ['nullable'],
             'url' => ['nullable'],
             'designTemplate' => ['nullable'],
             'quantity' => ['nullable', 'numeric', 'integer'],
@@ -46,6 +47,8 @@ class UpdateProductRequest extends FormRequest
             'weight' => ['nullable', 'numeric'],
             'sortOrder' => ['nullable', 'numeric'],
             'status' => ['required'],
+            'storeId' => ['required', 'array', 'min:1'],
+            'categoryId' => ['nullable', 'array']
         ]);
 
         return $rules;

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('location')->nullable();
             $table->decimal('price', 15, 4)->default(0);
             $table->foreignId('tax_id')->nullable()->constrained();
+            $table->foreignId('manufacturer_id')->nullable()->constrained();
             $table->string('url', 2083)->nullable();
             $table->string('design_template')->nullable();
             $table->integer('quantity')->default(1);

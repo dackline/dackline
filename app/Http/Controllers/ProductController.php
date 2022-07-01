@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Category;
+use App\Models\Manufacturer;
 use App\Models\Product;
 use App\Models\StockStatus;
+use App\Models\Store;
 use App\Models\Tax;
 
 class ProductController extends Controller
@@ -36,12 +39,15 @@ class ProductController extends Controller
         $product = new Product();
         $taxes = Tax::all();
         $stockStatuses = StockStatus::all();
+        $manufacturers = Manufacturer::all();
+        $stores = Store::all();
+        $categories = Category::fullName();
 
         $breadcrumbs = [
             ['link' => route('products.index'), 'name' => "Products"], ['name' => "Create"]
         ];
 
-        return view('products.form', compact('product', 'breadcrumbs', 'taxes', 'stockStatuses'));
+        return view('products.form', compact('product', 'breadcrumbs', 'taxes', 'stockStatuses', 'manufacturers', 'stores', 'categories'));
     }
 
     /**
@@ -63,6 +69,7 @@ class ProductController extends Controller
             'location' => $validated['location'],
             'price' => $validated['price'],
             'tax_id' => $validated['taxId'],
+            'manufacturer_id' => $validated['manufacturerId'],
             'url' => $validated['url'],
             'design_template' => $validated['designTemplate'],
             'quantity' => $validated['quantity'],
@@ -84,6 +91,16 @@ class ProductController extends Controller
         }
 
         $product = Product::create($data);
+
+        // Update product to store
+        if(isset($validated['storeId']) && count($validated['storeId']) > 0) {
+            $product->stores()->attach($validated['storeId']);
+        }
+
+        // Update categories to store
+        if(isset($validated['categoryId']) && count($validated['categoryId']) > 0) {
+            $product->categories()->attach($validated['categoryId']);
+        }
 
         return redirect(route('products.index'))->with('success', __('Product Created.'));
     }
@@ -109,12 +126,15 @@ class ProductController extends Controller
     {
         $taxes = Tax::all();
         $stockStatuses = StockStatus::all();
+        $manufacturers = Manufacturer::all();
+        $stores = Store::all();
+        $categories = Category::fullName();
 
         $breadcrumbs = [
             ['link' => route('products.index'), 'name' => "Products"], ['name' => "Edit"]
         ];
 
-        return view('products.form', compact('product', 'breadcrumbs', 'taxes', 'stockStatuses'));
+        return view('products.form', compact('product', 'breadcrumbs', 'taxes', 'stockStatuses', 'manufacturers', 'stores', 'categories'));
     }
 
     /**
@@ -137,6 +157,7 @@ class ProductController extends Controller
             'location' => $validated['location'],
             'price' => $validated['price'],
             'tax_id' => $validated['taxId'],
+            'manufacturer_id' => $validated['manufacturerId'],
             'url' => $validated['url'],
             'design_template' => $validated['designTemplate'],
             'quantity' => $validated['quantity'],
@@ -158,6 +179,18 @@ class ProductController extends Controller
         }
 
         $product->update($data);
+
+        // Update product to store
+        $product->stores()->detach();
+        if(isset($validated['storeId']) && count($validated['storeId']) > 0) {
+            $product->stores()->attach($validated['storeId']);
+        }
+
+        // Update categories to store
+        $product->categories()->detach();
+        if(isset($validated['categoryId']) && count($validated['categoryId']) > 0) {
+            $product->categories()->attach($validated['categoryId']);
+        }
 
         return redirect(route('products.index'))->with('success', __('Product Updated.'));
     }

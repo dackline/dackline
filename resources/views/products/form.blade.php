@@ -47,6 +47,17 @@
                             </span>
                         </button>
                     </div>
+                    <div class="line"></div>
+                    <div class="step" data-target="#section-links" role="tab" id="section-links-trigger">
+                        <button type="button" class="step-trigger">
+                            <span class="bs-stepper-box">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" class="tw-fill-white"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z"/></svg>
+                            </span>
+                            <span class="bs-stepper-label">
+                                <span class="bs-stepper-title">{{ __('Links') }}</span>
+                            </span>
+                        </button>
+                    </div>
                 </div>
                 <div class="bs-stepper-content">
                     <div id="section-general" class="content" role="tabpanel" aria-labelledby="section-general-trigger">
@@ -310,6 +321,59 @@
                             </div>
                         </div>
                     </div>
+                    <div id="section-links" class="content" role="tabpanel" aria-labelledby="section-links-trigger">
+                        <div class="content-header">
+                            <h5 class="mb-0">{{ __('Links') }}</h5>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <!-- Manufacturer -->
+                                    <div class="col-12 tw-mb-4">
+                                        <label class="form-label" for="manufacturerId">{{ __('Manufacturer') }}</label>
+                                        <select class="select2 form-select @error('manufacturerId') error @enderror" name="manufacturerId" placeholder="{{ __('--- Select Manufacturer ---') }}">
+                                            <option></option>
+                                            @foreach($manufacturers as $manufacturer)
+                                                <option value="{{ $manufacturer->id }}" {{ old('manufacturerId', $product->manufacturer_id) == $manufacturer->id ? 'selected' : '' }}>{{ $manufacturer->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('manufacturerId')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- End of Manufacturer -->
+
+                                    <!-- Categories -->
+                                    <div class="col-12 tw-mb-4">
+                                        <label class="form-label" for="categoryId">{{ __('Categories') }}</label>
+                                        <select id="categoryId" name="categoryId[]" class="select2 form-select @error('categoryId') error @enderror" placeholder="{{ __('Select Category(s)') }}" multiple>
+                                            @foreach($categories as $category)
+                                                <option value="{{ $category['id'] }}" @selected(in_array($category['id'], old('categoryId', $product->categories->pluck('id')->toArray())))>{{ $category['name'] }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('categoryId')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- End of Categories -->
+
+                                    <!-- Store -->
+                                    <div class="col-12 tw-mb-4">
+                                        <label class="form-label" for="storeId">{{ __('Stores') }}</label>
+                                        <select id="storeId" name="storeId[]" class="select2 form-select @error('storeId') error @enderror" placeholder="{{ __('Select Store(s)') }}" multiple>
+                                            @foreach($stores as $store)
+                                                <option value="{{ $store->id }}" @if(in_array($store->id, old('storeId', $product->stores->pluck('id')->toArray()))) selected @endif>{{ $store->store_name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('storeId')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- End of Store -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -346,9 +410,11 @@ $(document).ready(function() {
             dropdownAutoWidth: true,
             width: '100%',
             dropdownParent: $this.parent(),
+            allowClear: $this.attr('multiple') ? false : true,
             placeholder: $this.attr('placeholder')
         });
     });
+    $('.select2-search__field').css('width', '100%');
 
     // setup stepper
     var horizontalWizard = document.querySelector('.horizontal-wizard-product'),

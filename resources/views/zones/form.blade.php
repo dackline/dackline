@@ -55,9 +55,8 @@
                                         <label class="col-form-label" for="country">{{ __('Country') }}</label>
                                     </div>
                                     <div class="col-sm-9">
-                                        <select class="select2 form-select" name="countryId">
+                                        <select class="select2 form-select" name="countryId" placeholder="{{ __('Select Store') }}">
                                             @foreach($countries as $option_country)
-                                                <option value=""></option>
                                                 <option value="{{ $option_country->id }}" {{ old('countryId', $zone->country_id) == $option_country->id ? 'selected' : '' }}>{{ $option_country->name }}</option>
                                             @endforeach
                                         </select>
@@ -112,7 +111,8 @@ $(document).ready(function() {
             dropdownAutoWidth: true,
             width: '100%',
             dropdownParent: $this.parent(),
-            allowClear: true
+            allowClear: true,
+            placeholder: $this.attr('placeholder')
         });
     });
     $('#module-form').validate({
