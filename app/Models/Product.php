@@ -28,4 +28,9 @@ class Product extends Model implements TranslatableContract
     {
         return $this->belongsToMany(Category::class);
     }
+
+    public function productOptions()
+    {
+        return $this->hasMany(ProductOption::class);
+    }
 }

@@ -58,6 +58,17 @@
                             </span>
                         </button>
                     </div>
+                    <div class="line"></div>
+                    <div class="step" data-target="#section-option" role="tab" id="section-option-trigger">
+                        <button type="button" class="step-trigger">
+                            <span class="bs-stepper-box">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" class="tw-fill-white"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z"/></svg>
+                            </span>
+                            <span class="bs-stepper-label">
+                                <span class="bs-stepper-title">{{ __('Option') }}</span>
+                            </span>
+                        </button>
+                    </div>
                 </div>
                 <div class="bs-stepper-content">
                     <div id="section-general" class="content" role="tabpanel" aria-labelledby="section-general-trigger">
@@ -200,7 +211,7 @@
                                     <div class="col-12 tw-mb-4">
                                         <label class="form-label" for="taxId">{{ __('Tax') }}</label>
                                         <select class="form-select @error('taxId') error @enderror" name="taxId">
-                                            <option value="0">{{ __('--- Select Tax ---') }}</option>
+                                            <option value="">{{ __('--- Select Tax ---') }}</option>
                                             @foreach($taxes as $tax)
                                                 <option value="{{ $tax->id }}" {{ old('taxId', $product->tax_id) == $tax->id ? 'selected' : '' }}>{{ $tax->tax_name }}</option>
                                             @endforeach
@@ -264,7 +275,7 @@
                                     <div class="col-12 tw-mb-4">
                                         <label class="form-label" for="stockStatusId">{{ __('Stock Status') }}</label>
                                         <select class="form-select @error('stockStatusId') error @enderror" name="stockStatusId">
-                                            <option value="0">{{ __('--- Select Stock Status ---') }}</option>
+                                            <option value="">{{ __('--- Select Stock Status ---') }}</option>
                                             @foreach($stockStatuses as $stockStatus)
                                                 <option value="{{ $stockStatus->id }}" {{ old('stockStatusId', $product->stock_status_id) == $stockStatus->id ? 'selected' : '' }}>{{ $stockStatus->name }}</option>
                                             @endforeach
@@ -374,6 +385,136 @@
                             </div>
                         </div>
                     </div>
+                    <div id="section-option" class="content" role="tabpanel" aria-labelledby="section-option-trigger"
+                        x-data="moduleProductOptions()" x-init="moduleProductOptionsInit()"
+                    >
+                        <div class="content-header">
+                            <h5 class="mb-0">{{ __('Option') }}</h5>
+                        </div>
+                        <div class="row">
+                            <div class="accordion accordion-border accordion-margin tw-mb-4"
+                            x-ref="accordion"
+                            >
+                                <template x-for="(productOption, productOptionIndex) in $store.storeProductOptions.productOptions">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header tw-relative" id="headingTwo">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" x-bind:data-bs-target="'#productOption-'+productOptionIndex+'-'+productOption.id" aria-expanded="false" x-bind:aria-controls="'productOption-'+productOptionIndex+'-'+productOption.id">
+                                                <span x-text="productOption.name"></span>
+                                            </button>
+                                            <div x-on:click="deleteProductOption(productOptionIndex)" class="btn btn-danger btn-sm tw-absolute tw-right-14 tw-top-3 tw-z-10">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-4 tw-w-4 tw-text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m19 7-.867 12.142A2 2 0 0 1 16.138 21H7.862a2 2 0 0 1-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v3M4 7h16"/></svg>
+                                            </div>
+                                        </h2>
+                                        <div x-bind:id="'productOption-'+productOptionIndex+'-'+productOption.id" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <input type="hidden" x-bind:name="'productOption['+ productOptionIndex +'][name]'" x-bind:value="productOption.name">
+                                                <input type="hidden" x-bind:name="'productOption['+ productOptionIndex +'][optionId]'" x-bind:value="productOption.optionId">
+                                                <input type="hidden" x-bind:name="'productOption['+ productOptionIndex +'][type]'" x-bind:value="productOption.type">
+                                                <div class="row tw-mb-4">
+                                                    <div class="col-sm-3">
+                                                        <label for="">{{ __('Required') }}</label>
+                                                    </div>
+                                                    <div class="col-sm-9">
+                                                        <select class="form-select"
+                                                            x-bind:name="'productOption['+productOptionIndex+'][required]'"
+                                                            x-bind:id="'productOption['+productOptionIndex+'][required]'"
+                                                            x-model="productOption.required"
+                                                        >
+                                                            <option value="1">{{ __('Yes') }}</option>
+                                                            <option value="0">{{ __('No') }}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="table-responsive">
+                                                            <table class="table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>{{ __('Option Value') }}</th>
+                                                                        <th>{{ __('Quantity') }}</th>
+                                                                        <th>{{ __('Subtract Stock') }}</th>
+                                                                        <th>{{ __('Price') }}</th>
+                                                                        <th>{{ __('Weight') }}</th>
+                                                                        <th></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <template x-for="(productOptionValue, productOptionValueIndex) in productOption.optionValues">
+                                                                        <tr>
+                                                                            <td>
+                                                                                <span x-text="$store.storeProductOptions.getProductOptionValueName(productOptionValue.optionId, productOptionValue.optionValueId)"></span>
+                                                                                <input type="hidden" x-bind:name="'productOption['+ productOptionIndex +'][productOptionValue]['+productOptionValueIndex +'][optionValueId]'" x-bind:value="productOptionValue.optionValueId">
+                                                                            </td>
+                                                                            <td>
+                                                                                <span x-text="productOptionValue.quantity"></span>
+                                                                                <input type="hidden" x-bind:name="'productOption['+ productOptionIndex +'][productOptionValue]['+productOptionValueIndex +'][quantity]'" x-bind:value="productOptionValue.quantity">
+                                                                            </td>
+                                                                            <td>
+                                                                                <span x-text="productOptionValue.subtract ? 'Yes' : 'No'"></span>
+                                                                                <input type="hidden" x-bind:name="'productOption['+ productOptionIndex +'][productOptionValue]['+productOptionValueIndex +'][subtract]'" x-bind:value="productOptionValue.subtract">
+                                                                            </td>
+                                                                            <td>
+                                                                                <span x-text="productOptionValue.pricePrefix+productOptionValue.price"></span>
+                                                                                <input type="hidden" x-bind:name="'productOption['+ productOptionIndex +'][productOptionValue]['+productOptionValueIndex +'][pricePrefix]'" x-bind:value="productOptionValue.pricePrefix">
+                                                                                <input type="hidden" x-bind:name="'productOption['+ productOptionIndex +'][productOptionValue]['+productOptionValueIndex +'][price]'" x-bind:value="productOptionValue.price">
+                                                                            </td>
+                                                                            <td>
+                                                                                <span x-text="productOptionValue.weightPrefix+productOptionValue.weight"></span>
+                                                                                <input type="hidden" x-bind:name="'productOption['+ productOptionIndex +'][productOptionValue]['+productOptionValueIndex +'][weightPrefix]'" x-bind:value="productOptionValue.weightPrefix">
+                                                                                <input type="hidden" x-bind:name="'productOption['+ productOptionIndex +'][productOptionValue]['+productOptionValueIndex +'][weight]'" x-bind:value="productOptionValue.weight">
+                                                                            </td>
+                                                                            <td>
+                                                                                <button type="button" class="btn btn-danger btn-sm" x-on:click="removeProductOptionValue(productOption, productOptionValueIndex)">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-4 tw-w-4 tw-text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4"/></svg>
+                                                                                </button>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </template>
+                                                                </tbody>
+                                                                <tfoot>
+                                                                    <tr>
+                                                                        <td colspan="5"></td>
+                                                                        <td>
+                                                                            <button type="button" class="btn btn-sm btn-secondary"
+                                                                                x-on:click="openProductOptionValueModal(productOption)"
+                                                                            >
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-4 tw-w-4 tw-text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+                                                                            </button>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+
+                            <!-- Add Option -->
+                            <div class="row tw-mb-4">
+                                <div class="col-8">
+                                    <label class="col-form-label" for="articleNr">{{ __('Add Option') }}</label>
+                                    <select name="addOption" id="addOption" class="select2 form-select" placeholder="Select Option to Add"  x-ref="select2AddOption">
+                                        <option value=""></option>
+                                        @foreach ($options as $option)
+                                            <option value="{{ $option->id }}">{{ $option->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-4">
+                                    <label class="col-form-label">&nbsp;</label>
+                                    <div>
+                                        <button type="button" class="btn btn-primary" x-on:click="addProductOption()">{{ __('Add Option') }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End of Add Option -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -383,7 +524,91 @@
         </button>
     </form>
 </section>
+
+<!-- Modal Product Option Value -->
+<div
+    x-data="moduleModalProductOptionvalue()"
+    x-init="moduleModalProductOptionvalueInit()"
+    x-on:show-product-option-value-modal.window="show()"
+    x-on:hide-product-option-value-modal.window="hide()"
+    x-on:toggle-product-option-value-modal.window="toggle()"
+>
+    <div class="modal fade text-start" id="modalProductOptionValue" tabindex="-1" aria-labelledby="myModalLabel1" aria-hidden="true"
+        x-ref="modal"
+    >
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel1">{{ __('Option Value') }}</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Option Value -->
+                    <div class="col-12 tw-mb-4">
+                        <label class="col-form-label" for="optionValue">{{ __('Option Value') }}</label>
+                        <select name="optionValues" id="optionValues" class="form-select" x-model="$store.storeModalProductOptionValue.productOptionValue.optionValueId">
+                            <template x-for="optionValue in $store.storeModalProductOptionValue.optionValues">
+                                <option x-bind:value="optionValue.id" x-text="optionValue.name"></option>
+                            </template>
+                        </select>
+                    </div>
+                    <!-- End of Option Value -->
+
+                    <!-- Quantity -->
+                    <div class="col-12 tw-mb-4">
+                        <label class="col-form-label" for="quantity">{{ __('Quantity') }}</label>
+                        <input type="number" name="quantity" id="quantity" class="form-control" x-model="$store.storeModalProductOptionValue.productOptionValue.quantity" />
+                    </div>
+                    <!-- End of Quantity -->
+
+                    <!-- Subtract -->
+                    <div class="col-12 tw-mb-4">
+                        <label class="col-form-label" for="optionValue">{{ __('Subtract') }}</label>
+                        <select name="subtract" id="subtract" class="form-select" x-model="$store.storeModalProductOptionValue.productOptionValue.subtract">
+                            <option value="1">{{ __('Yes') }}</option>
+                            <option value="0">{{ __('No') }}</option>
+                        </select>
+                    </div>
+                    <!-- End of Subtract -->
+
+                    <!-- Price -->
+                    <div class="col-12 tw-mb-4">
+                        <label class="col-form-label" for="optionValue">{{ __('Price') }}</label>
+                        <div class="input-group">
+                            <select name="pricePrefix" id="pricePrefix" class="form-select" x-model="$store.storeModalProductOptionValue.productOptionValue.pricePrefix">
+                                <option value="+">+</option>
+                                <option value="-">-</option>
+                            </select>
+                            <input type="text" name="price"  placeholder="Price" id="price" class="form-control" x-model="$store.storeModalProductOptionValue.productOptionValue.price">
+                        </div>
+                    </div>
+                    <!-- End of Price -->
+
+                    <!-- Weight -->
+                    <div class="col-12 tw-mb-4">
+                        <label class="col-form-label" for="optionValue">{{ __('Weight') }}</label>
+                        <div class="input-group">
+                            <select name="weightPrefix" id="weightPrefix" class="form-select" x-model="$store.storeModalProductOptionValue.productOptionValue.weightPrefix">
+                                <option value="+">+</option>
+                                <option value="-">-</option>
+                            </select>
+                            <input type="text" name="weight"  placeholder="Weight" id="weight" class="form-control" x-model="$store.storeModalProductOptionValue.productOptionValue.weight">
+                        </div>
+                    </div>
+                    <!-- End of Weight -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary"
+                        x-on:click="addProductOptionValue"
+                    >{{ __('Save') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of Modal Product Option Value -->
 @endsection
+
 @section('vendor-script')
 <script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/forms/wizard/bs-stepper.min.js')) }}"></script>
@@ -393,7 +618,6 @@
 @endsection
 @section('page-script')
 <script>
-
 $(document).ready(function() {
     let rules = {}
 
@@ -453,6 +677,8 @@ $(document).ready(function() {
         linear: false
     })
 
+    numberedStepper.to(4)
+
     // setup datepicekr
     var basicPickr = $('.flatpickr-basic').flatpickr()
 
@@ -475,5 +701,151 @@ function moduleData(){
         }
     }
 }
+</script>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.store('storeProductOptions', {
+            options: JSON.parse('@json($options)'),
+            productOptions: JSON.parse('@json($productOptions)'),
+            selectedOption: null,
+            init() {
+            },
+            getOption(optionId) {
+                return this.options.find((option) => option.id == optionId)
+            },
+            getUniqueId() {
+                let array = new Uint32Array(8)
+                window.crypto.getRandomValues(array)
+                let str = ''
+                for (let i = 0; i < array.length; i++) {
+                    str += (i < 2 || i > 5 ? '' : '-') + array[i].toString(16).slice(-4)
+                }
+                return str
+            },
+            addProductOption() {
+                if(!this.selectedOption)
+                    return null
+
+                let selectedOption = this.getOption(this.selectedOption)
+                this.productOptions.push({
+                    id: this.getUniqueId(),
+                    optionId: selectedOption.id,
+                    type: selectedOption.type,
+                    name: selectedOption.name,
+                    required: 0,
+                    optionValues: [],
+                })
+                this.selectedOption = null
+            },
+            deleteProductOption(index) {
+                this.productOptions.splice(index, 1)
+            },
+            getProductOptionValueName(optionId, optionValueId) {
+                let option = this.options.find(_ => _.id == optionId)
+
+                if(!option)
+                    return ''
+
+                let optionValue = option.values.find(_ => _.id == optionValueId)
+
+                if(!optionValue)
+                    return ''
+
+                return optionValue.name
+            }
+        });
+
+        Alpine.store('storeModalProductOptionValue', {
+            modal: null,
+            productOptionValue: {},
+            optionValues: [],
+            init() {
+                this.resetProductOptionValue()
+            },
+            resetProductOptionValue() {
+                this.productOptionValue = {
+                    productOptionId: null,
+                    productId: null,
+                    optionId: null,
+                    optionValueId: null,
+                    optionValue: null,
+                    quantity: 1,
+                    subtract: 0,
+                    price: 0,
+                    pricePrefix: '+',
+                    weight: 0,
+                    weightPrefix: '+',
+                }
+            },
+        });
+    })
+</script>
+<script>
+    function moduleProductOptions() {
+        return {
+            moduleProductOptionsInit() {
+                $(this.$refs.select2AddOption).on('change', (e) => {
+                    this.$store.storeProductOptions.selectedOption = e.target.value
+                })
+            },
+            addProductOption() {
+                this.$store.storeProductOptions.addProductOption()
+                $(this.$refs.select2AddOption).val('').trigger('change')
+            },
+            deleteProductOption(index) {
+                if(!confirm("{{ __('Are you sure to delete?') }}"))
+                    return
+
+                this.$store.storeProductOptions.deleteProductOption(index)
+            },
+            async openProductOptionValueModal(productOption) {
+                let option = this.$store.storeProductOptions.getOption(productOption.optionId)
+                this.$store.storeModalProductOptionValue.optionValues = option.values
+                this.$store.storeModalProductOptionValue.productOptionValue.productOptionId = productOption.id
+                this.$store.storeModalProductOptionValue.productOptionValue.optionId = productOption.optionId
+
+                if(option.values.length > 0) {
+                    this.$store.storeModalProductOptionValue.productOptionValue.optionValueId = option.values[0].id
+                }
+
+                this.$dispatch('show-product-option-value-modal')
+            },
+            removeProductOptionValue(productOption, productOptionValueIndex) {
+                if(!confirm("{{ __('Are you sure to delete?') }}"))
+                    return
+
+                let _productOption = this.$store.storeProductOptions.productOptions.find(_ => _.id == productOption.id)
+
+                _productOption.optionValues.splice(productOptionValueIndex, 1)
+            }
+        }
+    }
+
+    function moduleModalProductOptionvalue() {
+        return {
+            moduleModalProductOptionvalueInit() {
+                this.$store.storeModalProductOptionValue.modal = new bootstrap.Modal($(this.$refs.modal), {})
+            },
+            show() {
+                this.$store.storeModalProductOptionValue.modal.show()
+            },
+            hide() {
+                this.$store.storeModalProductOptionValue.modal.hide()
+            },
+            toggle() {
+                this.$store.storeModalProductOptionValue.modal.toggle()
+            },
+            addProductOptionValue() {
+                let productOption = this.$store.storeProductOptions.productOptions.find(_ => _.id == this.$store.storeModalProductOptionValue.productOptionValue.productOptionId)
+
+                productOption.optionValues.push($.extend(true, {}, this.$store.storeModalProductOptionValue.productOptionValue))
+
+                this.$dispatch('hide-product-option-value-modal')
+
+                this.$store.storeModalProductOptionValue.resetProductOptionValue()
+            }
+        }
+    }
 </script>
 @endsection
