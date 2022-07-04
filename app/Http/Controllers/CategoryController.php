@@ -35,7 +35,7 @@ class CategoryController extends Controller
         $category = new Category();
 
         $stores = Store::all();
-        $categories = Category::active()->get();
+        $categories = Category::all();
 
         $breadcrumbs = [
             ['link' => route('categories.index'), 'name' => "Categories"], ['name' => "Create"]
@@ -105,7 +105,7 @@ class CategoryController extends Controller
         $stores = Store::all();
 
         $category->load('stores');
-        $categories = Category::active([$category->id])->get();
+        $categories = Category::whereNotIn('id', [$category->id])->get();
 
         $breadcrumbs = [
             ['link' => route('categories.index'), 'name' => "Categories"], ['name' => "Edit"]

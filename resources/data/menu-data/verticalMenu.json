@@ -35,6 +35,12 @@
                     "name": "Options",
                     "slug": "options",
                     "icon": "circle"
+                },
+                {
+                    "url": "products",
+                    "name": "Products",
+                    "slug": "products",
+                    "icon": "circle"
                 }
             ]
         },
