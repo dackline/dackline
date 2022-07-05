@@ -15,4 +15,5 @@ return [
     "Categories" => "Categories",
     "Options" => "Options",
     "Products" => "Products",
+    "File Manager" => "File Manager",
 ];

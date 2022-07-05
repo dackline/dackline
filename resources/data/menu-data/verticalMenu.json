@@ -85,6 +85,12 @@
                     "name": "Stores",
                     "slug": "stores",
                     "icon": "circle"
+                },
+                {
+                    "url": "file-manager",
+                    "name": "File Manager",
+                    "slug": "file-manager",
+                    "icon": "circle"
                 }
             ]
         }

@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FileManagerController;
 use App\Http\Controllers\GeoZoneController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\LanguageController;
@@ -63,6 +64,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::resources([
         'products' => ProductController::class,
     ]);
+
+    Route::get('file-manager', [FileManagerController::class, 'index'])->name('file-manager');
+
+    Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+        \UniSharp\LaravelFilemanager\Lfm::routes();
+    });
 
     Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 });
