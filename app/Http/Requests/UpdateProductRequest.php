@@ -48,7 +48,9 @@ class UpdateProductRequest extends FormRequest
             'sortOrder' => ['nullable', 'numeric'],
             'status' => ['required'],
             'storeId' => ['required', 'array', 'min:1'],
-            'categoryId' => ['nullable', 'array']
+            'categoryId' => ['nullable', 'array'],
+            'image' => ['nullable'],
+            'productImage' => ['nullable', 'array'],
         ]);
 
         return $rules;

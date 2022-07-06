@@ -45,12 +45,14 @@ class ProductController extends Controller
         $categories = Category::fullName();
         $options = Option::with('values', 'values.translations', 'translations')->get();
         $productOptions = [];
+        $productImage = null;
+        $additionalImages = [];
 
         $breadcrumbs = [
             ['link' => route('products.index'), 'name' => "Products"], ['name' => "Create"]
         ];
 
-        return view('products.form', compact('product', 'breadcrumbs', 'taxes', 'stockStatuses', 'manufacturers', 'stores', 'categories', 'options', 'productOptions'));
+        return view('products.form', compact('product', 'breadcrumbs', 'taxes', 'stockStatuses', 'manufacturers', 'stores', 'categories', 'options', 'productOptions', 'productImage', 'additionalImages'));
     }
 
     /**
@@ -131,6 +133,27 @@ class ProductController extends Controller
             }
         }
 
+        // image
+        if($request->has('image') && !empty($request->input('image'))) {
+            $product
+                ->addMedia($request->input('image'))
+                ->preservingOriginal()
+                ->toMediaCollection('product-image');
+        }
+
+        // additional images
+        if($request->has('productImage') && count($request->input('productImage')) > 0) {
+            foreach($request->input('productImage') as $productImage) {
+                if($productImage['image']) {
+                    $product
+                        ->addMedia($productImage['image'])
+                        ->preservingOriginal()
+                        ->withCustomProperties(['sort_order' => (int)$productImage['sortOrder']])
+                        ->toMediaCollection('additional-images');
+                }
+            }
+        }
+
         return redirect(route('products.index'))->with('success', __('Product Created.'));
     }
 
@@ -161,6 +184,25 @@ class ProductController extends Controller
         $options = Option::with('values', 'values.translations', 'translations')->get();
 
         $product->with(['productOptions', 'productOptions.option', 'productOptions.productOptionValues']);
+
+        $productImage = optional($product->getMedia('product-image'))->map(function($image) {
+            return [
+                'image' => [
+                    'path' => $image->getPath(),
+                    'url' => $image->getUrl(),
+                ]
+            ];
+        })->first();
+
+        $additionalImages = $product->getMedia('additional-images')->map(function($additionalImage) {
+            return [
+                'image' => [
+                    'path' => $additionalImage->getPath(),
+                    'url' => $additionalImage->getUrl(),
+                ],
+                'sortOrder' => (int)$additionalImage->getCustomProperty('sort_order'),
+            ];
+        })->toArray();
 
         // format product options
         $productOptions = [];
@@ -197,7 +239,7 @@ class ProductController extends Controller
             ['link' => route('products.index'), 'name' => "Products"], ['name' => "Edit"]
         ];
 
-        return view('products.form', compact('product', 'breadcrumbs', 'taxes', 'stockStatuses', 'manufacturers', 'stores', 'categories', 'options', 'productOptions'));
+        return view('products.form', compact('product', 'breadcrumbs', 'taxes', 'stockStatuses', 'manufacturers', 'stores', 'categories', 'options', 'productOptions', 'productImage', 'additionalImages'));
     }
 
     /**
@@ -286,6 +328,31 @@ class ProductController extends Controller
                 }
             }
         }
+
+        // image
+        $newMediaCollection = [];
+        if($request->has('image') && !empty($request->input('image'))) {
+            $newMediaCollection[] = $product
+                ->addMedia($request->input('image'))
+                ->preservingOriginal()
+                ->toMediaCollection('product-image');
+        }
+        $product->clearMediaCollectionExcept('product-image', $newMediaCollection);
+
+        // additional images
+        $newMediaCollection = [];
+        if($request->has('productImage') && count($request->input('productImage')) > 0) {
+            foreach($request->input('productImage') as $productImage) {
+                if($productImage['image']) {
+                    $newMediaCollection[] = $product
+                        ->addMedia($productImage['image'])
+                        ->preservingOriginal()
+                        ->withCustomProperties(['sort_order' => (int)$productImage['sortOrder']])
+                        ->toMediaCollection('additional-images');
+                }
+            }
+        }
+        $product->clearMediaCollectionExcept('additional-images', $newMediaCollection);
 
         return redirect(route('products.index'))->with('success', __('Product Updated.'));
     }

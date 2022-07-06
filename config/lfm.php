@@ -117,7 +117,7 @@ return [
     'disallowed_mimetypes' => ['text/x-php', 'text/html', 'text/plain'],
 
     // Item Columns
-    'item_columns' => ['name', 'url', 'time', 'icon', 'is_file', 'is_image', 'thumb_url'],
+    'item_columns' => ['name', 'url', 'time', 'icon', 'is_file', 'is_image', 'thumb_url', 'path'],
 
     /*
     |--------------------------------------------------------------------------

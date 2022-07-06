@@ -69,6 +69,17 @@
                             </span>
                         </button>
                     </div>
+                    <div class="line"></div>
+                    <div class="step" data-target="#section-image" role="tab" id="section-image-trigger">
+                        <button type="button" class="step-trigger">
+                            <span class="bs-stepper-box">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" class="tw-fill-white"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z"/></svg>
+                            </span>
+                            <span class="bs-stepper-label">
+                                <span class="bs-stepper-title">{{ __('Image') }}</span>
+                            </span>
+                        </button>
+                    </div>
                 </div>
                 <div class="bs-stepper-content">
                     <div id="section-general" class="content" role="tabpanel" aria-labelledby="section-general-trigger">
@@ -515,6 +526,71 @@
                             <!-- End of Add Option -->
                         </div>
                     </div>
+                    <div id="section-image" class="content" role="tabpanel" aria-labelledby="section-image-trigger"
+                        x-data="moduleSectionImage()" x-init="moduleSectionImageInit()"
+                    >
+                        <div class="content-header">
+                            <h5 class="mb-0">{{ __('Image') }}</h5>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4 col-md-3">
+                                <div class="card" x-model="image" x-data="imageSelector(image)">
+                                    <img x-bind:src="imageSrc" />
+                                    <input type="hidden" name="image" x-bind:value="image.path">
+                                    <div class="card-body">
+                                        <button type="button" class="btn btn-primary btn-sm" x-on:click="openFileManager()">Edit</button>
+                                        <button type="button" class="btn btn-warning btn-sm" x-on:click="clearImage()">Clear</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <h3>{{ __('Additional Images') }}</h3>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <td>{{ __('Image') }}</td>
+                                            <td>{{ __('Sort Order') }}</td>
+                                            <td></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template x-for="(additionalImage, additionalImageIndex) in additionalImages">
+                                            <tr>
+                                                <td style="width: 25%">
+                                                    <div class="card" x-model="additionalImage.image" x-data="imageSelector(additionalImage.image)">
+                                                        <img x-bind:src="imageSrc" class="tw-w-full"/>
+                                                        <input type="hidden" x-bind:name="'productImage['+ additionalImageIndex +'][image]'" x-bind:value="additionalImage.image.path">
+                                                        <div class="card-body">
+                                                            <button type="button" class="btn btn-primary btn-sm" x-on:click="openFileManager()">Edit</button>
+                                                            <button type="button" class="btn btn-warning btn-sm" x-on:click="clearImage()">Clear</button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" x-bind:name="'productImage['+ additionalImageIndex +'][sortOrder]'" x-model="additionalImage.sortOrder">
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-sm btn-secondary" x-on:click="deleteAdditionalImage(additionalImageIndex)">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-4 tw-w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4"/></svg>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="2"></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary" type="button" x-on:click="addAdditionalImage()">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-4 tw-w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -677,7 +753,7 @@ $(document).ready(function() {
         linear: false
     })
 
-    numberedStepper.to(4)
+    numberedStepper.to(5)
 
     // setup datepicekr
     var basicPickr = $('.flatpickr-basic').flatpickr()
@@ -847,5 +923,73 @@ function moduleData(){
             }
         }
     }
+</script>
+
+<script>
+    function moduleSectionImage() {
+        return  {
+            image: {
+                url: "{{ $productImage ? $productImage['image']['url'] : '' }}",
+                path: "{{ $productImage ? $productImage['image']['path'] : '' }}",
+            },
+            additionalImages: JSON.parse('@json($additionalImages)'),
+            moduleSectionImageInit() {
+            },
+            addAdditionalImage() {
+                this.additionalImages.push({
+                    image: {
+                        url: '',
+                        path: '',
+                    },
+                    sortOrder: 0,
+                })
+            },
+            deleteAdditionalImage(index) {
+                if(!confirm("{{ __('Are you sure to delete?') }}")) {
+                    return
+                }
+
+                this.additionalImages.splice(index, 1)
+            }
+        }
+    }
+
+</script>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('imageSelector', (image = {url: '', path: ''}) => ({
+            defaultImage: "{{ url('/no-image.png') }}",
+            image: image,
+            fileManager: {
+                routePrefix: "{{ route('unisharp.lfm.show') }}",
+                type: 'image',
+            },
+            get imageSrc() {
+                if(this.image.url) {
+                    return this.image.url
+                }
+                return this.defaultImage
+            },
+            init() {
+            },
+            openFileManager() {
+                window.open(this.fileManager.routePrefix + '?multiple=false&type=' + this.fileManager.type, 'FileManager', 'width=900,height=600')
+                window.SetUrl = (items) => {
+                    let item = items[items.length - 1]
+                    let path = item.path.replace('/thumbs', '')
+                    let url = item.thumb_url;
+                    this.image.url = url
+                    this.image.path = path
+                    this.$dispatch('input',  this.image)
+                };
+            },
+            clearImage() {
+                this.image.url = ''
+                this.image.path = ''
+                this.$dispatch('input',  this.image)
+            },
+        }))
+    })
 </script>
 @endsection
