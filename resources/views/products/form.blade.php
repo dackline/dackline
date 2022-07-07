@@ -80,6 +80,17 @@
                             </span>
                         </button>
                     </div>
+                    <div class="line"></div>
+                    <div class="step" data-target="#section-custom-fields" role="tab" id="section-custom-fields-trigger">
+                        <button type="button" class="step-trigger">
+                            <span class="bs-stepper-box">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" class="tw-fill-white"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10 10-4.49 10-10S17.51 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z"/></svg>
+                            </span>
+                            <span class="bs-stepper-label">
+                                <span class="bs-stepper-title">{{ __('Custom Fields') }}</span>
+                            </span>
+                        </button>
+                    </div>
                 </div>
                 <div class="bs-stepper-content">
                     <div id="section-general" class="content" role="tabpanel" aria-labelledby="section-general-trigger">
@@ -166,7 +177,7 @@
                             <h5 class="mb-0">{{ __('Data') }}</h5>
                         </div>
                         <div class="row">
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
                                 <div class="row">
                                     <!-- Article Nr -->
                                     <div class="col-12 tw-mb-4">
@@ -197,6 +208,16 @@
                                         @enderror
                                     </div>
                                     <!-- End of SKU -->
+
+                                    <!-- MPN -->
+                                    <div class="col-12 tw-mb-4">
+                                        <label class="col-form-label" for="mpn">{{ __('MPN') }}</label>
+                                        <input type="text" id="mpn" class="form-control @error('mpn') error @enderror" name="mpn" placeholder="{{ __('MPN') }}" value="{{ old('mpn', $product->mpn) }}" />
+                                        @error('mpn')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- End of MPN -->
 
                                     <!-- Location -->
                                     <div class="col-12 tw-mb-4">
@@ -316,30 +337,31 @@
                                         @enderror
                                     </div>
                                     <!-- End of Weight -->
-
-                                    <!-- Sort Order -->
-                                    <div class="col-12 tw-mb-4">
-                                        <label class="col-form-label" for="sortOrder">{{ __('Sort Order') }}</label>
-                                        <input type="number" id="sortOrder" class="form-control @error('sortOrder') error @enderror" name="sortOrder" placeholder="{{ __('Sort Order') }}" value="{{ old('sortOrder', $product->sort_order) }}"/>
-                                        @error('sortOrder')
-                                            <span class="error">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                    <!-- End of Sort Order -->
-
-                                    <!-- Status -->
-                                    <div class="col-12 tw-mb-4">
-                                        <label class="form-label" for="status">{{ __('Status') }}</label>
-                                        <select class="form-select @error('status') error @enderror" name="status">
-                                            <option value="1" {{ old('status', $product->status) == 1 ? 'selected' : '' }}>{{ __('Active') }}</option>
-                                            <option value="0" {{ old('status', $product->status) == 0 ? 'selected' : '' }}>{{ __('Inactive') }}</option>
-                                        </select>
-                                        @error('status')
-                                            <span class="error">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                    <!-- End of Status -->
                                 </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <!-- Sort Order -->
+                                <div class="col-12 tw-mb-4">
+                                    <label class="col-form-label" for="sortOrder">{{ __('Sort Order') }}</label>
+                                    <input type="number" id="sortOrder" class="form-control @error('sortOrder') error @enderror" name="sortOrder" placeholder="{{ __('Sort Order') }}" value="{{ old('sortOrder', $product->sort_order) }}"/>
+                                    @error('sortOrder')
+                                        <span class="error">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <!-- End of Sort Order -->
+
+                                <!-- Status -->
+                                <div class="col-12 tw-mb-4">
+                                    <label class="form-label" for="status">{{ __('Status') }}</label>
+                                    <select class="form-select @error('status') error @enderror" name="status">
+                                        <option value="1" {{ old('status', $product->status) == 1 ? 'selected' : '' }}>{{ __('Active') }}</option>
+                                        <option value="0" {{ old('status', $product->status) == 0 ? 'selected' : '' }}>{{ __('Inactive') }}</option>
+                                    </select>
+                                    @error('status')
+                                        <span class="error">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <!-- End of Status -->
                             </div>
                         </div>
                     </div>
@@ -588,6 +610,430 @@
                                         </tr>
                                     </tfoot>
                                 </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="section-custom-fields" class="content" role="tabpanel" aria-labelledby="section-custom-fields-trigger">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="custom-fields-general-tab" data-bs-toggle="tab" href="#custom-fields-general" role="tab" aria-selected="true">
+                                    <span>{{ __('General') }}</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="custom-fields-wheel-tab" data-bs-toggle="tab" href="#custom-fields-wheel" role="tab" aria-selected="true">
+                                    <span>{{ __('Wheels') }}</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="custom-fields-tire-tab" data-bs-toggle="tab" href="#custom-fields-tire" role="tab" aria-selected="true">
+                                    <span>{{ __('Tires') }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="custom-fields-general" aria-labelledby="custom-fields-general-tab" role="tabpanel">
+                                <div class="row">
+                                    <!-- Supplier ID -->
+                                    <div class="col-12 tw-mb-4">
+                                        <label class="col-form-label" for="supplierId">{{ __('Supplier ID') }}</label>
+                                        <input type="text" id="supplierId" class="form-control @error('supplierId') error @enderror" name="supplierId" placeholder="{{ __('Supplier ID') }}" value="{{ old('supplierId', optional($product->customFields)->supplier_id) }}"/>
+                                        @error('supplierId')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- End of Supplier ID -->
+
+                                    <!-- Manufacture Date -->
+                                    <div class="col-12 tw-mb-4">
+                                        <label class="col-form-label" for="manufactureDate">{{ __('Manufacture Date') }}</label>
+                                        <input type="text" id="manufactureDate" class="form-control @error('manufactureDate') error @enderror" name="manufactureDate" placeholder="{{ __('Manufacture Date') }}" value="{{ old('manufactureDate', optional($product->customFields)->manufacture_date) }}"/>
+                                        @error('manufactureDate')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- End of Manufacture Date -->
+
+                                    <!-- Width -->
+                                    <div class="col-12 tw-mb-4">
+                                        <label class="col-form-label" for="width">{{ __('Width') }}</label>
+                                        <input type="text" id="width" class="form-control @error('width') error @enderror" name="width" placeholder="{{ __('Width') }}" value="{{ old('width', optional($product->customFields)->width) }}"/>
+                                        @error('width')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- End of Width -->
+
+                                    <!-- Size -->
+                                    <div class="col-12 tw-mb-4">
+                                        <label class="col-form-label" for="size">{{ __('Size') }}</label>
+                                        <input type="text" id="size" class="form-control @error('size') error @enderror" name="size" placeholder="{{ __('Size') }}" value="{{ old('size', optional($product->customFields)->size) }}"/>
+                                        @error('size')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- End of Size -->
+
+                                    <!-- Purchase Price -->
+                                    <div class="col-12 tw-mb-4">
+                                        <label class="col-form-label" for="purchasePrice">{{ __('Purchase Price') }}</label>
+                                        <input type="text" id="purchasePrice" class="form-control @error('purchasePrice') error @enderror" name="purchasePrice" placeholder="{{ __('Purchase Price') }}" value="{{ old('purchasePrice', optional($product->customFields)->purchase_price) }}"/>
+                                        @error('purchasePrice')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- End of Purchase Price -->
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="custom-fields-wheel" aria-labelledby="custom-fields-wheel-tab" role="tabpanel">
+                                <div class="row">
+                                    <!-- Wheel Color -->
+                                    <div class="col-12 tw-mb-4">
+                                        <label class="col-form-label" for="wheelColor">{{ __('Wheel Color') }}</label>
+                                        <input type="text" id="wheelColor" class="form-control @error('wheelColor') error @enderror" name="wheelColor" placeholder="{{ __('Wheel Color') }}" value="{{ old('wheelColor', optional($product->customFields)->wheel_color) }}"/>
+                                        @error('wheelColor')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- End of Wheel Color -->
+
+                                    <!-- Wheel ET -->
+                                    <div class="col-12 tw-mb-4">
+                                        <label class="col-form-label" for="wheelEt">{{ __('Wheel ET') }}</label>
+                                        <input type="text" id="wheelEt" class="form-control @error('wheelEt') error @enderror" name="wheelEt" placeholder="{{ __('Wheel ET') }}" value="{{ old('wheelEt', optional($product->customFields)->wheel_et) }}"/>
+                                        @error('wheelEt')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- End of Wheel ET -->
+
+                                    <!-- Wheel Center Bore -->
+                                    <div class="col-12 tw-mb-4">
+                                        <label class="col-form-label" for="wheelCenterBore">{{ __('Wheel Center Bore') }}</label>
+                                        <input type="text" id="wheelCenterBore" class="form-control @error('wheelCenterBore') error @enderror" name="wheelCenterBore" placeholder="{{ __('Wheel Center Bore') }}" value="{{ old('wheelCenterBore', optional($product->customFields)->wheel_center_bore) }}"/>
+                                        @error('wheelCenterBore')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- End of Wheel Center Bore -->
+
+                                    <!-- Wheel Max Load -->
+                                    <div class="col-12 tw-mb-4">
+                                        <label class="col-form-label" for="wheelMaxLoad">{{ __('Wheel Max Load') }}</label>
+                                        <input type="text" id="wheelMaxLoad" class="form-control @error('wheelMaxLoad') error @enderror" name="wheelMaxLoad" placeholder="{{ __('Wheel Max Load') }}" value="{{ old('wheelMaxLoad', optional($product->customFields)->wheel_max_load) }}"/>
+                                        @error('wheelMaxLoad')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- End of Wheel Max Load -->
+
+                                    <div class="row">
+                                        <!-- PCD1 -->
+                                        <div class="col-sm-2 tw-mb-4">
+                                            <label class="col-form-label" for="wheelPcd1">{{ __('PCD1') }}</label>
+                                            <input type="text" id="wheelPcd1" class="form-control @error('wheelPcd1') error @enderror" name="wheelPcd1" placeholder="{{ __('PCD1') }}" value="{{ old('wheelPcd1', optional($product->customFields)->wheel_pcd['pcd_1'] ?? '') }}"/>
+                                            @error('wheelPcd1')
+                                                <span class="error">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <!-- End of PCD1 -->
+
+                                        <!-- PCD2 -->
+                                        <div class="col-sm-2 tw-mb-4">
+                                            <label class="col-form-label" for="wheelPcd2">{{ __('PCD2') }}</label>
+                                            <input type="text" id="wheelPcd2" class="form-control @error('wheelPcd2') error @enderror" name="wheelPcd2" placeholder="{{ __('PCD2') }}" value="{{ old('wheelPcd2', optional($product->customFields)->wheel_pcd['pcd_2'] ?? '') }}"/>
+                                            @error('wheelPcd2')
+                                                <span class="error">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <!-- End of PCD2 -->
+
+                                        <!-- PCD3 -->
+                                        <div class="col-sm-2 tw-mb-4">
+                                            <label class="col-form-label" for="wheelPcd3">{{ __('PCD3') }}</label>
+                                            <input type="text" id="wheelPcd3" class="form-control @error('wheelPcd3') error @enderror" name="wheelPcd3" placeholder="{{ __('PCD3') }}" value="{{ old('wheelPcd3', optional($product->customFields)->wheel_pcd['pcd_3'] ?? '') }}"/>
+                                            @error('wheelPcd3')
+                                                <span class="error">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <!-- End of PCD3 -->
+
+                                        <!-- PCD4 -->
+                                        <div class="col-sm-2 tw-mb-4">
+                                            <label class="col-form-label" for="wheelPcd4">{{ __('PCD4') }}</label>
+                                            <input type="text" id="wheelPcd4" class="form-control @error('wheelPcd4') error @enderror" name="wheelPcd4" placeholder="{{ __('PCD4') }}" value="{{ old('wheelPcd4', optional($product->customFields)->wheel_pcd['pcd_4'] ?? '') }}"/>
+                                            @error('wheelPcd4')
+                                                <span class="error">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <!-- End of PCD4 -->
+
+                                        <!-- PCD5 -->
+                                        <div class="col-sm-2 tw-mb-4">
+                                            <label class="col-form-label" for="wheelPcd5">{{ __('PCD5') }}</label>
+                                            <input type="text" id="wheelPcd5" class="form-control @error('wheelPcd5') error @enderror" name="wheelPcd5" placeholder="{{ __('PCD5') }}" value="{{ old('wheelPcd5', optional($product->customFields)->wheel_pcd['pcd_5'] ?? '') }}"/>
+                                            @error('wheelPcd5')
+                                                <span class="error">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <!-- End of PCD5 -->
+
+                                        <!-- PCD6 -->
+                                        <div class="col-sm-2 tw-mb-4">
+                                            <label class="col-form-label" for="wheelPcd6">{{ __('PCD6') }}</label>
+                                            <input type="text" id="wheelPcd6" class="form-control @error('wheelPcd6') error @enderror" name="wheelPcd6" placeholder="{{ __('PCD6') }}" value="{{ old('wheelPcd6', optional($product->customFields)->wheel_pcd['pcd_6'] ?? '') }}"/>
+                                            @error('wheelPcd6')
+                                                <span class="error">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <!-- End of PCD6 -->
+
+                                        <!-- PCD7 -->
+                                        <div class="col-sm-2 tw-mb-4">
+                                            <label class="col-form-label" for="wheelPcd7">{{ __('PCD7') }}</label>
+                                            <input type="text" id="wheelPcd7" class="form-control @error('wheelPcd7') error @enderror" name="wheelPcd7" placeholder="{{ __('PCD7') }}" value="{{ old('wheelPcd7', optional($product->customFields)->wheel_pcd['pcd_7'] ?? '') }}"/>
+                                            @error('wheelPcd7')
+                                                <span class="error">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <!-- End of PCD7 -->
+
+                                        <!-- PCD8 -->
+                                        <div class="col-sm-2 tw-mb-4">
+                                            <label class="col-form-label" for="wheelPcd8">{{ __('PCD8') }}</label>
+                                            <input type="text" id="wheelPcd8" class="form-control @error('wheelPcd8') error @enderror" name="wheelPcd8" placeholder="{{ __('PCD8') }}" value="{{ old('wheelPcd8', optional($product->customFields)->wheel_pcd['pcd_8'] ?? '') }}"/>
+                                            @error('wheelPcd8')
+                                                <span class="error">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <!-- End of PCD8 -->
+
+                                        <!-- PCD9 -->
+                                        <div class="col-sm-2 tw-mb-4">
+                                            <label class="col-form-label" for="wheelPcd9">{{ __('PCD9') }}</label>
+                                            <input type="text" id="wheelPcd9" class="form-control @error('wheelPcd9') error @enderror" name="wheelPcd9" placeholder="{{ __('PCD9') }}" value="{{ old('wheelPcd9', optional($product->customFields)->wheel_pcd['pcd_9'] ?? '') }}"/>
+                                            @error('wheelPcd9')
+                                                <span class="error">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <!-- End of PCD9 -->
+
+                                        <!-- PCD10 -->
+                                        <div class="col-sm-2 tw-mb-4">
+                                            <label class="col-form-label" for="wheelPcd10">{{ __('PCD10') }}</label>
+                                            <input type="text" id="wheelPcd10" class="form-control @error('wheelPcd10') error @enderror" name="wheelPcd10" placeholder="{{ __('PCD10') }}" value="{{ old('wheelPcd10', optional($product->customFields)->wheel_pcd['pcd_10'] ?? '') }}"/>
+                                            @error('wheelPcd10')
+                                                <span class="error">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <!-- End of PCD10 -->
+
+                                        <!-- PCD11 -->
+                                        <div class="col-sm-2 tw-mb-4">
+                                            <label class="col-form-label" for="wheelPcd11">{{ __('PCD11') }}</label>
+                                            <input type="text" id="wheelPcd11" class="form-control @error('wheelPcd11') error @enderror" name="wheelPcd11" placeholder="{{ __('PCD11') }}" value="{{ old('wheelPcd11', optional($product->customFields)->wheel_pcd['pcd_11'] ?? '') }}"/>
+                                            @error('wheelPcd11')
+                                                <span class="error">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <!-- End of PCD11 -->
+
+                                        <!-- PCD12 -->
+                                        <div class="col-sm-2 tw-mb-4">
+                                            <label class="col-form-label" for="wheelPcd12">{{ __('PCD12') }}</label>
+                                            <input type="text" id="wheelPcd12" class="form-control @error('wheelPcd12') error @enderror" name="wheelPcd12" placeholder="{{ __('PCD12') }}" value="{{ old('wheelPcd12', optional($product->customFields)->wheel_pcd['pcd_12'] ?? '') }}"/>
+                                            @error('wheelPcd12')
+                                                <span class="error">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <!-- End of PCD12 -->
+
+                                        <!-- PCD13 -->
+                                        <div class="col-sm-2 tw-mb-4">
+                                            <label class="col-form-label" for="wheelPcd13">{{ __('PCD13') }}</label>
+                                            <input type="text" id="wheelPcd13" class="form-control @error('wheelPcd13') error @enderror" name="wheelPcd13" placeholder="{{ __('PCD13') }}" value="{{ old('wheelPcd13', optional($product->customFields)->wheel_pcd['pcd_13'] ?? '') }}"/>
+                                            @error('wheelPcd13')
+                                                <span class="error">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <!-- End of PCD13 -->
+
+                                        <!-- PCD14 -->
+                                        <div class="col-sm-2 tw-mb-4">
+                                            <label class="col-form-label" for="wheelPcd14">{{ __('PCD14') }}</label>
+                                            <input type="text" id="wheelPcd14" class="form-control @error('wheelPcd14') error @enderror" name="wheelPcd14" placeholder="{{ __('PCD14') }}" value="{{ old('wheelPcd14', optional($product->customFields)->wheel_pcd['pcd_14'] ?? '') }}"/>
+                                            @error('wheelPcd14')
+                                                <span class="error">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <!-- End of PCD14 -->
+
+                                        <!-- PCD15 -->
+                                        <div class="col-sm-2 tw-mb-4">
+                                            <label class="col-form-label" for="wheelPcd15">{{ __('PCD15') }}</label>
+                                            <input type="text" id="wheelPcd15" class="form-control @error('wheelPcd15') error @enderror" name="wheelPcd15" placeholder="{{ __('PCD15') }}" value="{{ old('wheelPcd15', optional($product->customFields)->wheel_pcd['pcd_15'] ?? '') }}"/>
+                                            @error('wheelPcd15')
+                                                <span class="error">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <!-- End of PCD15 -->
+
+                                        <!-- PCD16 -->
+                                        <div class="col-sm-2 tw-mb-4">
+                                            <label class="col-form-label" for="wheelPcd16">{{ __('PCD16') }}</label>
+                                            <input type="text" id="wheelPcd16" class="form-control @error('wheelPcd16') error @enderror" name="wheelPcd16" placeholder="{{ __('PCD16') }}" value="{{ old('wheelPcd16', optional($product->customFields)->wheel_pcd['pcd_16'] ?? '') }}"/>
+                                            @error('wheelPcd16')
+                                                <span class="error">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <!-- End of PCD16 -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="custom-fields-tire" aria-labelledby="custom-fields-tire-tab" role="tabpanel">
+                                <div class="row">
+                                    <!-- Tyre Holohation Mark -->
+                                    <div class="col-6 tw-mb-4">
+                                        <label class="col-form-label" for="tyreHolohationMark">{{ __('Tyre Holohation Mark') }}</label>
+                                        <input type="text" id="tyreHolohationMark" class="form-control @error('tyreHolohationMark') error @enderror" name="tyreHolohationMark" placeholder="{{ __('Tyre Holohation Mark') }}" value="{{ old('tyreHolohationMark', optional($product->customFields)->tyre_holohation_mark) }}"/>
+                                        @error('tyreHolohationMark')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- End of Tyre Holohation Mark -->
+
+                                    <!-- Tyre Runflat RTF -->
+                                    <div class="col-6 tw-mb-4">
+                                        <label class="col-form-label" for="tyreRunflatRtf">{{ __('Tyre Runflat RTF') }}</label>
+                                        <input type="text" id="tyreRunflatRtf" class="form-control @error('tyreRunflatRtf') error @enderror" name="tyreRunflatRtf" placeholder="{{ __('Tyre Runflat RTF') }}" value="{{ old('tyreRunflatRtf', optional($product->customFields)->tyre_runflat_rtf) }}"/>
+                                        @error('tyreRunflatRtf')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- End of Tyre Runflat RTF -->
+
+                                    <!-- Tyre Profile -->
+                                    <div class="col-6 tw-mb-4">
+                                        <label class="col-form-label" for="tyreProfile">{{ __('Tyre Profile') }}</label>
+                                        <input type="text" id="tyreProfile" class="form-control @error('tyreProfile') error @enderror" name="tyreProfile" placeholder="{{ __('Tyre Profile') }}" value="{{ old('tyreProfile', optional($product->customFields)->tyre_profile) }}"/>
+                                        @error('tyreProfile')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- End of Tyre Profile -->
+
+                                    <!-- Tyre SNOWIGAN -->
+                                    <div class="col-6 tw-mb-4">
+                                        <label class="col-form-label" for="tyreSnowigan">{{ __('Tyre SNOWIGAN') }}</label>
+                                        <input type="text" id="tyreSnowigan" class="form-control @error('tyreSnowigan') error @enderror" name="tyreSnowigan" placeholder="{{ __('Tyre SNOWIGAN') }}" value="{{ old('tyreSnowigan', optional($product->customFields)->tyre_snowigan) }}"/>
+                                        @error('tyreSnowigan')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- End of Tyre SNOWIGAN -->
+
+                                    <!-- Tyre Construction Type -->
+                                    <div class="col-6 tw-mb-4">
+                                        <label class="col-form-label" for="tyreConstructionType">{{ __('Tyre Construction Type') }}</label>
+                                        <input type="text" id="tyreConstructionType" class="form-control @error('tyreConstructionType') error @enderror" name="tyreConstructionType" placeholder="{{ __('Tyre Construction Type') }}" value="{{ old('tyreConstructionType', optional($product->customFields)->tyre_construction_type) }}"/>
+                                        @error('tyreConstructionType')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- End of Tyre Construction Type -->
+
+                                    <!-- Tyre Studded -->
+                                    <div class="col-6 tw-mb-4">
+                                        <label class="col-form-label" for="tyreStudded">{{ __('Tyre Studded') }}</label>
+                                        <input type="text" id="tyreStudded" class="form-control @error('tyreStudded') error @enderror" name="tyreStudded" placeholder="{{ __('Tyre Studded') }}" value="{{ old('tyreStudded', optional($product->customFields)->tyre_studded) }}"/>
+                                        @error('tyreStudded')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- End of Tyre Studded -->
+
+                                    <!-- Tyre Load Index -->
+                                    <div class="col-6 tw-mb-4">
+                                        <label class="col-form-label" for="tyreLoadIndex">{{ __('Tyre Load Index') }}</label>
+                                        <input type="text" id="tyreLoadIndex" class="form-control @error('tyreLoadIndex') error @enderror" name="tyreLoadIndex" placeholder="{{ __('Tyre Load Index') }}" value="{{ old('tyreLoadIndex', optional($product->customFields)->tyre_load_index) }}"/>
+                                        @error('tyreLoadIndex')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- End of Tyre Load Index -->
+
+                                    <!-- Tyre Label Roll -->
+                                    <div class="col-6 tw-mb-4">
+                                        <label class="col-form-label" for="tyreLabelRoll">{{ __('Tyre Label Roll') }}</label>
+                                        <input type="text" id="tyreLabelRoll" class="form-control @error('tyreLabelRoll') error @enderror" name="tyreLabelRoll" placeholder="{{ __('Tyre Label Roll') }}" value="{{ old('tyreLabelRoll', optional($product->customFields)->tyre_label_roll) }}"/>
+                                        @error('tyreLabelRoll')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- End of Tyre Label Roll -->
+
+                                    <!-- Tyre Speed Rating -->
+                                    <div class="col-6 tw-mb-4">
+                                        <label class="col-form-label" for="tyreSpeedRating">{{ __('Tyre Speed Rating') }}</label>
+                                        <input type="text" id="tyreSpeedRating" class="form-control @error('tyreSpeedRating') error @enderror" name="tyreSpeedRating" placeholder="{{ __('Tyre Speed Rating') }}" value="{{ old('tyreSpeedRating', optional($product->customFields)->tyre_speed_rating) }}"/>
+                                        @error('tyreSpeedRating')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- End of Tyre Speed Rating -->
+
+                                    <!-- Tyre Label Wet -->
+                                    <div class="col-6 tw-mb-4">
+                                        <label class="col-form-label" for="tyreLabelWet">{{ __('Tyre Label Wet') }}</label>
+                                        <input type="text" id="tyreLabelWet" class="form-control @error('tyreLabelWet') error @enderror" name="tyreLabelWet" placeholder="{{ __('Tyre Label Wet') }}" value="{{ old('tyreLabelWet', optional($product->customFields)->tyre_label_wet) }}"/>
+                                        @error('tyreLabelWet')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- End of Tyre Label Wet -->
+
+                                    <!-- Tyre C-Flag -->
+                                    <div class="col-6 tw-mb-4">
+                                        <label class="col-form-label" for="tyreCFlag">{{ __('Tyre C-Flag') }}</label>
+                                        <input type="text" id="tyreCFlag" class="form-control @error('tyreCFlag') error @enderror" name="tyreCFlag" placeholder="{{ __('Tyre C-Flag') }}" value="{{ old('tyreCFlag', optional($product->customFields)->tyre_c_flag) }}"/>
+                                        @error('tyreCFlag')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- End of Tyre C-Flag -->
+
+                                    <!-- Tyre Label Noise 1 -->
+                                    <div class="col-6 tw-mb-4">
+                                        <label class="col-form-label" for="tyreLabelNoise1">{{ __('Tyre Label Noise 1') }}</label>
+                                        <input type="text" id="tyreLabelNoise1" class="form-control @error('tyreLabelNoise1') error @enderror" name="tyreLabelNoise1" placeholder="{{ __('Tyre Label Noise 1') }}" value="{{ old('tyreLabelNoise1', optional($product->customFields)->tyre_label_noise_1) }}"/>
+                                        @error('tyreLabelNoise1')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- End of Tyre Label Noise 1 -->
+
+                                    <!-- Tyre Category Info -->
+                                    <div class="col-6 tw-mb-4">
+                                        <label class="col-form-label" for="tyreCategoryInfo">{{ __('Tyre Category Info') }}</label>
+                                        <input type="text" id="tyreCategoryInfo" class="form-control @error('tyreCategoryInfo') error @enderror" name="tyreCategoryInfo" placeholder="{{ __('Tyre Category Info') }}" value="{{ old('tyreCategoryInfo', optional($product->customFields)->tyre_category_info) }}"/>
+                                        @error('tyreCategoryInfo')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- End of Tyre Category Info -->
+
+                                    <!-- Tyre Label Noise 2 -->
+                                    <div class="col-6 tw-mb-4">
+                                        <label class="col-form-label" for="tyreLabelNoise2">{{ __('Tyre Label Noise 2') }}</label>
+                                        <input type="text" id="tyreLabelNoise2" class="form-control @error('tyreLabelNoise2') error @enderror" name="tyreLabelNoise2" placeholder="{{ __('Tyre Label Noise 2') }}" value="{{ old('tyreLabelNoise2', optional($product->customFields)->tyre_label_noise_2) }}"/>
+                                        @error('tyreLabelNoise2')
+                                            <span class="error">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <!-- End of Tyre Label Noise 2 -->
+                                </div>
                             </div>
                         </div>
                     </div>

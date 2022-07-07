@@ -71,6 +71,7 @@ class ProductController extends Controller
             'article_nr' => $validated['articleNr'],
             'ean' => $validated['ean'],
             'sku' => $validated['sku'],
+            'mpn' => $validated['mpn'],
             'location' => $validated['location'],
             'price' => (float)$validated['price'],
             'tax_id' => $validated['taxId'] ?: null,
@@ -153,6 +154,55 @@ class ProductController extends Controller
                 }
             }
         }
+
+        // product custom fields
+        $pcd = [
+            'pcd_1' => $validated['wheelPcd1'],
+            'pcd_2' => $validated['wheelPcd2'],
+            'pcd_3' => $validated['wheelPcd3'],
+            'pcd_4' => $validated['wheelPcd4'],
+            'pcd_5' => $validated['wheelPcd5'],
+            'pcd_6' => $validated['wheelPcd6'],
+            'pcd_7' => $validated['wheelPcd7'],
+            'pcd_8' => $validated['wheelPcd8'],
+            'pcd_9' => $validated['wheelPcd9'],
+            'pcd_10' => $validated['wheelPcd10'],
+            'pcd_11' => $validated['wheelPcd11'],
+            'pcd_12' => $validated['wheelPcd12'],
+            'pcd_13' => $validated['wheelPcd13'],
+            'pcd_14' => $validated['wheelPcd14'],
+            'pcd_15' => $validated['wheelPcd15'],
+            'pcd_16' => $validated['wheelPcd16'],
+        ];
+
+        $product->customFields()->updateOrCreate([
+            'product_id' => $product->id,
+        ], [
+            'supplier_id' => $validated['supplierId'],
+            'manufacture_date' => $validated['manufactureDate'],
+            'width' => $validated['width'],
+            'size' => $validated['size'],
+            'purchase_price' => $validated['purchasePrice'],
+            'wheel_color' => $validated['wheelColor'],
+            'wheel_et' => $validated['wheelEt'],
+            'wheel_center_bore' => $validated['wheelCenterBore'],
+            'wheel_max_load' => $validated['wheelMaxLoad'],
+            'wheel_pcd' => $pcd,
+            'tyre_holohation_mark' => $validated['tyreHolohationMark'],
+            'tyre_runflat_rtf' => $validated['tyreRunflatRtf'],
+            'tyre_profile' => $validated['tyreProfile'],
+            'tyre_snowigan' => $validated['tyreSnowigan'],
+            'tyre_construction_type' => $validated['tyreConstructionType'],
+            'tyre_studded' => $validated['tyreStudded'],
+            'tyre_load_index' => $validated['tyreLoadIndex'],
+            'tyre_label_roll' => $validated['tyreLabelRoll'],
+            'tyre_speed_rating' => $validated['tyreSpeedRating'],
+            'tyre_label_wet' => $validated['tyreLabelWet'],
+            'tyre_c_flag' => $validated['tyreCFlag'],
+            'tyre_label_noise_1' => $validated['tyreLabelNoise1'],
+            'tyre_category_info' => $validated['tyreCategoryInfo'],
+            'tyre_label_noise_2' => $validated['tyreLabelNoise2'],
+        ]);
 
         return redirect(route('products.index'))->with('success', __('Product Created.'));
     }
@@ -259,6 +309,7 @@ class ProductController extends Controller
             'article_nr' => $validated['articleNr'],
             'ean' => $validated['ean'],
             'sku' => $validated['sku'],
+            'mpn' => $validated['mpn'],
             'location' => $validated['location'],
             'price' => (float)$validated['price'],
             'tax_id' => $validated['taxId'] ?: null,
@@ -353,6 +404,55 @@ class ProductController extends Controller
             }
         }
         $product->clearMediaCollectionExcept('additional-images', $newMediaCollection);
+
+        // product custom fields
+        $pcd = [
+            'pcd_1' => $validated['wheelPcd1'],
+            'pcd_2' => $validated['wheelPcd2'],
+            'pcd_3' => $validated['wheelPcd3'],
+            'pcd_4' => $validated['wheelPcd4'],
+            'pcd_5' => $validated['wheelPcd5'],
+            'pcd_6' => $validated['wheelPcd6'],
+            'pcd_7' => $validated['wheelPcd7'],
+            'pcd_8' => $validated['wheelPcd8'],
+            'pcd_9' => $validated['wheelPcd9'],
+            'pcd_10' => $validated['wheelPcd10'],
+            'pcd_11' => $validated['wheelPcd11'],
+            'pcd_12' => $validated['wheelPcd12'],
+            'pcd_13' => $validated['wheelPcd13'],
+            'pcd_14' => $validated['wheelPcd14'],
+            'pcd_15' => $validated['wheelPcd15'],
+            'pcd_16' => $validated['wheelPcd16'],
+        ];
+
+        $product->customFields()->updateOrCreate([
+            'product_id' => $product->id,
+        ], [
+            'supplier_id' => $validated['supplierId'],
+            'manufacture_date' => $validated['manufactureDate'],
+            'width' => $validated['width'],
+            'size' => $validated['size'],
+            'purchase_price' => $validated['purchasePrice'],
+            'wheel_color' => $validated['wheelColor'],
+            'wheel_et' => $validated['wheelEt'],
+            'wheel_center_bore' => $validated['wheelCenterBore'],
+            'wheel_max_load' => $validated['wheelMaxLoad'],
+            'wheel_pcd' => $pcd,
+            'tyre_holohation_mark' => $validated['tyreHolohationMark'],
+            'tyre_runflat_rtf' => $validated['tyreRunflatRtf'],
+            'tyre_profile' => $validated['tyreProfile'],
+            'tyre_snowigan' => $validated['tyreSnowigan'],
+            'tyre_construction_type' => $validated['tyreConstructionType'],
+            'tyre_studded' => $validated['tyreStudded'],
+            'tyre_load_index' => $validated['tyreLoadIndex'],
+            'tyre_label_roll' => $validated['tyreLabelRoll'],
+            'tyre_speed_rating' => $validated['tyreSpeedRating'],
+            'tyre_label_wet' => $validated['tyreLabelWet'],
+            'tyre_c_flag' => $validated['tyreCFlag'],
+            'tyre_label_noise_1' => $validated['tyreLabelNoise1'],
+            'tyre_category_info' => $validated['tyreCategoryInfo'],
+            'tyre_label_noise_2' => $validated['tyreLabelNoise2'],
+        ]);
 
         return redirect(route('products.index'))->with('success', __('Product Updated.'));
     }

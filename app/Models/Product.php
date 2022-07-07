@@ -19,7 +19,7 @@ class Product extends Model implements TranslatableContract, HasMedia
     ];
 
     protected $fillable = [
-        'article_nr','ean','sku','location','price','tax_id', 'manufacturer_id', 'url','design_template','quantity','minimum_quantity','subtract','stock_status_id','date_available','weight','sort_order','status',
+        'article_nr','ean','sku','mpn','location','price','tax_id', 'manufacturer_id', 'url','design_template','quantity','minimum_quantity','subtract','stock_status_id','date_available','weight','sort_order','status',
     ];
 
     public function stores()
@@ -48,5 +48,10 @@ class Product extends Model implements TranslatableContract, HasMedia
         $this->addMediaConversion('thumb')
             ->width(100)
             ->height(100);
+    }
+
+    public function customFields()
+    {
+        return $this->hasOne(ProductCustomField::class);
     }
 }
