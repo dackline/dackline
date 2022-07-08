@@ -16,4 +16,6 @@ return [
     "Options" => "Options",
     "Products" => "Products",
     "File Manager" => "File Manager",
+    "Customer" => "Customer",
+    "Customer Groups" => "Customer Groups",
 ];

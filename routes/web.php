@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\CurrencyController;
+use App\Http\Controllers\CustomerGroupController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FileManagerController;
 use App\Http\Controllers\GeoZoneController;
@@ -63,6 +64,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     ]);
     Route::resources([
         'products' => ProductController::class,
+    ]);
+    Route::resources([
+        'customer-groups' => CustomerGroupController::class,
     ]);
 
     Route::get('file-manager', [FileManagerController::class, 'index'])->name('file-manager');

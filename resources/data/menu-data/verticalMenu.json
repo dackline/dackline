@@ -7,6 +7,20 @@
             "slug": "home"
         },
         {
+            "name": "Customer",
+            "icon": "users",
+            "dropdown": "1",
+            "slug": "",
+            "submenu": [
+                {
+                    "url": "customer-groups",
+                    "name": "Customer Groups",
+                    "slug": "customer-groups",
+                    "icon": "circle"
+                }
+            ]
+        },
+        {
             "name": "Catalog",
             "icon": "shopping-bag",
             "dropdown": "1",
