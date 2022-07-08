@@ -1199,12 +1199,8 @@ $(document).ready(function() {
         linear: false
     })
 
-    numberedStepper.to(5)
-
     // setup datepicekr
     var basicPickr = $('.flatpickr-basic').flatpickr()
-
-
 });
 </script>
 
