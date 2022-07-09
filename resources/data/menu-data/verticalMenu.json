@@ -17,6 +17,12 @@
                     "name": "Customer Groups",
                     "slug": "customer-groups",
                     "icon": "circle"
+                },
+                {
+                    "url": "customers",
+                    "name": "Customers",
+                    "slug": "customers",
+                    "icon": "circle"
                 }
             ]
         },

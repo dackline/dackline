@@ -18,4 +18,5 @@ return [
     "File Manager" => "File Manager",
     "Customer" => "Customer",
     "Customer Groups" => "Customer Groups",
+    "Customers" => "Customers",
 ];
