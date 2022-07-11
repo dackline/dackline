@@ -1,21 +1,5 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CountryController;
-use App\Http\Controllers\CurrencyController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\CustomerGroupController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\FileManagerController;
-use App\Http\Controllers\GeoZoneController;
-use App\Http\Controllers\InformationController;
-use App\Http\Controllers\LanguageController;
-use App\Http\Controllers\ManufacturerController;
-use App\Http\Controllers\OptionController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\StoreController;
-use App\Http\Controllers\TaxController;
-use App\Http\Controllers\ZoneController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', [StaterkitController::class, 'home'])->name('home');
@@ -31,55 +15,6 @@ Route::get('/', function() {
     return 'Welcome to dackline';
 });
 
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::resources([
-        'currencies' => CurrencyController::class,
-    ]);
-    Route::resources([
-        'countries' => CountryController::class,
-    ]);
-    Route::resources([
-        'zones' => ZoneController::class,
-    ]);
-    Route::resources([
-        'geo-zones' => GeoZoneController::class,
-    ]);
-    Route::resources([
-        'taxes' => TaxController::class,
-    ]);
-    Route::resources([
-        'stores' => StoreController::class,
-    ]);
-    Route::resources([
-        'informations' => InformationController::class,
-    ]);
-    Route::resources([
-        'manufacturers' => ManufacturerController::class,
-    ]);
-    Route::resources([
-        'categories' => CategoryController::class,
-    ]);
-    Route::resources([
-        'options' => OptionController::class,
-    ]);
-    Route::resources([
-        'products' => ProductController::class,
-    ]);
-    Route::resources([
-        'customer-groups' => CustomerGroupController::class,
-    ]);
-    Route::resources([
-        'customers' => CustomerController::class,
-    ]);
+require __DIR__.'/admin/admin.php';
 
-    Route::get('file-manager', [FileManagerController::class, 'index'])->name('file-manager');
-
-    Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
-        \UniSharp\LaravelFilemanager\Lfm::routes();
-    });
-
-    Route::get('lang/{locale}', [LanguageController::class, 'swap']);
-});
-
-require __DIR__.'/auth.php';
+//require __DIR__.'/auth.php';

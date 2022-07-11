@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ZonesByCountryController;
+use App\Http\Controllers\Admin\ZonesByCountryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

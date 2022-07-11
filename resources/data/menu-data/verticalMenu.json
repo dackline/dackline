@@ -1,7 +1,7 @@
 {
     "menu": [
         {
-            "url": "dashboard",
+            "url": "/admin/dashboard",
             "name": "Home",
             "icon": "home",
             "slug": "home"
@@ -13,13 +13,13 @@
             "slug": "",
             "submenu": [
                 {
-                    "url": "customer-groups",
+                    "url": "/admin/customer-groups",
                     "name": "Customer Groups",
                     "slug": "customer-groups",
                     "icon": "circle"
                 },
                 {
-                    "url": "customers",
+                    "url": "/admin/customers",
                     "name": "Customers",
                     "slug": "customers",
                     "icon": "circle"
@@ -33,31 +33,31 @@
             "slug": "",
             "submenu": [
                 {
-                    "url": "informations",
+                    "url": "/admin/informations",
                     "name": "Informations",
                     "slug": "informations",
                     "icon": "circle"
                 },
                 {
-                    "url": "manufacturers",
+                    "url": "/admin/manufacturers",
                     "name": "Manufacturers",
                     "slug": "manufacturers",
                     "icon": "circle"
                 },
                 {
-                    "url": "categories",
+                    "url": "/admin/categories",
                     "name": "Categories",
                     "slug": "categories",
                     "icon": "circle"
                 },
                 {
-                    "url": "options",
+                    "url": "/admin/options",
                     "name": "Options",
                     "slug": "options",
                     "icon": "circle"
                 },
                 {
-                    "url": "products",
+                    "url": "/admin/products",
                     "name": "Products",
                     "slug": "products",
                     "icon": "circle"
@@ -71,43 +71,43 @@
             "slug": "",
             "submenu": [
                 {
-                    "url": "currencies",
+                    "url": "/admin/currencies",
                     "name": "Currencies",
                     "slug": "currencies",
                     "icon": "circle"
                 },
                 {
-                    "url": "countries",
+                    "url": "/admin/countries",
                     "name": "Countries",
                     "slug": "countries",
                     "icon": "circle"
                 },
                 {
-                    "url": "zones",
+                    "url": "/admin/zones",
                     "name": "Zones",
                     "slug": "zones",
                     "icon": "circle"
                 },
                 {
-                    "url": "geo-zones",
+                    "url": "/admin/geo-zones",
                     "name": "Geo Zones",
                     "slug": "geo-zones",
                     "icon": "circle"
                 },
                 {
-                    "url": "taxes",
+                    "url": "/admin/taxes",
                     "name": "Taxes",
                     "slug": "taxes",
                     "icon": "circle"
                 },
                 {
-                    "url": "stores",
+                    "url": "/admin/stores",
                     "name": "Stores",
                     "slug": "stores",
                     "icon": "circle"
                 },
                 {
-                    "url": "file-manager",
+                    "url": "/admin/file-manager",
                     "name": "File Manager",
                     "slug": "file-manager",
                     "icon": "circle"
