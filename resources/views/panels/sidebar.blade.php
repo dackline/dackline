@@ -40,19 +40,21 @@ $configData = Helper::applClasses();
               }
             @endphp
             @php
-            $submenuSlugs = [];
+            $submenuSlugs = [$menu->slug];
             $routeName = Route::currentRouteName();
+            $open = false;
             if(isset($menu->submenu)) {
                 $submenuSlugs = array_map(function($submenu) {
                     return $submenu->slug;
                 }, $menu->submenu);
-                if(str_contains($routeName, '.')) {
-                    $routeName = substr($routeName, 0, strpos($routeName, "."));
-                }
+                $filteredItems = array_filter($submenuSlugs, fn($item) => stripos($routeName,  $item) !== false);
+
+                if(count($filteredItems) > 0)
+                    $open = true;
             }
             @endphp
             <li
-              class="nav-item {{ $custom_classes }} {{ in_array($routeName, $submenuSlugs) ? 'open' : '' }}">
+              class="nav-item {{ $custom_classes }} {{ $open ? 'open' : ''  }}">
               <a href="{{ isset($menu->url) ? url($menu->url) : 'javascript:void(0)' }}" class="d-flex align-items-center"
                 target="{{ isset($menu->newTab) ? '_blank' : '_self' }}">
                 <i data-feather="{{ $menu->icon }}"></i>
