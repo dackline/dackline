@@ -11,7 +11,7 @@ class Customer extends Model
     use HasFactory;
 
     protected $fillable = [
-        'customer_group_id', 'country_id', 'first_name', 'last_name', 'email', 'email_invoice', 'phone', 'company_name', 'vat_nr'
+        'customer_group_id', 'country_id', 'first_name', 'last_name', 'email', 'email_invoice', 'phone', 'company_name', 'vat_nr', 'user_id'
     ];
 
     protected function fullName(): Attribute
@@ -34,5 +34,10 @@ class Customer extends Model
     public function addresses()
     {
         return $this->hasMany(CustomerAddress::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

@@ -28,11 +28,12 @@ class StoreCustomerRequest extends FormRequest
             'countryId' => ['required'],
             'firstName' => ['required'],
             'lastName' => ['required'],
-            'email' => ['required', 'email'],
+            'email' => ['required', 'email', 'unique:users', 'unique:customers', 'unique:users'],
             'emailInvoice' => ['nullable', 'email'],
             'phone' => ['required'],
             'companyName' => ['nullable'],
             'vatNr' => ['nullable'],
+            'password' => ['required'],
 
             // address
             'addresses' => ['nullable', 'array'],

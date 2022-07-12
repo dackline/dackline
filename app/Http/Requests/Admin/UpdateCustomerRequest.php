@@ -23,16 +23,24 @@ class UpdateCustomerRequest extends FormRequest
      */
     public function rules()
     {
+        $customer = $this->route('customer');
+
+        $emailRules = ['required', 'email', 'unique:customers,email,'. $customer->id];
+        if($customer->user) {
+            $emailRules[] = 'unique:users,email,'. $customer->user->id;
+        }
+
         return [
             'customerGroupId' => ['required'],
             'countryId' => ['required'],
             'firstName' => ['required'],
             'lastName' => ['required'],
-            'email' => ['required', 'email'],
+            'email' => $emailRules,
             'emailInvoice' => ['nullable', 'email'],
             'phone' => ['required'],
             'companyName' => ['nullable'],
             'vatNr' => ['nullable'],
+            'password' => ['nullable'],
 
             // address
             'addresses' => ['nullable', 'array'],
