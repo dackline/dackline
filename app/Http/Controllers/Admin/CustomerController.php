@@ -7,6 +7,8 @@ use App\Http\Requests\Admin\UpdateCustomerRequest;
 use App\Models\Country;
 use App\Models\Customer;
 use App\Models\CustomerGroup;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class CustomerController extends Controller
 {
@@ -55,8 +57,19 @@ class CustomerController extends Controller
     {
         $validated = $request->validated();
 
+        // create user
+        $user = User::create([
+            'name' => implode(' ', [$validated['firstName'], $validated['lastName']]),
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+        ]);
+
+        // assign customer role to user
+        $user->assignRole('customer');
+
         $data = [
             'customer_group_id' => $validated['customerGroupId'],
+            'user_id' => $user->id,
             'first_name' => $validated['firstName'],
             'last_name' => $validated['lastName'],
             'email' => $validated['email'],
@@ -151,6 +164,33 @@ class CustomerController extends Controller
     public function update(UpdateCustomerRequest $request, Customer $customer)
     {
         $validated = $request->validated();
+
+        // update user password
+        if($request->has('password') && !empty($validated['password']) && $customer->user) {
+            $customer->user()->update([
+                'password' => Hash::make($validated['password'])
+            ]);
+        }
+
+        // update email
+        if($request->has('email') && !empty($validated['email']) && $customer->user) {
+            $customer->user()->update([
+                'email' => $validated['email']
+            ]);
+        }
+
+        // check user created for this customer
+        if(!$customer->user) {
+            // create user
+            $user = User::create([
+                'name' => implode(' ', [$validated['firstName'], $validated['lastName']]),
+                'email' => $validated['email'],
+                'password' => Hash::make($validated['password']),
+            ]);
+
+            // assign customer role to user
+            $user->assignRole('customer');
+        }
 
         $data = [
             'customer_group_id' => $validated['customerGroupId'],

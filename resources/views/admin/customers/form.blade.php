@@ -133,6 +133,16 @@
                                     @enderror
                                 </div>
                                 <!-- End of Country -->
+
+                                <!-- Password -->
+                                <div class="col-12 tw-mb-4">
+                                    <label class="col-form-label" for="password">{{ __('Password') }}</label>
+                                    <input type="text" id="password" class="form-control @error('password') error @enderror" name="password" placeholder="{{ __('Password') }}" />
+                                    @error('password')
+                                    <span class="error">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <!-- End of Password -->
                             </div>
                         </div>
                     </div>
