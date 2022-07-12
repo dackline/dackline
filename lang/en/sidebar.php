@@ -21,4 +21,5 @@ return [
     "Customers" => "Customers",
     "Resources" => "Resources",
     "Payment Methods" => "Payment Methods",
+    "Shipping Methods" => "Shipping Methods",
 ];

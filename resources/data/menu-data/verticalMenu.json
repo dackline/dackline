@@ -125,6 +125,12 @@
                     "name": "Payment Methods",
                     "slug": "payment-methods",
                     "icon": "circle"
+                },
+                {
+                    "url": "/admin/shipping-methods",
+                    "name": "Shipping Methods",
+                    "slug": "shipping-methods",
+                    "icon": "circle"
                 }
             ]
         }
