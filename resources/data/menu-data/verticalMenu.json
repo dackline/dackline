@@ -113,6 +113,26 @@
                     "icon": "circle"
                 }
             ]
+        },
+        {
+            "name": "Resources",
+            "icon": "users",
+            "dropdown": "1",
+            "slug": "",
+            "submenu": [
+                {
+                    "url": "/admin/payment-methods",
+                    "name": "Payment Methods",
+                    "slug": "payment-methods",
+                    "icon": "circle"
+                },
+                {
+                    "url": "/admin/shipping-methods",
+                    "name": "Shipping Methods",
+                    "slug": "shipping-methods",
+                    "icon": "circle"
+                }
+            ]
         }
     ]
 }

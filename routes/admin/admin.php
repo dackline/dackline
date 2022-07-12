@@ -11,7 +11,9 @@ use App\Http\Controllers\Admin\InformationController;
 use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\ManufacturerController;
 use App\Http\Controllers\Admin\OptionController;
+use App\Http\Controllers\Admin\PaymentMethodController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ShippingMethodController;
 use App\Http\Controllers\Admin\StoreController;
 use App\Http\Controllers\Admin\TaxController;
 use App\Http\Controllers\Admin\ZoneController;
@@ -34,6 +36,8 @@ Route::group(['as' => 'admin::', 'prefix' => 'admin'], function() {
             'products' => ProductController::class,
             'customer-groups' => CustomerGroupController::class,
             'customers' => CustomerController::class,
+            'payment-methods' => PaymentMethodController::class,
+            'shipping-methods' => ShippingMethodController::class,
         ]);
 
         Route::get('file-manager', [FileManagerController::class, 'index'])->name('file-manager');
