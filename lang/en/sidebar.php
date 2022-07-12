@@ -19,4 +19,6 @@ return [
     "Customer" => "Customer",
     "Customer Groups" => "Customer Groups",
     "Customers" => "Customers",
+    "Resources" => "Resources",
+    "Payment Methods" => "Payment Methods",
 ];
