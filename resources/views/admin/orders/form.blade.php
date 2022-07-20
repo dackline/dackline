@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', false ? __('Edit Order') : __('Create Order'))
+@section('title', isset($order->id) ? __('Edit Order') : __('Create Order'))
 
 @section('page-style')
     {{-- Page Css files --}}
@@ -35,12 +35,14 @@
                     </div>
                     @include('admin.orders.form-components.products')
                     @include('admin.orders.form-components.totals')
-                    @include('admin.orders.form-components.history')
+                    @if(isset($order->id))
+                        @include('admin.orders.form-components.history')
+                    @endif
                 </div>
             </div>
 
             <button type="submit" class="btn btn-primary">
-                {{ false ? __('Save Order') : __('Create Order') }}
+                {{ isset($order->id) ? __('Save Order') : __('Create Order') }}
             </button>
         </form>
     </section>
@@ -67,25 +69,25 @@
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.store('storeOrderSidebar', {
-                shippingMethod: "{{ old('shippingMethodId') }}",
-                paymentMethod: "{{ old('paymentMethodId') }}",
-                assignee: "{{ old('assigneeId') }}",
-                orderStatus: "{{ old('orderStatusId') }}",
+                shippingMethod: "{{ old('shippingMethodId', $order->shipping_method_id) }}",
+                paymentMethod: "{{ old('paymentMethodId', $order->payment_method_id) }}",
+                assignee: "{{ old('assigneeId', $order->assignee_id) }}",
+                orderStatus: "{{ old('orderStatusId', $order->order_status_id) }}",
             })
 
             Alpine.store('storeCustomers', {
                 customers: [],
                 customerOption: null,
                 customer: {
-                    customerId: "{{ old('customerId') }}",
-                    firstName: "{{ old('customerFirstName') }}",
-                    lastName: "{{ old('customerLastName') }}",
-                    email: "{{ old('customerEmail') }}",
-                    emailInvoice: "{{ old('customerEmailInvoice') }}",
-                    phone: "{{ old('customerPhone') }}",
-                    companyName: "{{ old('customerCompanyName') }}",
-                    vatNr: "{{ old('customerVatNr') }}",
-                    addresses: "{{ old('customerAddresses') }}",
+                    customerId: "{{ old('customerId', $order->customer_id) }}",
+                    firstName: "{{ old('customerFirstName', $order->firstname) }}",
+                    lastName: "{{ old('customerLastName', $order->lastname) }}",
+                    email: "{{ old('customerEmail', $order->email) }}",
+                    emailInvoice: "{{ old('customerEmailInvoice', $order->email_invoice) }}",
+                    phone: "{{ old('customerPhone', $order->phone) }}",
+                    companyName: "{{ old('customerCompanyName', $order->company) }}",
+                    vatNr: "{{ old('customerVatNr', $order->vat_nr) }}",
+                    addresses: "{{ old('customerAddresses', optional($order->customer)->addresses) }}",
                 },
             })
 
@@ -93,15 +95,15 @@
                 addresses: [],
                 addressOption: null,
                 shipping: {
-                    firstName: "{{ old('shippingFirstName') }}",
-                    lastName: "{{ old('shippingLastName') }}",
-                    companyName: "{{ old('shippingCompanyName') }}",
-                    phone: "{{ old('shippingPhone') }}",
-                    countryId: "{{ old('shippingCountryId') }}",
-                    address1: "{{ old('shippingAddress1') }}",
-                    address2: "{{ old('shippingAddress2') }}",
-                    city: "{{ old('shippingCity') }}",
-                    zipcode: "{{ old('shippingZipcode') }}",
+                    firstName: "{{ old('shippingFirstName', $order->shipping_firstname) }}",
+                    lastName: "{{ old('shippingLastName', $order->shipping_lastname) }}",
+                    companyName: "{{ old('shippingCompanyName', $order->shipping_company) }}",
+                    phone: "{{ old('shippingPhone', $order->shipping_phone) }}",
+                    countryId: "{{ old('shippingCountryId', $order->shipping_country_id) }}",
+                    address1: "{{ old('shippingAddress1', $order->shipping_address_1) }}",
+                    address2: "{{ old('shippingAddress2', $order->shipping_address_2) }}",
+                    city: "{{ old('shippingCity', $order->shipping_city) }}",
+                    zipcode: "{{ old('shippingZipcode', $order->shipping_zipcode) }}",
                 },
             })
 
@@ -109,20 +111,20 @@
                 addresses: [],
                 addressOption: null,
                 payment: {
-                    firstName: "{{ old('paymentFirstName') }}",
-                    lastName: "{{ old('paymentLastName') }}",
-                    companyName: "{{ old('paymentCompanyName') }}",
-                    phone: "{{ old('paymentPhone') }}",
-                    countryId: "{{ old('paymentCountryId') }}",
-                    address1: "{{ old('paymentAddress1') }}",
-                    address2: "{{ old('paymentAddress2') }}",
-                    city: "{{ old('paymentCity') }}",
-                    zipcode: "{{ old('paymentZipcode') }}",
+                    firstName: "{{ old('paymentFirstName', $order->payment_firstname) }}",
+                    lastName: "{{ old('paymentLastName', $order->payment_lastname) }}",
+                    companyName: "{{ old('paymentCompanyName', $order->payment_company) }}",
+                    phone: "{{ old('paymentPhone', $order->payment_phone) }}",
+                    countryId: "{{ old('paymentCountryId', $order->payment_country_id) }}",
+                    address1: "{{ old('paymentAddress1', $order->payment_address_1) }}",
+                    address2: "{{ old('paymentAddress2', $order->payment_address_2) }}",
+                    city: "{{ old('paymentCity', $order->payment_city) }}",
+                    zipcode: "{{ old('paymentZipcode', $order->payment_zipcode) }}",
                 },
             })
 
             Alpine.store('storeProducts', {
-                items: [],
+                items: @json($products),
             })
         })
     </script>

@@ -21,6 +21,7 @@
                     <li class="tw-text-lg tw-mb-2 tw-flex tw-align-middle tw-items-center tw-justify-center">
                         <span class="">{{ __('Total') }} :</span>
                         <span class="tw-font-bold tw-ml-auto" x-text="grandTotal"></span>
+                        <input type="hidden" name="total" x-bind:value="grandTotal">
                     </li>
                 </ul>
             </div>
