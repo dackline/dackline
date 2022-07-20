@@ -11,6 +11,8 @@
     },
     "dependencies": {
         "bootstrap": "~5.1.0",
+        "loadash": "^1.0.0",
+        "sortablejs": "^1.15.0",
         "vue": "^3.2.36"
     },
     "devDependencies": {

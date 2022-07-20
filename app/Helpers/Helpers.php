@@ -81,10 +81,12 @@ class Helpers
             }
         }
 
+        $theme = session('theme', 'light');
+
         //layout classes
         $layoutClasses = [
-            'theme' => $data['theme'],
-            'layoutTheme' => $allOptions['theme'][$data['theme']],
+            'theme' => $theme,
+            'layoutTheme' => $allOptions['theme'][$theme],
             'sidebarCollapsed' => $data['sidebarCollapsed'],
             'showMenu' => $data['showMenu'],
             'layoutWidth' => $data['layoutWidth'],

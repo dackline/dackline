@@ -2,6 +2,7 @@
     "/js/core/app-menu.js": "/js/core/app-menu.js",
     "/js/core/app.js": "/js/core/app.js",
     "/js/core/scripts.js": "/js/core/scripts.js",
+    "/js/select2-component.js": "/js/select2-component.js",
     "/js/app.js": "/js/app.js",
     "/css/base/plugins/extensions/ext-component-media-player.css": "/css/base/plugins/extensions/ext-component-media-player.css",
     "/css/base/plugins/extensions/ext-component-drag-drop.css": "/css/base/plugins/extensions/ext-component-drag-drop.css",

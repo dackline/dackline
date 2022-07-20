@@ -71,6 +71,7 @@ mix
   .js('resources/js/core/app-menu.js', 'public/js/core')
   .js('resources/js/core/app.js', 'public/js/core')
   .js('resources/assets/js/scripts.js', 'public/js/core')
+  .js('resources/js/components/select2-component.js', 'public/js')
   .js('resources/js/app.js', 'public/js')
   .vue()
   .sass('resources/scss/base/themes/dark-layout.scss', 'public/css/base/themes', { sassOptions })

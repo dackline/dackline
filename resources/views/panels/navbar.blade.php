@@ -56,9 +56,13 @@
     </ul>
     <ul class="nav navbar-nav">
       <li class="nav-item d-none d-lg-block">
-        <a class="nav-link nav-link-style">
-          <i class="ficon" data-feather="{{ $configData['theme'] === 'dark' ? 'sun' : 'moon' }}"></i>
-        </a>
+          <form action="{{ route('admin::theme') }}" method="post">
+              {{ csrf_field() }}
+              <input type="hidden" name="theme" value="{{ $configData['theme'] }}">
+              <button type="submit" class="btn btn-link btn-sm tw-px-0 tw-py-1">
+                  <i class="ficon" data-feather="{{ $configData['theme'] === 'dark' ? 'sun' : 'moon' }}"></i>
+              </button>
+          </form>
       </li>
     </ul>
   </div>
