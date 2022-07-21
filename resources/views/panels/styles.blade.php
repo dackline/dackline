@@ -40,3 +40,4 @@
   <link rel="stylesheet" href="{{ asset(mix('css/style.css')) }}" />
 @endif
 <link rel="stylesheet" href="{{ asset(mix('css/tailwind.css')) }}" />
+@livewireStyles

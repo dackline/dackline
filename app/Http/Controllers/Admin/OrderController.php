@@ -112,11 +112,8 @@ class OrderController extends Controller
 
         // insert order products
         if($request->has('products') && count($request->input('products')) > 0) {
-            $products = [];
             foreach($request->input('products') as $product) {
-                $products[] = [
-                    'order_id' => $order->id,
-                    'product_id' => $product['productId'],
+                $order->products()->attach($product['productId'], [
                     'name' => $product['name'],
                     'article_nr' => null,
                     'quantity' => (int)$product['quantity'],
@@ -125,10 +122,8 @@ class OrderController extends Controller
                     'tax' => (float)$product['tax'],
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
-                ];
+                ]);
             }
-
-            $order->products()->insert($products);
         }
 
         return redirect(route('admin::orders.index'))->with('success', __('Order Created.'));

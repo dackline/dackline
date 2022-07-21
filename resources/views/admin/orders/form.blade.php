@@ -35,9 +35,6 @@
                     </div>
                     @include('admin.orders.form-components.products')
                     @include('admin.orders.form-components.totals')
-                    @if(isset($order->id))
-                        @include('admin.orders.form-components.history')
-                    @endif
                 </div>
             </div>
 
@@ -45,6 +42,12 @@
                 {{ isset($order->id) ? __('Save Order') : __('Create Order') }}
             </button>
         </form>
+        @if(isset($order->id))
+            <div class="mt-4">
+                <livewire:admin.orders.order-history :orderId="$order->id"/>
+            </div>
+
+        @endif
     </section>
 @endsection
 @section('vendor-script')
@@ -471,7 +474,9 @@
                     let discount = parseFloat(this.product.discount)
                     total = (price * quantity) - discount
                     let tax = 0
-                    if(this.product.product) {
+                    if(this.product.tax) {
+                        tax = parseFloat(this.product.tax)
+                    } else if(this.product.product) {
                         tax = this.product.product.tax ?
                             (
                                 this.product.product.tax.type == 'percentage'

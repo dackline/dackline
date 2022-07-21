@@ -54,4 +54,9 @@ class Order extends Model
     {
         return $this->belongsTo(Currency::class);
     }
+
+    public function histories()
+    {
+        return $this->hasMany(OrderHistory::class);
+    }
 }
