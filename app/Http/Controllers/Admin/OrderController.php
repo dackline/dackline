@@ -21,13 +21,11 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::orderBy('created_at', 'desc')->paginate(10);
-
         $breadcrumbs = [
             ['link' => route('admin::dashboard'), 'name' => "Dashboard"], ['name' => __('Orders')]
         ];
 
-        return view('admin.orders.list', compact('orders', 'breadcrumbs'));
+        return view('admin.orders.list', compact('breadcrumbs'));
     }
 
     public function create()
@@ -120,6 +118,8 @@ class OrderController extends Controller
                     'price' => (float)$product['price'],
                     'total' => (float)$product['total'],
                     'tax' => (float)$product['tax'],
+                    'discount' => (float)$product['discount'],
+                    'discount_percent' => (float)$product['discount_percent'],
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ]);
@@ -137,7 +137,7 @@ class OrderController extends Controller
         $orderStatuses = OrderStatus::with(['translations'])->get();
         $adminUsers = User::role('admin')->get();
 
-        $order->load('products', 'customer', 'paymentMethod', 'shippingMethod', 'orderStatus', 'assignee');
+        $order->load('products', 'products.tax', 'customer', 'paymentMethod', 'shippingMethod', 'orderStatus', 'assignee');
 
         $products = [];
         foreach($order->products as $product) {
@@ -149,8 +149,8 @@ class OrderController extends Controller
                 'price' => $product->pivot->price,
                 'total' => $product->pivot->total,
                 'tax' => $product->pivot->tax,
-                'discount' => 0,
-                'discountPercent' => 0,
+                'discount' => $product->pivot->discount,
+                'discountPercent' => $product->pivot->discount_percent,
                 'product' => $product,
             ];
         }
@@ -240,6 +240,8 @@ class OrderController extends Controller
                     'price' => (float)$product['price'],
                     'total' => (float)$product['total'],
                     'tax' => (float)$product['tax'],
+                    'discount' => (float)$product['discount'],
+                    'discount_percent' => (float)$product['discountPercent'],
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ]);
@@ -251,7 +253,13 @@ class OrderController extends Controller
 
     public function destroy(Order $order)
     {
-        $order->products()->delete();
+        // remove order histories
+        $order->histories()->delete();
+
+        // remove order products
+        $order->products()->detach();
+
+        // remove order
         $order->delete();
 
         return redirect()->back()->with('success', __('Order Deleted.'));

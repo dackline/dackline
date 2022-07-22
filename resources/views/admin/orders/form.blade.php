@@ -28,6 +28,90 @@
             <div class="row">
                 <div class="col-md-12">
                     @include('admin.orders.form-components.sidebar')
+                    @if(isset($order->id))
+                        <div class="row">
+                            <div class="col-sm-6 tw-flex tw-flex-col">
+                                <div class="card tw-flex-auto">
+                                    <div class="card-header">
+                                        <h4 class="card-title">{{ __('Order') }}</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="tw-list-none tw-p-0 tw-m-0">
+                                            <li class="tw-flex tw-items-center tw-mt-2">
+                                                <span class="tw-w-10 tw-h-10 tw-flex tw-justify-center tw-items-center tw-bg-red-100 tw-rounded">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6 tw-text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m7 20 4-16m2 16 4-16M6 9h14M4 15h14"/></svg>
+                                                </span>
+                                                <span class="tw-ml-2">{{ $order->id }}</span>
+                                            </li>
+                                            <li class="tw-flex tw-items-center tw-mt-2">
+                                                <span class="tw-w-10 tw-h-10 tw-flex tw-justify-center tw-items-center tw-bg-red-100 tw-rounded">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6 tw-text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2z"/></svg>
+                                                </span>
+                                                <span class="tw-ml-2">{{ $order->created_at->format('Y/m/d') }}</span>
+                                            </li>
+                                            <li class="tw-flex tw-items-center tw-mt-2">
+                                                <span class="tw-w-10 tw-h-10 tw-flex tw-justify-center tw-items-center tw-bg-red-100 tw-rounded">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6 tw-text-red-500"  fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 0 0 3-3V8a3 3 0 0 0-3-3H6a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3z"/></svg>
+                                                </span>
+                                                <span class="tw-ml-2">{{ $order->payment_method }}</span>
+                                            </li>
+                                            <li class="tw-flex tw-items-center tw-mt-2">
+                                                <span class="tw-w-10 tw-h-10 tw-flex tw-justify-center tw-items-center tw-bg-red-100 tw-rounded">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6 tw-text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 17a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm10 0a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M13 16V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h1m8-1a1 1 0 0 1-1 1H9m4-1V8a1 1 0 0 1 1-1h2.586a1 1 0 0 1 .707.293l3.414 3.414a1 1 0 0 1 .293.707V16a1 1 0 0 1-1 1h-1m-6-1a1 1 0 0 0 1 1h1M5 17a2 2 0 1 0 4 0m-4 0a2 2 0 1 1 4 0m6 0a2 2 0 1 0 4 0m-4 0a2 2 0 1 1 4 0"/></svg>
+                                                </span>
+                                                <span class="tw-ml-2">{{ $order->shipping_method }}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 tw-flex tw-flex-col">
+                                <div class="card tw-flex-auto">
+                                    <div class="card-header">
+                                        <h4 class="card-title">{{ __('Customer') }}</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <ul class="tw-list-none tw-p-0 tw-m-0">
+                                            <li class="tw-flex tw-items-center tw-mt-2">
+                                                <span class="tw-w-10 tw-h-10 tw-flex tw-justify-center tw-items-center tw-bg-red-100 tw-rounded">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6 tw-text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m7 20 4-16m2 16 4-16M6 9h14M4 15h14"/></svg>
+                                                </span>
+                                                <span class="tw-ml-2">{{ $order->customer_id }}</span>
+                                            </li>
+                                            <li class="tw-flex tw-items-center tw-mt-2">
+                                                <span class="tw-w-10 tw-h-10 tw-flex tw-justify-center tw-items-center tw-bg-red-100 tw-rounded">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6 tw-text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0zm-4 7a7 7 0 0 0-7 7h14a7 7 0 0 0-7-7z"/></svg>
+                                                </span>
+                                                <span class="tw-ml-2">{{ $order->firstname }} {{ $order->lastname }}</span>
+                                            </li>
+                                            @if($order->company)
+                                                <li class="tw-flex tw-items-center tw-mt-2">
+                                                    <span class="tw-w-10 tw-h-10 tw-flex tw-justify-center tw-items-center tw-bg-red-100 tw-rounded">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6 tw-text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m7 20 4-16m2 16 4-16M6 9h14M4 15h14"/></svg>
+                                                    </span>
+                                                    <span class="tw-ml-2">{{ $order->company }}</span>
+                                                </li>
+                                            @endif
+                                            @if($order->phone)
+                                                <li class="tw-flex tw-items-center tw-mt-2">
+                                                    <span class="tw-w-10 tw-h-10 tw-flex tw-justify-center tw-items-center tw-bg-red-100 tw-rounded">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6 tw-text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 0 1 2-2h3.28a1 1 0 0 1 .948.684l1.498 4.493a1 1 0 0 1-.502 1.21l-2.257 1.13a11.042 11.042 0 0 0 5.516 5.516l1.13-2.257a1 1 0 0 1 1.21-.502l4.493 1.498a1 1 0 0 1 .684.949V19a2 2 0 0 1-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                                                    </span>
+                                                    <span class="tw-ml-2">{{ $order->phone }}</span>
+                                                </li>
+                                            @endif
+                                            <li class="tw-flex tw-items-center tw-mt-2">
+                                                <span class="tw-w-10 tw-h-10 tw-flex tw-justify-center tw-items-center tw-bg-red-100 tw-rounded">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-6 tw-w-6 tw-text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m3 8 7.89 5.26a2 2 0 0 0 2.22 0L21 8M5 19h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z"/></svg>
+                                                </span>
+                                                <span class="tw-ml-2">{{ $order->email }}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                     <div class="accordion accordion-margin" id="accordionExample" data-toggle-hover="true">
                         @include('admin.orders.form-components.customer')
                         @include('admin.orders.form-components.shipping')
@@ -474,7 +558,7 @@
                     let discount = parseFloat(this.product.discount)
                     total = (price * quantity) - discount
                     let tax = 0
-                    if(this.product.tax) {
+                    if(parseFloat(this.product.tax)) {
                         tax = parseFloat(this.product.tax)
                     } else if(this.product.product) {
                         tax = this.product.product.tax ?

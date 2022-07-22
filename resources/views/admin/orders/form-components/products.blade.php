@@ -28,7 +28,10 @@
             </tr>
         </thead>
         <tbody x-ref="body">
-            <template x-for="(product, productIndex) in $store.storeProducts.items" x-bind:key="product.uniqueId">
+            <template
+                x-for="(product, productIndex) in $store.storeProducts.items"
+                x-bind:key="`${product.uniqueId}-${productIndex}`"
+            >
                 <tr x-data="productItemRow(product)">
                     <td>
                         <span class="drag-handle tw-cursor-pointer">
@@ -54,7 +57,8 @@
                         <input type="number" x-bind:name="`products[${productIndex}][discountPercent]`" class="form-control tw-text-right" placeholder="{{ __('%') }}" x-model="product.discountPercent">
                     </td>
                     <td>
-                        <input type="text" x-bind:name="`products[${productIndex}][discount]`" class="form-control tw-text-right" placeholder="{{ __('Discount') }}" x-model="product.discount" disabled>
+                        <input type="text" x-bind:name="`products[${productIndex}][discount]`" class="form-control tw-text-right" placeholder="{{ __('Discount') }}" x-bind:value="product.discount" disabled>
+                        <input type="hidden" x-bind:name="`products[${productIndex}][discount]`" x-bind:value="product.discount">
                     </td>
                     <td>
                         <input type="text"  class="form-control tw-text-right" placeholder="{{ __('Tax') }}"  x-bind:value="product.tax" disabled>
