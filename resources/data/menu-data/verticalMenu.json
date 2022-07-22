@@ -131,6 +131,12 @@
                     "name": "Shipping Methods",
                     "slug": "shipping-methods",
                     "icon": "circle"
+                },
+                {
+                    "url": "/admin/orders",
+                    "name": "Orders",
+                    "slug": "orders",
+                    "icon": "circle"
                 }
             ]
         }

@@ -18,4 +18,6 @@
 <!-- BEGIN: Page JS-->
 @yield('page-script')
 <!-- END: Page JS-->
+@stack('custom-scripts')
+@livewireScripts
 <script src="{{ asset(mix('js/app.js')) }}"></script>
