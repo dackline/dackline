@@ -39,6 +39,7 @@ class OrderController extends Controller
 
     public function create()
     {
+        $item = resolve($this->orderType);
         $order = new Order();
         $countries = Country::all();
         $shippingMethods = ShippingMethod::all();
@@ -49,7 +50,7 @@ class OrderController extends Controller
         $products = [];
         $isOrder = $this->orderType == OrderData::class ? true : false;
 
-        return view('admin.orders.form', compact('order', 'countries','shippingMethods', 'paymentMethods', 'orderStatuses', 'quotationStatuses', 'adminUsers', 'products', 'isOrder'));
+        return view('admin.orders.form', compact('order', 'item', 'countries','shippingMethods', 'paymentMethods', 'orderStatuses', 'quotationStatuses', 'adminUsers', 'products', 'isOrder'));
     }
 
     public function store(StoreOrderRequest $request)
