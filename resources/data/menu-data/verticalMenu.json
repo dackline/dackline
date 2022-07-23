@@ -137,6 +137,12 @@
                     "name": "Orders",
                     "slug": "orders",
                     "icon": "circle"
+                },
+                {
+                    "url": "/admin/quotations",
+                    "name": "Quotations",
+                    "slug": "quotations",
+                    "icon": "circle"
                 }
             ]
         }

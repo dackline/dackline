@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\OrderStatus;
+use App\Models\QuotationStatus;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class OrderStatusSeeder extends Seeder
+class QuotationStatusSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,7 +18,7 @@ class OrderStatusSeeder extends Seeder
         $locales = app('translatable.locales')->all();
 
         $statuses = [
-            'Canceled', 'Chargeback', 'Complete', 'Denied', 'Expired', 'Failed', 'Selected', 'Processed', 'Processing', 'Refunded', 'Reversed', 'Shipped', 'Voided',
+            'Draft', 'Sent', 'History', 'Interrupted',
         ];
 
         foreach($statuses as $status) {
@@ -27,7 +27,7 @@ class OrderStatusSeeder extends Seeder
                 $data[$locale]['name'] = $status;
             }
 
-            OrderStatus::create($data);
+            QuotationStatus::create($data);
         }
     }
 }

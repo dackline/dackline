@@ -8,24 +8,33 @@ use App\Http\Requests\Admin\UpdateOrderRequest;
 use App\Models\Country;
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\OrderData;
 use App\Models\OrderStatus;
 use App\Models\PaymentMethod;
 use App\Models\Product;
+use App\Models\QuotationData;
+use App\Models\QuotationStatus;
 use App\Models\ShippingMethod;
 use App\Models\Store;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Traits\Admin\DetermineOrderTypeTrait;
 
 class OrderController extends Controller
 {
+    use DetermineOrderTypeTrait;
+
     public function index()
     {
+        $orderType = $this->orderType;
+        $isOrder = $this->orderType == OrderData::class ? true : false;
+
         $breadcrumbs = [
-            ['link' => route('admin::dashboard'), 'name' => "Dashboard"], ['name' => __('Orders')]
+            ['link' => route('admin::dashboard'), 'name' => "Dashboard"], ['name' => $orderType == OrderData::class ? __('Orders') : __('Quotations')]
         ];
 
-        return view('admin.orders.list', compact('breadcrumbs'));
+        return view('admin.orders.list', compact('breadcrumbs', 'orderType', 'isOrder'));
     }
 
     public function create()
@@ -35,10 +44,12 @@ class OrderController extends Controller
         $shippingMethods = ShippingMethod::all();
         $paymentMethods = PaymentMethod::all();
         $orderStatuses = OrderStatus::with(['translations'])->get();
+        $quotationStatuses = QuotationStatus::with(['translations'])->get();
         $adminUsers = User::role('admin')->get();
         $products = [];
+        $isOrder = $this->orderType == OrderData::class ? true : false;
 
-        return view('admin.orders.form', compact('order', 'countries','shippingMethods', 'paymentMethods', 'orderStatuses', 'adminUsers', 'products'));
+        return view('admin.orders.form', compact('order', 'countries','shippingMethods', 'paymentMethods', 'orderStatuses', 'quotationStatuses', 'adminUsers', 'products', 'isOrder'));
     }
 
     public function store(StoreOrderRequest $request)
@@ -52,6 +63,17 @@ class OrderController extends Controller
         $paymentMethod = PaymentMethod::find($validated['paymentMethodId']);
         $shippingCountry = Country::find($validated['shippingCountryId']);
         $shippingMethod = ShippingMethod::find($validated['shippingMethodId']);
+
+        // orderdata or quotation data based on type
+        $params = [];
+        if($this->orderType == OrderData::class) {
+            $params['order_status_id'] = $validated['orderStatusId'];
+        } elseif ($this->orderType == QuotationData::class) {
+            $params['quotation_status_id'] = $validated['quotationStatusId'];
+        }
+
+        // create orderdata or quotation data based on type
+        $typeObj = app($this->orderType)->create($params);
 
         $data = [
             'store_id' => $store->id,
@@ -96,7 +118,6 @@ class OrderController extends Controller
 
             'comment' => $validated['comment'] ?? null,
             'total' => $validated['total'] ?? 0,
-            'order_status_id' => $validated['orderStatusId'],
             'assignee_id' => $validated['assigneeId'],
             'ip' => $request->ip(),
             'delivery_date' => $validated['deliveryDate'] ?? null,
@@ -106,7 +127,9 @@ class OrderController extends Controller
             'currency_value' => $store->currency->value,
         ];
 
-        $order = Order::create($data);
+        $typeObj->order()->create($data);
+
+        $order = $typeObj->order;
 
         // insert order products
         if($request->has('products') && count($request->input('products')) > 0) {
@@ -126,18 +149,35 @@ class OrderController extends Controller
             }
         }
 
-        return redirect(route('admin::orders.index'))->with('success', __('Order Created.'));
+        if($this->orderType == OrderData::class)
+            return redirect(route('admin::orders.index'))->with('success', __('Order Created.'));
+        else if($this->orderType == QuotationData::class)
+            return redirect(route('admin::quotations.index'))->with('success', __('Quotation Created.'));
     }
 
-    public function edit(Order $order)
+    public function edit($order)
     {
+        // resolve order based on type
+        $item = resolve($this->orderType)->with('order')->findOrFail($order);
+
+        $order = $item->order;
         $countries = Country::all();
         $shippingMethods = ShippingMethod::all();
         $paymentMethods = PaymentMethod::all();
         $orderStatuses = OrderStatus::with(['translations'])->get();
+        $quotationStatuses = QuotationStatus::with(['translations'])->get();
         $adminUsers = User::role('admin')->get();
+        $isOrder = $this->orderType == OrderData::class ? true : false;
 
-        $order->load('products', 'products.tax', 'customer', 'paymentMethod', 'shippingMethod', 'orderStatus', 'assignee');
+        $order->load('products', 'products.tax', 'customer', 'paymentMethod', 'shippingMethod', 'assignee');
+
+        if($this->isOrder()) {
+            $item->load('orderStatus');
+        }
+
+        if(!$this->isOrder()) {
+            $item->load('quotationStatus');
+        }
 
         $products = [];
         foreach($order->products as $product) {
@@ -156,15 +196,31 @@ class OrderController extends Controller
         }
 
         $breadcrumbs = [
-            ['link' => route('admin::orders.index'), 'name' => "Orders"], ['name' => "Edit"]
+            ['link' => $this->isOrder() ? route('admin::orders.index') : route('admin::quotations.index'), 'name' => $this->isOrder() ? __('Orders') : __('Quotations')], ['name' => __('Edit')]
         ];
 
-        return view('admin.orders.form', compact('order', 'breadcrumbs', 'countries', 'shippingMethods', 'paymentMethods', 'orderStatuses', 'adminUsers', 'products'));
+        return view('admin.orders.form', compact('item', 'order', 'breadcrumbs', 'countries', 'shippingMethods', 'paymentMethods', 'orderStatuses', 'quotationStatuses', 'adminUsers', 'products', 'isOrder'));
     }
 
-    public function update(UpdateOrderRequest $request, Order $order)
+    public function update(UpdateOrderRequest $request, $order)
     {
         $validated = $request->validated();
+
+        // resolve order based on type
+        $item = resolve($this->orderType)->with('order')->findOrFail($order);
+
+        // update orderdata or quotation data based on type
+        $params = [];
+        if($this->orderType == OrderData::class) {
+            $params['order_status_id'] = $validated['orderStatusId'];
+        } elseif ($this->orderType == QuotationData::class) {
+            $params['quotation_status_id'] = $validated['quotationStatusId'];
+        }
+
+        // create orderdata or quotation data based on type
+        $item->update($params);
+
+        $order = $item->order;
 
         // retrive default store
         $store = Store::where('default', 1)->with('currency')->first();
@@ -217,7 +273,6 @@ class OrderController extends Controller
 
             'comment' => $validated['comment'] ?? null,
             'total' => $validated['total'] ?? 0,
-            'order_status_id' => $validated['orderStatusId'],
             'assignee_id' => $validated['assigneeId'],
             'ip' => $request->ip(),
             'delivery_date' => $validated['deliveryDate'] ?? null,
@@ -248,20 +303,6 @@ class OrderController extends Controller
             }
         }
 
-        return redirect(route('admin::orders.index'))->with('success', __('Order updated.'));
-    }
-
-    public function destroy(Order $order)
-    {
-        // remove order histories
-        $order->histories()->delete();
-
-        // remove order products
-        $order->products()->detach();
-
-        // remove order
-        $order->delete();
-
-        return redirect()->back()->with('success', __('Order Deleted.'));
+        return redirect($this->isOrder() ? route('admin::orders.index') : route('admin::quotations.index'))->with('success', $this->isOrder() ? __('Order updated.') : __('Quotation updated.'));
     }
 }

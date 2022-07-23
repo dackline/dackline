@@ -17,7 +17,7 @@ class Order extends Model
         'payment_method', 'payment_method_id',
         'shipping_firstname', 'shipping_lastname', 'shipping_company', 'shipping_phone', 'shipping_address_1', 'shipping_address_2', 'shipping_city', 'shipping_zipcode', 'shipping_country', 'shipping_country_id',
         'shipping_method', 'shipping_method_id',
-        'comment', 'total', 'order_status_id', 'ip', 'delivery_date', 'assignee_id',
+        'comment', 'total', 'ip', 'delivery_date', 'assignee_id',
         'currency_id', 'currency_code', 'currency_value'
     ];
 
@@ -46,11 +46,6 @@ class Order extends Model
     public function shippingMethod()
     {
         return $this->belongsTo(ShippingMethod::class);
-    }
-
-    public function orderStatus()
-    {
-        return $this->belongsTo(OrderStatus::class);
     }
 
     public function assignee()

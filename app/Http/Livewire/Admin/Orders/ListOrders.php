@@ -3,7 +3,10 @@
 namespace App\Http\Livewire\Admin\Orders;
 
 use App\Models\Order;
+use App\Models\OrderData;
 use App\Models\OrderStatus;
+use App\Models\QuotationData;
+use App\Models\QuotationStatus;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -13,39 +16,66 @@ class ListOrders extends Component
 
     protected $paginationTheme = 'bootstrap';
 
+    public $orderType;
+
+    public function mount($orderType)
+    {
+        $this->orderType = $orderType;
+    }
+
     public function render()
     {
-        $orders = Order::orderBy('created_at', 'desc')->paginate(50);
-        $orderStatuses = OrderStatus::withTranslation()->get();
+        $items = app($this->orderType)->with('order')->orderBy('created_at', 'desc')->paginate(50);
+
+        $statuses = [];
+        if($this->orderType == OrderData::class)
+            $statuses = OrderStatus::withTranslation()->get();
+        else if($this->orderType == QuotationData::class)
+            $statuses = QuotationStatus::withTranslation()->get();
 
         return view('livewire.admin.orders.list-orders', [
-            'orders' => $orders,
-            'orderStatuses' => $orderStatuses,
+            'items' => $items,
+            'orderType' => $this->orderType,
+            'isOrder' => $this->orderType == OrderData::class,
+            'statuses' => $statuses,
         ]);
     }
 
     public function updateOrderStatus($value, $orderId)
     {
-        Order::where('id', $orderId)->update([
-            'order_status_id' => (int) $value,
-        ]);
+        $data = [];
+        if($this->isOrder()) {
+            $data['order_status_id'] = (int) $value;
+        } else {
+            $data['quotation_status_id'] = (int) $value;
+        }
 
-        session()->flash('message', __('Order status updated.'));
+        app($this->orderType)->where('id', $orderId)->update($data);
+
+        session()->flash('message', $this->isOrder() ? __('Order status updated.') : __('Quotation status updated.'));
     }
 
     public function deleteOrder($orderId)
     {
-        $order = Order::findOrFail($orderId);
+        // resovle item based on type
+        $item = app($this->orderType)->with('order')->findOrFail($orderId);
 
         // remove order histories
-        $order->histories()->delete();
+        $item->order->histories()->delete();
 
         // remove order products
-        $order->products()->detach();
+        $item->order->products()->detach();
 
         // remove order
-        $order->delete();
+        $item->order->delete();
 
-        session()->flash('message', __('Order deleted.'));
+        // remove item itself
+        $item->delete();
+
+        session()->flash('message', $this->isOrder() ? __('Order deleted.') : __('Quotation deleted.'));
+    }
+
+    private function isOrder() {
+        return $this->orderType == OrderData::class;
     }
 }

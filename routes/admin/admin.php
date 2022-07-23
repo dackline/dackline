@@ -43,6 +43,7 @@ Route::group(['as' => 'admin::', 'prefix' => 'admin'], function() {
             'payment-methods' => PaymentMethodController::class,
             'shipping-methods' => ShippingMethodController::class,
             'orders' => OrderController::class,
+            'quotations' => OrderController::class,
         ]);
 
         Route::get('file-manager', [FileManagerController::class, 'index'])->name('file-manager');

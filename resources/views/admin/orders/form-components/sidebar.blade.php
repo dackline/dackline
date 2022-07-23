@@ -51,6 +51,7 @@
                 <!-- End of Assignee -->
             </div>
 
+            @if($isOrder)
             <div class="col-sm-3">
                 <!-- Order Status -->
                 <div class="form-group tw-mb-2">
@@ -67,6 +68,26 @@
                 </div>
                 <!-- End of Order Status -->
             </div>
+            @endif
+
+            @if(!$isOrder)
+            <div class="col-sm-3">
+                <!-- Quotation Status -->
+                <div class="form-group tw-mb-2">
+                    <label for="select-order-status" class="col-form-label">{{ __('Quotation Status') }}</label>
+                    <select class="form-select @error('quotationStatusId') error @enderror" name="quotationStatusId" id="quotationStatusId"
+                        x-data='select2Component(`{{ __('Quotation Status') }}`)'
+                        x-ref="select"
+                        x-bind:data-options='`@json($quotationStatuses)`'
+                        x-model="$store.storeOrderSidebar.quotationStatus"
+                    ></select>
+                    @error('quotationStatusId')
+                        <span class="error">{{ $message }}</span>
+                    @enderror
+                </div>
+                <!-- End of Quotation Status -->
+            </div>
+            @endif
         </div>
     </div>
 </div>

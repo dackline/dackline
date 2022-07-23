@@ -2,10 +2,15 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Models\OrderData;
+use App\Models\QuotationData;
+use App\Traits\Admin\DetermineOrderTypeTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateOrderRequest extends FormRequest
 {
+    use DetermineOrderTypeTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -23,10 +28,9 @@ class UpdateOrderRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'shippingMethodId' => ['required', 'exists:shipping_methods,id'],
             'paymentMethodId' => ['required', 'exists:payment_methods,id'],
-            'orderStatusId' => ['required', 'exists:order_statuses,id'],
             'assigneeId' => ['nullable', 'exists:users,id'],
 
             'customerId' => ['required'],
@@ -60,9 +64,19 @@ class UpdateOrderRequest extends FormRequest
 
             'comment' => ['nullable'],
             'total' => ['nullable', 'numeric'],
-            'delivery_date' => ['nullable', 'date'],
+            'deliveryDate' => ['nullable', 'date'],
 
             'products' => ['nullable', 'array']
         ];
+
+        if($this->orderType == OrderData::class) {
+            $rules['orderStatusId'] =  ['required', 'exists:order_statuses,id'];
+        }
+
+        if($this->orderType == QuotationData::class) {
+            $rules['quotationStatusId'] =  ['required', 'exists:quotation_statuses,id'];
+        }
+
+        return $rules;
     }
 }
