@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', isset($order->id) ? __('Edit Order') : __('Create Order'))
+@section('title', $isOrder ? (isset($order->id) ? __('Edit Order') : __('Create Order')) : (isset($order->id) ? __('Edit Quotation') : __('Create Quotation')))
 
 @section('page-style')
     {{-- Page Css files --}}
@@ -19,7 +19,10 @@
     <!-- Basic Horizontal form layout section start -->
     <section>
         <form id="module-form" class="form form-horizontal" method="POST"
-                action="{{ isset($order->id) ? route('admin::orders.update', $order->id) : route('admin::orders.store') }}"
+                action="{{ $isOrder
+                    ? (isset($item->id) ? route('admin::orders.update', $item->id) : route('admin::orders.store'))
+                    : (isset($item->id) ? route('admin::quotations.update', $item->id) : route('admin::quotations.store'))
+                }}"
                 x-data="moduleData()" x-init="moduleInit()" x-on:submit="submit()" novalidate>
             @csrf
             @if(isset($order->id))
@@ -123,7 +126,11 @@
             </div>
 
             <button type="submit" class="btn btn-primary">
+                @if($isOrder)
                 {{ isset($order->id) ? __('Save Order') : __('Create Order') }}
+                @else
+                {{ isset($order->id) ? __('Save Quotation') : __('Create Quotation') }}
+                @endif
             </button>
         </form>
         @if(isset($order->id))
@@ -159,7 +166,8 @@
                 shippingMethod: "{{ old('shippingMethodId', $order->shipping_method_id) }}",
                 paymentMethod: "{{ old('paymentMethodId', $order->payment_method_id) }}",
                 assignee: "{{ old('assigneeId', $order->assignee_id) }}",
-                orderStatus: "{{ old('orderStatusId', $order->order_status_id) }}",
+                @if($isOrder) orderStatus: "{{ old('orderStatusId', $item->order_status_id) }}", @endif
+                @if(!$isOrder) quotationStatus: "{{ old('quotationStatusId', $item->quotation_status_id) }}", @endif
             })
 
             Alpine.store('storeCustomers', {
