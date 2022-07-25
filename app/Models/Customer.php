@@ -14,7 +14,7 @@ class Customer extends Model
         'customer_group_id', 'country_id', 'first_name', 'last_name', 'email', 'email_invoice', 'phone', 'company_name', 'vat_nr', 'user_id'
     ];
 
-    protected $appends = ['full_name'];
+    protected $appends = ['full_name', 'full_name_with_company'];
 
     protected function fullName(): Attribute
     {
