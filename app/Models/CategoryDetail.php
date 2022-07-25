@@ -10,7 +10,7 @@ class CategoryDetail extends Model
     use HasFactory;
 
     protected $fillable = [
-        'category_id', 'locale', 'name', 'title_tag', 'alt_tag', 'description', 'meta_title', 'meta_description'
+        'category_id', 'locale', 'name', 'url', 'title_tag', 'alt_tag', 'description', 'meta_title', 'meta_description'
     ];
 
     public function category()

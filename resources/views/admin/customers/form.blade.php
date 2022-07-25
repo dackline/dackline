@@ -402,9 +402,6 @@ $(document).ready(function() {
             'emailInvoice': {
                 email: true,
             },
-            'vatNr': {
-                required: true
-            },
             'countryId': {
                 required: true
             },

@@ -21,7 +21,7 @@ use App\Http\Controllers\Admin\ThemeController;
 use App\Http\Controllers\Admin\ZoneController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['as' => 'admin::', 'prefix' => 'admin'], function() {
+Route::group(['as' => 'admin::', 'prefix' => 'admin', 'middleware' => ['role:admin']], function() {
     Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');

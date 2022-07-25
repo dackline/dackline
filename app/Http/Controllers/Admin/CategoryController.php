@@ -16,7 +16,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::paginate(10);
+        $categories = Category::withTranslation()->paginate(10);
 
         $breadcrumbs = [
             ['link' => route('admin::dashboard'), 'name' => "Dashboard"], ['name' => "Categories"]
@@ -66,6 +66,7 @@ class CategoryController extends Controller
 
         foreach($locales as $locale) {
             $data[$locale]['name'] = $validated[$locale]['name'];
+            $data[$locale]['url'] = $validated[$locale]['url'];
             $data[$locale]['description'] = $validated[$locale]['description'];
             $data[$locale]['meta_title'] = $validated[$locale]['metaTitle'];
             $data[$locale]['meta_description'] = $validated[$locale]['metaDescription'];
@@ -137,6 +138,7 @@ class CategoryController extends Controller
 
         foreach($locales as $locale) {
             $data[$locale]['name'] = $validated[$locale]['name'];
+            $data[$locale]['url'] = $validated[$locale]['url'];
             $data[$locale]['description'] = $validated[$locale]['description'];
             $data[$locale]['meta_title'] = $validated[$locale]['metaTitle'];
             $data[$locale]['meta_description'] = $validated[$locale]['metaDescription'];

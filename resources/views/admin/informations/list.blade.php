@@ -25,7 +25,9 @@
                 <table class="table">
                     <thead>
                         <tr>
+                            <th>{{ __("ID") }}</th>
                             <th>{{ __("Title") }}</th>
+                            <th>{{ __("URL") }}</th>
                             <th>{{ __('Sort Order') }}</th>
                             <th>{{ __('Actions') }}</th>
                         </tr>
@@ -34,8 +36,12 @@
                         @foreach($informations as $information)
                         <tr>
                             <td>
+                                <span class="fw-bold">{{ $information->id }}</span>
+                            </td>
+                            <td>
                                 <span class="fw-bold">{{ $information->translate(app()->getLocale())->title }}</span>
                             </td>
+                            <td>{{ $information->url }}</td>
                             <td>{{ $information->sort_order }}</td>
                             <td>
                                 <a href="{{ route('admin::informations.edit', $information->id) }}" class="btn btn-sm btn-icon btn-outline-secondary waves-effect">

@@ -31,6 +31,7 @@
                     <thead>
                         <tr>
                             <th>{{ __("Name") }}</th>
+                            <th>{{ __("URL") }}</th>
                             <th>{{ __('Sort Order') }}</th>
                             <th>{{ __('Actions') }}</th>
                         </tr>
@@ -41,6 +42,7 @@
                             <td>
                                 <span class="fw-bold">{{ $category->translate(app()->getLocale())->name }}</span>
                             </td>
+                            <td>{{ $category->url }}</td>
                             <td>{{ $category->sort_order }}</td>
                             <td>
                                 <a href="{{ route('admin::categories.edit', $category->id) }}" class="btn btn-sm btn-icon btn-outline-secondary waves-effect">

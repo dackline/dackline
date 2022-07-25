@@ -22,6 +22,7 @@ return [
     "Resources" => "Resources",
     "Payment Methods" => "Payment Methods",
     "Shipping Methods" => "Shipping Methods",
+    "Sales" => "Sales",
     "Orders" => "Orders",
     "Quotations" => "Quotations",
 ];

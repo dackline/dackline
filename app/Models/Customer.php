@@ -23,6 +23,13 @@ class Customer extends Model
         );
     }
 
+    protected function fullNameWithCompany(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value, $attributes) => $attributes['company_name'] ? implode(' ', [ucfirst($attributes['first_name']), ucfirst($attributes['last_name'])]) . ' ('. $attributes['company_name'] .')': implode(' ', [ucfirst($attributes['first_name']), ucfirst($attributes['last_name'])]),
+        );
+    }
+
     public function customerGroup()
     {
         return $this->belongsTo(CustomerGroup::class);

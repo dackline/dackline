@@ -25,16 +25,26 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>{{ __("Title") }}</th>
+                            <th>{{ __("ID") }}</th>
+                            <th>{{ __("Name") }}</th>
+                            <th>{{ __("Email") }}</th>
+                            <th>{{ __("Phone") }}</th>
+                            <th>{{ __("Country") }}</th>
+                            <th>{{ __("Created At") }}</th>
                             <th>{{ __('Actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($customers as $customer)
                         <tr>
+                            <td>{{ $customer->id }}</td>
                             <td>
-                                <span class="fw-bold">{{ $customer->full_name }}</span>
+                                <span class="fw-bold">{{ $customer->full_name_with_company }}</span>
                             </td>
+                            <td>{{ $customer->email }}</td>
+                            <td>{{ $customer->phone }}</td>
+                            <td>{{ $customer->country->name }}</td>
+                            <td>{{ $customer->created_at->format('Y-m-d') }}</td>
                             <td>
                                 <a href="{{ route('admin::customers.edit', $customer->id) }}" class="btn btn-sm btn-icon btn-outline-secondary waves-effect">
                                     <i data-feather="edit-2"></i>

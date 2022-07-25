@@ -26,6 +26,7 @@ class StoreCategoryRequest extends FormRequest
     {
         $rules = RuleFactory::make([
             '%name%' => ['required'],
+            '%url%' => ['nullable'],
             '%description%' => ['nullable'],
             '%metaTitle%' => ['required'],
             '%metaDescription%' => ['nullable'],

@@ -25,7 +25,9 @@
                 <table class="table">
                     <thead>
                         <tr>
+                            <th>{{ __("ID") }}</th>
                             <th>{{ __("Title") }}</th>
+                            <th>{{ __("URL") }}</th>
                             <th>{{ __('Sort Order') }}</th>
                             <th>{{ __('Actions') }}</th>
                         </tr>
@@ -34,7 +36,13 @@
                         @foreach($manufacturers as $manufacturer)
                         <tr>
                             <td>
+                                <span class="fw-bold">{{ $manufacturer->id }}</span>
+                            </td>
+                            <td>
                                 <span class="fw-bold">{{ $manufacturer->name }}</span>
+                            </td>
+                            <td>
+                                <span class="fw-bold">{{ $manufacturer->url }}</span>
                             </td>
                             <td>{{ $manufacturer->sort_order }}</td>
                             <td>

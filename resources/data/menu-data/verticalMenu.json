@@ -116,7 +116,7 @@
         },
         {
             "name": "Resources",
-            "icon": "users",
+            "icon": "package",
             "dropdown": "1",
             "slug": "",
             "submenu": [
@@ -131,7 +131,15 @@
                     "name": "Shipping Methods",
                     "slug": "shipping-methods",
                     "icon": "circle"
-                },
+                }
+            ]
+        },
+        {
+            "name": "Sales",
+            "icon": "shopping-cart",
+            "dropdown": "1",
+            "slug": "",
+            "submenu": [
                 {
                     "url": "/admin/orders",
                     "name": "Orders",
