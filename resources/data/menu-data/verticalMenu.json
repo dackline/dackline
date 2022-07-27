@@ -107,6 +107,12 @@
                     "icon": "circle"
                 },
                 {
+                    "url": "/admin/users",
+                    "name": "Users",
+                    "slug": "users",
+                    "icon": "circle"
+                },
+                {
                     "url": "/admin/file-manager",
                     "name": "File Manager",
                     "slug": "file-manager",

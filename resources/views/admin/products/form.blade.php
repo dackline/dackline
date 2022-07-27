@@ -1404,7 +1404,7 @@ function moduleData(){
             defaultImage: "{{ url('/no-image.png') }}",
             image: image,
             fileManager: {
-                routePrefix: "route('admin::unisharp.lfm.show') }}",
+                routePrefix: "{{ route('admin::unisharp.lfm.show') }}",
                 type: 'image',
             },
             get imageSrc() {

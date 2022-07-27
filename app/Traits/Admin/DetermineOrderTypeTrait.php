@@ -14,7 +14,7 @@ trait DetermineOrderTypeTrait
     }
 
     private function getType() {
-        $name = \Request::route()->getName();
+        $name = optional(request()->route())->getName();
         return \Illuminate\Support\Str::contains($name, 'quotations') ? QuotationData::class : OrderData::class;
     }
 

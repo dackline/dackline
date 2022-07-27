@@ -15,6 +15,7 @@ return [
     "Categories" => "Categories",
     "Options" => "Options",
     "Products" => "Products",
+    "Users" => "Users",
     "File Manager" => "File Manager",
     "Customer" => "Customer",
     "Customer Groups" => "Customer Groups",
