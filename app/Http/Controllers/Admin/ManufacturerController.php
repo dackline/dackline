@@ -16,7 +16,7 @@ class ManufacturerController extends Controller
      */
     public function index()
     {
-        $manufacturers = Manufacturer::paginate(10);
+        $manufacturers = Manufacturer::withTranslation()->paginate(10);
 
         $breadcrumbs = [
             ['link' => route('admin::dashboard'), 'name' => "Dashboard"], ['name' => "Manufacturers"]

@@ -21,13 +21,13 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::paginate(10);
+        // $products = Product::paginate(10);
 
         $breadcrumbs = [
             ['link' => route('admin::dashboard'), 'name' => "Dashboard"], ['name' => "Products"]
         ];
 
-        return view('admin.products.list', compact('products', 'breadcrumbs'));
+        return view('admin.products.list', compact('breadcrumbs'));
     }
 
     /**

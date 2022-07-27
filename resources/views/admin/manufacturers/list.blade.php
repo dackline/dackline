@@ -25,7 +25,9 @@
                 <table class="table">
                     <thead>
                         <tr>
+                            <th>{{ __("ID") }}</th>
                             <th>{{ __("Title") }}</th>
+                            <th>{{ __("URL") }}</th>
                             <th>{{ __('Sort Order') }}</th>
                             <th>{{ __('Actions') }}</th>
                         </tr>
@@ -34,14 +36,20 @@
                         @foreach($manufacturers as $manufacturer)
                         <tr>
                             <td>
+                                <span class="fw-bold">{{ $manufacturer->id }}</span>
+                            </td>
+                            <td>
                                 <span class="fw-bold">{{ $manufacturer->name }}</span>
+                            </td>
+                            <td>
+                                <span class="fw-bold">{{ $manufacturer->url }}</span>
                             </td>
                             <td>{{ $manufacturer->sort_order }}</td>
                             <td>
                                 <a href="{{ route('admin::manufacturers.edit', $manufacturer->id) }}" class="btn btn-sm btn-icon btn-outline-secondary waves-effect">
                                     <i data-feather="edit-2"></i>
                                 </a>
-                                <form method="POST" action="route('admin::manufacturers.destroy', $manufacturer->id) }}" onsubmit="return confirm('{{ __('Are you sure to delete?') }}');" class="tw-inline-block">
+                                <form method="POST" action="{{ route('admin::manufacturers.destroy', $manufacturer->id) }}" onsubmit="return confirm('{{ __('Are you sure to delete?') }}');" class="tw-inline-block">
                                     {{ csrf_field() }}
                                     {{ method_field('DELETE') }}
                                     <button class="btn btn-sm btn-icon btn-outline-danger waves-effect">

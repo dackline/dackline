@@ -25,7 +25,9 @@
                 <table class="table">
                     <thead>
                         <tr>
+                            <th>{{ __("ID") }}</th>
                             <th>{{ __("Title") }}</th>
+                            <th>{{ __("URL") }}</th>
                             <th>{{ __('Sort Order') }}</th>
                             <th>{{ __('Actions') }}</th>
                         </tr>
@@ -34,17 +36,21 @@
                         @foreach($informations as $information)
                         <tr>
                             <td>
+                                <span class="fw-bold">{{ $information->id }}</span>
+                            </td>
+                            <td>
                                 <span class="fw-bold">{{ $information->translate(app()->getLocale())->title }}</span>
                             </td>
+                            <td>{{ $information->url }}</td>
                             <td>{{ $information->sort_order }}</td>
-                            <td>
+                            <td class="tw-flex tw-items-center">
                                 <a href="{{ route('admin::informations.edit', $information->id) }}" class="btn btn-sm btn-icon btn-outline-secondary waves-effect">
                                     <i data-feather="edit-2"></i>
                                 </a>
                                 <form method="POST" action="route('admin::informations.destroy', $information->id) }}" onsubmit="return confirm('{{ __('Are you sure to delete?') }}');" class="tw-inline-block">
                                     {{ csrf_field() }}
                                     {{ method_field('DELETE') }}
-                                    <button class="btn btn-sm btn-icon btn-outline-danger waves-effect">
+                                    <button class="btn btn-sm btn-icon btn-outline-danger waves-effect tw-ml-2">
                                         <i data-feather="trash-2"></i>
                                     </button>
                                 </form>

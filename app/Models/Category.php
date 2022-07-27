@@ -15,7 +15,7 @@ class Category extends Model implements TranslatableContract
     public $translationModel = CategoryDetail::class;
 
     public $translatedAttributes = [
-        'name', 'title_tag', 'alt_tag', 'description', 'meta_title', 'meta_description',
+        'name', 'title_tag', 'alt_tag', 'description', 'meta_title', 'meta_description', 'url'
     ];
 
     protected $fillable = [

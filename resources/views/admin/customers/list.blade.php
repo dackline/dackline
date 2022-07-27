@@ -21,39 +21,10 @@
             <div class="card-header">
                 <h4 class="card-title">{{ __('Customers') }}</h4>
             </div>
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>{{ __("Title") }}</th>
-                            <th>{{ __('Actions') }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($customers as $customer)
-                        <tr>
-                            <td>
-                                <span class="fw-bold">{{ $customer->full_name }}</span>
-                            </td>
-                            <td>
-                                <a href="{{ route('admin::customers.edit', $customer->id) }}" class="btn btn-sm btn-icon btn-outline-secondary waves-effect">
-                                    <i data-feather="edit-2"></i>
-                                </a>
-                                <form method="POST" action="route('admin::customers.destroy', $customer->id) }}" onsubmit="return confirm('{{ __('Are you sure to delete?') }}');" class="tw-inline-block">
-                                    {{ csrf_field() }}
-                                    {{ method_field('DELETE') }}
-                                    <button class="btn btn-sm btn-icon btn-outline-danger waves-effect">
-                                        <i data-feather="trash-2"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            <div class="card-body">
+                <livewire:admin.customers.customer-table />
             </div>
         </div>
-        {{ $customers->links('vendor.pagination.bootstrap-5') }}
     </div>
 </div>
 @endsection

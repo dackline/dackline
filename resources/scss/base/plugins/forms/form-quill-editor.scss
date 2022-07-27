@@ -1,6 +1,10 @@
 @import '../../bootstrap-extended/include'; // Bootstrap includes
 @import '../../components/include'; // Components includes
 
+.ql-editor{
+    min-height: 200px;
+}
+
 /* Set dropdown font-families */
 .ql-toolbar .ql-font span[data-label='Sailec Light']::before {
   font-family: 'Sailec Light';

@@ -16,7 +16,7 @@ class InformationController extends Controller
      */
     public function index()
     {
-        $informations = Information::paginate(10);
+        $informations = Information::withTranslation()->paginate(10);
 
         $breadcrumbs = [
             ['link' => route('admin::dashboard'), 'name' => "Dashboard"], ['name' => "Informations"]

@@ -51,6 +51,16 @@
                                                 </div>
                                                 <!-- End of Name -->
 
+                                                <!-- URL -->
+                                                <div class="col-12 tw-mb-4"">
+                                                    <label class="col-form-label" for="{{ $locale }}[url]">{{ __('URL') }} ({{ strtoupper($locale) }})</label>
+                                                    <input type="text" id="{{ $locale }}[url]" name="{{ $locale }}[url]" class="form-control @error($locale. '.url') error @enderror" placeholder="{{ __('URL') }}" value="{{ old($locale. '.url', optional($category->translate($locale))->url) }}"/>
+                                                    @error($locale. '.url')
+                                                        <span class="error">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                                <!-- End of URL -->
+
                                                 <!-- Description -->
                                                 <div class="col-12 tw-mb-4"">
                                                     <label class="col-form-label" for="{{ $locale }}[description]">{{ __('Description') }} ({{ strtoupper($locale) }})</label>

@@ -19,7 +19,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::paginate(10);
+        $customers = Customer::with('country')->paginate(10);
 
         $breadcrumbs = [
             ['link' => route('admin::dashboard'), 'name' => "Dashboard"], ['name' => "Customers"]

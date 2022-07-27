@@ -57,7 +57,7 @@ mixAssetsDir('js/scripts/**/*.js', (src, dest) => mix.scripts(src, dest))
  | Application assets
  |--------------------------------------------------------------------------
  */
-
+mix.copyDirectory('node_modules/tinymce', 'public/vendors/js/editors/tinymce')
 mixAssetsDir('vendors/js/**/*.js', (src, dest) => mix.scripts(src, dest))
 mixAssetsDir('vendors/css/**/*.css', (src, dest) => mix.copy(src, dest))
 mixAssetsDir('vendors/**/**/images', (src, dest) => mix.copy(src, dest))

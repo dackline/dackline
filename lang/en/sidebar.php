@@ -15,6 +15,7 @@ return [
     "Categories" => "Categories",
     "Options" => "Options",
     "Products" => "Products",
+    "Users" => "Users",
     "File Manager" => "File Manager",
     "Customer" => "Customer",
     "Customer Groups" => "Customer Groups",
@@ -22,6 +23,7 @@ return [
     "Resources" => "Resources",
     "Payment Methods" => "Payment Methods",
     "Shipping Methods" => "Shipping Methods",
+    "Sales" => "Sales",
     "Orders" => "Orders",
     "Quotations" => "Quotations",
 ];

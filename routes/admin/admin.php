@@ -19,13 +19,19 @@ use App\Http\Controllers\Admin\StoreController;
 use App\Http\Controllers\Admin\TaxController;
 use App\Http\Controllers\Admin\ThemeController;
 use App\Http\Controllers\Admin\ZoneController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['as' => 'admin::', 'prefix' => 'admin'], function() {
-    Route::middleware(['auth:sanctum'])->group(function () {
+    Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::post('theme', [ThemeController::class, 'store'])->name('theme');
+
+        Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+            \UniSharp\LaravelFilemanager\Lfm::routes();
+        });
+
         Route::resources([
             'currencies' => CurrencyController::class,
             'countries' => CountryController::class,
@@ -44,6 +50,7 @@ Route::group(['as' => 'admin::', 'prefix' => 'admin'], function() {
             'shipping-methods' => ShippingMethodController::class,
             'orders' => OrderController::class,
             'quotations' => OrderController::class,
+            'users' => UserController::class,
         ]);
 
         Route::get('file-manager', [FileManagerController::class, 'index'])->name('file-manager');
