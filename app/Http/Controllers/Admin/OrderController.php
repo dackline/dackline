@@ -143,7 +143,7 @@ class OrderController extends Controller
                     'total' => (float)$product['total'],
                     'tax' => (float)$product['tax'],
                     'discount' => (float)$product['discount'],
-                    'discount_percent' => (float)$product['discount_percent'],
+                    'discount_percent' => (float)$product['discountPercent'],
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ]);
