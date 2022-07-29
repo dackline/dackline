@@ -3,8 +3,11 @@
 namespace App\Http\Livewire\Admin\Orders;
 
 use App\Models\Order;
+use App\Models\OrderData;
 use App\Models\OrderStatus;
 use App\Models\OrderHistory as OrderHistoryModel;
+use Exception;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class OrderHistory extends Component
@@ -62,6 +65,14 @@ class OrderHistory extends Component
     public function store()
     {
         $this->validate();
+
+        $order = Order::findOrFail($this->orderId);
+
+        // Check update is only for order data not quotation data
+        if($order->orderable_type != OrderData::class) {
+            throw ValidationException::withMessages(['order_id' => [__('History entries can only be created only for orders.')]]);
+        }
+
         $data = [
             'order_id' => $this->orderId,
             'type' => $this->type,
