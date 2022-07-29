@@ -32,7 +32,12 @@ trait CalculateOrderTotalsTrait
 
             $taxType = $product->tax->type;
             $taxRate = $product->tax->tax_rate;
+
+            $discountPercent = (float)$product->pivot->discount_percent;
             $total = (int)$product->pivot->quantity * (float)$product->pivot->price;
+            $discount = $carry + ($total * ($discountPercent / 100));
+            $total -= $discount;
+
             $total = $taxType == 'percentage'
                         ? $total * ($taxRate) / 100
                         : $taxRate;

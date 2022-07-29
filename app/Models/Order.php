@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Traits\Admin\CalculateOrderTotalsTrait;
+use Bkwld\Cloner\Cloneable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    use HasFactory, CalculateOrderTotalsTrait;
+    use HasFactory, CalculateOrderTotalsTrait, Cloneable;
 
     protected $fillable = [
         'store_id', 'store_name', 'store_url',
@@ -22,6 +23,8 @@ class Order extends Model
         'currency_id', 'currency_code', 'currency_value'
     ];
 
+    protected $cloneable_relations = ['products', 'orderTotals'];
+
     protected function fullNameWithCompany(): Attribute
     {
         return Attribute::make(
@@ -31,7 +34,7 @@ class Order extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'order_products')->withPivot(['name', 'article_nr', 'quantity', 'price', 'total', 'tax', 'discount', 'discount_percent']);
+        return $this->belongsToMany(Product::class, 'order_products')->withPivot(['name', 'article_nr', 'quantity', 'price', 'total', 'tax', 'discount', 'discount_percent'])->withTimestamps();
     }
 
     public function customer()

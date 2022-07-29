@@ -8,6 +8,7 @@ use App\Models\OrderStatus;
 use App\Models\QuotationData;
 use App\Models\QuotationStatus;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -93,6 +94,23 @@ class ListOrders extends Component
             fn () => print($pdfContent),
             $this->isOrder() ? "order-$orderId.pdf" : "quotation-$orderId.pdf"
         );
+    }
+
+    public function generateOrder($quotationId)
+    {
+        $quotationData = QuotationData::findOrFail($quotationId);
+        $newOrder = $quotationData->order->duplicate();
+
+        $orderData = OrderData::create([
+            'order_status_id' => OrderStatus::whereTranslation('name', 'Processing')->first()->id,
+        ]);
+        $orderData->order()->save($newOrder);
+
+        // Update quotation statsus
+        $quotationData->quotation_status_id = QuotationStatus::whereTranslation('name', 'History')->first()->id;
+        $quotationData->save();
+
+        return redirect()->to(route('admin::orders.edit', $orderData));
     }
 
     private function isOrder() {

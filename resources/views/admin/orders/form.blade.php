@@ -133,11 +133,10 @@
                 @endif
             </button>
         </form>
-        @if(isset($order->id))
+        @if(isset($order->id) && $isOrder)
             <div class="mt-4">
                 <livewire:admin.orders.order-history :orderId="$order->id"/>
             </div>
-
         @endif
     </section>
 @endsection
@@ -235,7 +234,7 @@
                     let decimals = 2
                     let products = this.$store.storeProducts.items
 
-                    let total = products.reduce((total, _) => parseFloat(total) + parseFloat(_.total), 0)
+                    let total = products.reduce((total, _) => parseFloat(total) + (parseFloat(_.price) * parseInt(_.quantity)), 0)
 
                     return Number(Math.round(total + 'e' + decimals) + 'e-' + decimals).toFixed(decimals);
                 },
@@ -260,9 +259,17 @@
 
                     return Number(Math.round(total + 'e' + decimals) + 'e-' + decimals).toFixed(decimals);
                 },
+                get discountTotal() {
+                    let decimals = 2
+                    let products = this.$store.storeProducts.items
+
+                    let total = products.reduce((total, _) => parseFloat(total) + parseFloat(_.discount), 0)
+
+                    return Number(Math.round(total + 'e' + decimals) + 'e-' + decimals).toFixed(decimals);
+                },
                 get grandTotal() {
                     let decimals = 2
-                    let total = parseFloat(this.subTotal) + parseFloat(this.taxTotal) + parseFloat(this.shippingCost)
+                    let total = parseFloat(this.subTotal) + parseFloat(this.taxTotal) + parseFloat(this.shippingCost) - parseFloat(this.discountTotal)
                     return Number(Math.round(total + 'e' + decimals) + 'e-' + decimals).toFixed(decimals);
                 }
             }
@@ -566,17 +573,16 @@
                     let discount = parseFloat(this.product.discount)
                     total = (price * quantity) - discount
                     let tax = 0
-                    if(parseFloat(this.product.tax)) {
-                        tax = parseFloat(this.product.tax)
-                    } else if(this.product.product) {
-                        tax = this.product.product.tax ?
+
+                    tax = this.product.product.tax ?
                             (
                                 this.product.product.tax.type == 'percentage'
                                 ? total * (parseInt(this.product.product.tax.tax_rate) / 100)
                                 : parseFloat(this.product.product.tax.tax_rate)
                             )
                             : 0;
-                    }
+
+                    total = total + tax
 
                     this.product.tax = Number(Math.round(tax + 'e' + decimals) + 'e-' + decimals).toFixed(decimals);
                     this.product.total = Number(Math.round(total + 'e' + decimals) + 'e-' + decimals).toFixed(decimals);
