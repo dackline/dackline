@@ -143,12 +143,31 @@ class OrderController extends Controller
                     'total' => (float)$product['total'],
                     'tax' => (float)$product['tax'],
                     'discount' => (float)$product['discount'],
-                    'discount_percent' => (float)$product['discount_percent'],
+                    'discount_percent' => (float)$product['discountPercent'],
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ]);
             }
         }
+
+        // save order totals
+        $available_totals = config('dackline.available_totals');
+        $totals = [];
+        $order->refresh()->orderTotals()->delete();
+        collect($available_totals)->each(function($total) use ($order, &$totals) {
+            $method_name = 'get'. ucfirst($total['code']);
+            $value = $order->{$method_name}();
+            $totals[] = [
+                'order_id' => $order->id,
+                'code' => $total['code'],
+                'title' => $total['name'],
+                'value' => $value,
+                'sort_order' => $total['sort_order'],
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ];
+        });
+        $order->orderTotals()->insert($totals);
 
         if($this->orderType == OrderData::class)
             return redirect(route('admin::orders.index'))->with('success', __('Order Created.'));
@@ -303,6 +322,25 @@ class OrderController extends Controller
                 ]);
             }
         }
+
+        // save order totals
+        $available_totals = config('dackline.available_totals');
+        $totals = [];
+        $order->refresh()->orderTotals()->delete();
+        collect($available_totals)->each(function($total) use ($order, &$totals) {
+            $method_name = 'get'. ucfirst($total['code']);
+            $value = $order->{$method_name}();
+            $totals[] = [
+                'order_id' => $order->id,
+                'code' => $total['code'],
+                'title' => $total['name'],
+                'value' => $value,
+                'sort_order' => $total['sort_order'],
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ];
+        });
+        $order->orderTotals()->insert($totals);
 
         return redirect($this->isOrder() ? route('admin::orders.index') : route('admin::quotations.index'))->with('success', $this->isOrder() ? __('Order updated.') : __('Quotation updated.'));
     }
