@@ -25,13 +25,31 @@ class QuotationStatusSeeder extends Seeder
         $locales = app('translatable.locales')->all();
 
         $statuses = [
-            'Draft', 'Sent', 'History', 'Cancelled',
+            [
+                'value' => 'draft',
+                'name' => 'Draft',
+            ],
+            [
+                'value' => 'sent',
+                'name' => 'Sent',
+            ],
+            [
+                'value' => 'history',
+                'name' => 'History',
+            ],
+            [
+                'value' => 'cancelled',
+                'name' => 'Cancelled',
+            ],
         ];
 
         foreach($statuses as $status) {
-            $data = [];
+            $data = [
+                'value' => $status['value']
+            ];
+
             foreach($locales as $locale) {
-                $data[$locale]['name'] = $status;
+                $data[$locale]['name'] = $status['name'];
             }
 
             QuotationStatus::create($data);

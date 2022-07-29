@@ -102,12 +102,12 @@ class ListOrders extends Component
         $newOrder = $quotationData->order->duplicate();
 
         $orderData = OrderData::create([
-            'order_status_id' => OrderStatus::whereTranslation('name', 'Processing')->first()->id,
+            'order_status_id' => OrderStatus::where('value', 'processing')->first()->id,
         ]);
         $orderData->order()->save($newOrder);
 
         // Update quotation statsus
-        $quotationData->quotation_status_id = QuotationStatus::whereTranslation('name', 'History')->first()->id;
+        $quotationData->quotation_status_id = QuotationStatus::where('value', 'history')->first()->id;
         $quotationData->save();
 
         return redirect()->to(route('admin::orders.edit', $orderData));

@@ -26,13 +26,39 @@ class OrderStatusSeeder extends Seeder
         $locales = app('translatable.locales')->all();
 
         $statuses = [
-            'New order', 'Processing', 'Awaiting client', 'Awaiting Dackline', 'Reject', 'Sent',
+            [
+                'name' => 'New Order',
+                'value' => 'new-order',
+            ],
+            [
+                'name' => 'Processing',
+                'value' => 'processing',
+            ],
+            [
+                'name' => 'Awaiting client',
+                'value' => 'awaiting-client',
+            ],
+            [
+                'name' => 'Awaiting Dackline',
+                'value' => 'awaiting-dackline',
+            ],
+            [
+                'name' => 'Reject',
+                'value' => 'reject',
+            ],
+            [
+                'name' => 'Sent',
+                'value' => 'sent',
+            ],
         ];
 
         foreach($statuses as $status) {
-            $data = [];
+            $data = [
+                'value' => $status['value']
+            ];
+
             foreach($locales as $locale) {
-                $data[$locale]['name'] = $status;
+                $data[$locale]['name'] = $status['name'];
             }
 
             OrderStatus::create($data);

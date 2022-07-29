@@ -11,6 +11,10 @@ class QuotationStatus extends Model implements TranslatableContract
 {
     use HasFactory, Translatable;
 
+    protected $fillable = [
+        'value'
+    ];
+
     protected $translatedAttributes = [
         'name',
     ];
