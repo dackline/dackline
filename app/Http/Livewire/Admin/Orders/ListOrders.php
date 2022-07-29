@@ -7,6 +7,7 @@ use App\Models\OrderData;
 use App\Models\OrderStatus;
 use App\Models\QuotationData;
 use App\Models\QuotationStatus;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -73,6 +74,25 @@ class ListOrders extends Component
         $item->delete();
 
         session()->flash('message', $this->isOrder() ? __('Order deleted.') : __('Quotation deleted.'));
+    }
+
+    public function printOrder($orderId)
+    {
+        // resovle item based on type
+        $item = app($this->orderType)->where('id', $orderId)->with('order', 'order.assignee', 'order.products')->first();
+        $data = $item->order;
+
+        $pdfContent = Pdf::loadView('admin.orders.invoice', [
+            'item' => $item,
+            'data' => $data,
+            'totals' => $data->getTotals(),
+            'type' => $this->isOrder() ? 'order' : 'quotation'
+        ])->output();
+
+        return response()->streamDownload(
+            fn () => print($pdfContent),
+            $this->isOrder() ? "order-$orderId.pdf" : "quotation-$orderId.pdf"
+        );
     }
 
     private function isOrder() {

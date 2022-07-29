@@ -63,9 +63,9 @@
                                 </select>
                             </td>
                             <td class="tw-text-right">
-                                <a href="#" class="btn btn-sm btn-icon btn-outline-secondary waves-effect">
+                                <button type="button" class="btn btn-sm btn-icon btn-outline-secondary waves-effect" wire:click="printOrder({{ $item->id }})">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-4 tw-w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h2m2 4h6a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2zm8-12V5a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v4h10z"/></svg>
-                                </a>
+                                </button>
                                 <a href="{{ $isOrder ? route('admin::orders.edit', $item->id) : route('admin::quotations.edit', $item->id) }}" class="btn btn-sm btn-icon btn-outline-secondary waves-effect">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="tw-h-4 tw-w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
                                 </a>

@@ -15,6 +15,14 @@ Route::get('/', function() {
     return 'Welcome to dackline';
 });
 
+Route::get('/test', function() {
+    $item = \App\Models\OrderData::where('id', 4)->with('order', 'order.assignee', 'order.products')->first();
+    $data = $item->order;
+    $type = 'order';
+    $totals = $data->getTotals();
+    return view('admin.orders.invoice', compact('item', 'data', 'type', 'totals'));
+});
+
 require __DIR__.'/admin/admin.php';
 
 //require __DIR__.'/auth.php';

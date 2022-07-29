@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\Admin\CalculateOrderTotalsTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    use HasFactory;
+    use HasFactory, CalculateOrderTotalsTrait;
 
     protected $fillable = [
         'store_id', 'store_name', 'store_url',
@@ -61,5 +62,10 @@ class Order extends Model
     public function histories()
     {
         return $this->hasMany(OrderHistory::class);
+    }
+
+    public function orderTotals()
+    {
+        return $this->hasMany(OrderTotal::class);
     }
 }
