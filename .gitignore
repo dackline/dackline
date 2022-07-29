@@ -2,7 +2,9 @@
 /public/hot
 /public/data
 /public/fonts
-/public/images
+!/public/images/
+/public/images/*
+!/public/images/dackimage
 /public/storage
 /public/js
 /public/css
