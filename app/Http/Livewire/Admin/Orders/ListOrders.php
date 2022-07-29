@@ -19,15 +19,31 @@ class ListOrders extends Component
     protected $paginationTheme = 'bootstrap';
 
     public $orderType;
+    public $orderStatus;
 
     public function mount($orderType)
     {
         $this->orderType = $orderType;
+        $this->orderStatus = 'all';
     }
 
     public function render()
     {
-        $items = app($this->orderType)->with('order')->orderBy('created_at', 'desc')->paginate(50);
+        $items = app($this->orderType)->with('order')->orderBy('created_at', 'desc');
+
+        if($this->orderType == OrderData::class) {
+            if($this->orderStatus != 'all') {
+                $status = OrderStatus::where('value', $this->orderStatus)->first();
+                $items->where('order_status_id', $status->id);
+            }
+        } else if($this->orderType == QuotationData::class) {
+            if($this->orderStatus != 'all') {
+                $status = QuotationStatus::where('value', $this->orderStatus)->first();
+                $items->where('quotation_status_id', $status->id);
+            }
+        }
+
+        $items = $items->paginate(50);
 
         $statuses = [];
         if($this->orderType == OrderData::class)
@@ -115,5 +131,10 @@ class ListOrders extends Component
 
     private function isOrder() {
         return $this->orderType == OrderData::class;
+    }
+
+    public function filterOrderStatus($status)
+    {
+        $this->orderStatus = $status;
     }
 }

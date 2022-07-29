@@ -1326,6 +1326,10 @@
     "/images/banner/banner.png": "/images/banner/banner.png",
     "/images/banner/parallax-4.jpg": "/images/banner/parallax-4.jpg",
     "/images/banner/upgrade.png": "/images/banner/upgrade.png",
+    "/images/dackimage/cart.png": "/images/dackimage/cart.png",
+    "/images/dackimage/credit-card.png": "/images/dackimage/credit-card.png",
+    "/images/dackimage/dackline.png": "/images/dackimage/dackline.png",
+    "/images/dackimage/truck.png": "/images/dackimage/truck.png",
     "/images/elements/apple-watch.png": "/images/elements/apple-watch.png",
     "/images/elements/beats-headphones.png": "/images/elements/beats-headphones.png",
     "/images/elements/decore-left.png": "/images/elements/decore-left.png",
@@ -1585,5 +1589,6 @@
     "/data/menu-data/verticalMenu.json": "/data/menu-data/verticalMenu.json",
     "/data/search.json": "/data/search.json",
     "/data/table-datatable.json": "/data/table-datatable.json",
-    "/data/user-list.json": "/data/user-list.json"
+    "/data/user-list.json": "/data/user-list.json",
+    "/images/dackimage/dl-avatar.jpg": "/images/dackimage/dl-avatar.jpg"
 }
