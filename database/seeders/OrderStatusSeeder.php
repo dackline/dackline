@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\OrderStatus;
+use App\Models\OrderStatusTranslation;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class OrderStatusSeeder extends Seeder
 {
@@ -15,10 +17,16 @@ class OrderStatusSeeder extends Seeder
      */
     public function run()
     {
+        // remove old statuses if any
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        DB::table('order_status_translations')->truncate();
+        DB::table('order_statuses')->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
+
         $locales = app('translatable.locales')->all();
 
         $statuses = [
-            'Canceled', 'Chargeback', 'Complete', 'Denied', 'Expired', 'Failed', 'Selected', 'Processed', 'Processing', 'Refunded', 'Reversed', 'Shipped', 'Voided',
+            'New order', 'Processing', 'Awaiting client', 'Awaiting Dackline', 'Reject', 'Sent',
         ];
 
         foreach($statuses as $status) {
